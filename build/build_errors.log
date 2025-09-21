@@ -1,0 +1,97 @@
+[ 14%] Automatic MOC and UIC for target SanguoshaClient
+[ 14%] Built target SanguoshaClient_autogen
+Scanning dependencies of target SanguoshaClient
+[ 42%] Building CXX object CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o
+[ 42%] Building CXX object CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o
+[ 71%] Building CXX object CMakeFiles/SanguoshaClient.dir/main.cpp.o
+[ 71%] Building CXX object CMakeFiles/SanguoshaClient.dir/SanguoshaClient_autogen/mocs_compilation.cpp.o
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:41:6: error: no declaration matches ‘void MainWindow::onLoginButtonClicked(const QString&, const QString&)’
+   41 | void MainWindow::onLoginButtonClicked(const QString &username, const QString &password)
+      |      ^~~~~~~~~~
+In file included from /home/dzkkkkk/SanguoshaClient/mainwindow.cpp:1:
+/home/dzkkkkk/SanguoshaClient/mainwindow.h:28:10: note: candidate is: ‘void MainWindow::onLoginButtonClicked()’
+   28 |     void onLoginButtonClicked();
+      |          ^~~~~~~~~~~~~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.h:14:7: note: ‘class MainWindow’ defined here
+   14 | class MainWindow : public QMainWindow
+      |       ^~~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp: In member function ‘void MainWindow::handleLoginResponse(const sanguosha::LoginResponse&)’:
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:148:9: error: ‘QMessageBox’ has not been declared
+  148 |         QMessageBox::warning(this, tr("登录失败"),
+      |         ^~~~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp: In member function ‘void MainWindow::handleRoomResponse(const sanguosha::RoomResponse&)’:
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:162:9: error: ‘QMessageBox’ has not been declared
+  162 |         QMessageBox::warning(this, tr("房间操作失败"),
+      |         ^~~~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp: In member function ‘void MainWindow::handleGameState(const sanguosha::GameState&)’:
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:172:31: error: ‘const class sanguosha::GameState’ has no member named ‘player_states_size’; did you mean ‘players_size’?
+  172 |     for (int i = 0; i < state.player_states_size(); ++i) {
+      |                               ^~~~~~~~~~~~~~~~~~
+      |                               players_size
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:173:54: error: ‘const class sanguosha::GameState’ has no member named ‘player_states’
+  173 |         const sanguosha::PlayerState &player = state.player_states(i);
+      |                                                      ^~~~~~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:178:15: error: ‘const class sanguosha::GameState’ has no member named ‘has_current_player’; did you mean ‘set_current_player’?
+  178 |     if (state.has_current_player()) {
+      |               ^~~~~~~~~~~~~~~~~~
+      |               set_current_player
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:183:15: error: ‘const class sanguosha::GameState’ has no member named ‘has_hand_cards’
+  183 |     if (state.has_hand_cards()) {
+      |               ^~~~~~~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp: In lambda function:
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:225:52: error: no matching function for call to ‘MainWindow::onLoginButtonClicked(QString&, QString&)’
+  225 |             onLoginButtonClicked(username, password);
+      |                                                    ^
+In file included from /home/dzkkkkk/SanguoshaClient/mainwindow.cpp:1:
+/home/dzkkkkk/SanguoshaClient/mainwindow.h:28:10: note: candidate: ‘void MainWindow::onLoginButtonClicked()’
+   28 |     void onLoginButtonClicked();
+      |          ^~~~~~~~~~~~~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.h:28:10: note:   candidate expects 0 arguments, 2 provided
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp: In member function ‘void MainWindow::setupLobbyScreen()’:
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:252:5: error: ‘QTableWidget’ was not declared in this scope; did you mean ‘QTabWidget’?
+  252 |     QTableWidget *roomTable = new QTableWidget(0, 3); // 3列：ID, 玩家数, 状态
+      |     ^~~~~~~~~~~~
+      |     QTabWidget
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:252:19: error: ‘roomTable’ was not declared in this scope
+  252 |     QTableWidget *roomTable = new QTableWidget(0, 3); // 3列：ID, 玩家数, 状态
+      |                   ^~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:252:35: error: expected type-specifier before ‘QTableWidget’
+  252 |     QTableWidget *roomTable = new QTableWidget(0, 3); // 3列：ID, 玩家数, 状态
+      |                                   ^~~~~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp: In lambda function:
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:274:15: error: ‘QTableWidgetItem’ was not declared in this scope; did you mean ‘QWidgetItem’?
+  274 |         QList<QTableWidgetItem*> selected = roomTable->selectedItems();
+      |               ^~~~~~~~~~~~~~~~
+      |               QWidgetItem
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:274:32: error: template argument 1 is invalid
+  274 |         QList<QTableWidgetItem*> selected = roomTable->selectedItems();
+      |                                ^
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:274:45: error: ‘roomTable’ is not captured
+  274 |         QList<QTableWidgetItem*> selected = roomTable->selectedItems();
+      |                                             ^~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:273:67: note: the lambda has no capture-default
+  273 |     connect(joinBtn, &QPushButton::clicked, this, [this, roomTable]() {
+      |                                                                   ^
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:252:19: note: ‘<typeprefixerror>roomTable’ declared here
+  252 |     QTableWidget *roomTable = new QTableWidget(0, 3); // 3列：ID, 玩家数, 状态
+      |                   ^~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:275:23: error: request for member ‘isEmpty’ in ‘selected’, which is of non-class type ‘int’
+  275 |         if (!selected.isEmpty()) {
+      |                       ^~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:276:26: error: ‘roomTable’ is not captured
+  276 |             int roomId = roomTable->item(selected.first()->row(), 0)->text().toInt();
+      |                          ^~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:273:67: note: the lambda has no capture-default
+  273 |     connect(joinBtn, &QPushButton::clicked, this, [this, roomTable]() {
+      |                                                                   ^
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:252:19: note: ‘<typeprefixerror>roomTable’ declared here
+  252 |     QTableWidget *roomTable = new QTableWidget(0, 3); // 3列：ID, 玩家数, 状态
+      |                   ^~~~~~~~~
+/home/dzkkkkk/SanguoshaClient/mainwindow.cpp:276:51: error: request for member ‘first’ in ‘selected’, which is of non-class type ‘int’
+  276 |             int roomId = roomTable->item(selected.first()->row(), 0)->text().toInt();
+      |                                                   ^~~~~
+[ 85%] Building CXX object CMakeFiles/SanguoshaClient.dir/proto/sanguosha.pb.cc.o
+make[2]: *** [CMakeFiles/SanguoshaClient.dir/build.make:89: CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [CMakeFiles/Makefile2:77: CMakeFiles/SanguoshaClient.dir/all] Error 2
+make: *** [Makefile:84: all] Error 2

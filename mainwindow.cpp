@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onErrorOccurred);
 
     // 连接到服务器（示例地址和端口）
-    m_networkManager->connectToServer("127.0.0.1", 8888);
+    m_networkManager->connectToServer("127.0.0.1", 9527);
 }
 
 MainWindow::~MainWindow()

@@ -80,15 +80,12 @@ void MainWindow::onCreateRoomClicked()
 {
     sanguosha::GameMessage message;
     message.set_type(sanguosha::ROOM_REQUEST);
-    
+
     sanguosha::RoomRequest* roomRequest = new sanguosha::RoomRequest();
     roomRequest->set_action(sanguosha::CREATE_ROOM);
-    
+
     message.set_allocated_room_request(roomRequest);
     m_networkManager->sendMessage(message);
-    
-    // 保存最后的操作类型
-    m_lastRoomAction = sanguosha::CREATE_ROOM;
 }
 
 // 房间加入
@@ -96,16 +93,13 @@ void MainWindow::onJoinRoomClicked(uint32_t roomId)
 {
     sanguosha::GameMessage message;
     message.set_type(sanguosha::ROOM_REQUEST);
-    
+
     sanguosha::RoomRequest* roomRequest = new sanguosha::RoomRequest();
     roomRequest->set_action(sanguosha::JOIN_ROOM);
     roomRequest->set_room_id(roomId);
-    
+
     message.set_allocated_room_request(roomRequest);
     m_networkManager->sendMessage(message);
-    
-    // 保存最后的操作类型
-    m_lastRoomAction = sanguosha::JOIN_ROOM;
 }
 
 void MainWindow::onErrorOccurred(const QString &errorString)
@@ -159,27 +153,14 @@ void MainWindow::handleLoginResponse(const sanguosha::LoginResponse &response)
 // 处理房间响应
 void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 {
-    // 使用保存的最后操作类型来处理响应
-    switch (m_lastRoomAction) {
-    case sanguosha::CREATE_ROOM:
-        if (response.success()) {
-            ui->statusbar->showMessage(tr("Room created successfully"));
-            // 更新UI显示房间信息
-        } else {
-            ui->statusbar->showMessage(tr("Failed to create room: %1").arg(QString::fromStdString(response.error_message())));
+    if (response.success()) {
+        ui->statusbar->showMessage(tr("房间操作成功"));
+        if (response.has_room_info()) {
+            // 更新房间界面信息
         }
-        break;
-    case sanguosha::JOIN_ROOM:
-        if (response.success()) {
-            ui->statusbar->showMessage(tr("Joined room successfully"));
-            // 更新UI显示房间信息
-        } else {
-            ui->statusbar->showMessage(tr("Failed to join room: %1").arg(QString::fromStdString(response.error_message())));
-        }
-        break;
-    default:
-        qWarning() << "Unknown room action:" << m_lastRoomAction;
-        break;
+    } else {
+        QMessageBox::warning(this, tr("房间操作失败"), 
+                            QString::fromStdString(response.error_message()));
     }
 }
 
@@ -195,9 +176,10 @@ void MainWindow::handleGameState(const sanguosha::GameState &state)
 // 处理游戏开始
 void MainWindow::handleGameStart(const sanguosha::GameStart &start)
 {
-    // 处理游戏开始
-    ui->statusbar->showMessage(tr("Game started"));
-    // 切换到游戏界面
+    ui->statusbar->showMessage(tr("游戏开始！"));
+    // 这里需要初始化并切换到游戏界面
+    // setupGameScreen();
+    // showScreen(m_gameScreen);
 }
 
 //界面初始化函数
@@ -242,4 +224,43 @@ void MainWindow::showScreen(QWidget *screen)
         screen->show();
         setCentralWidget(screen);
     }
+}
+
+//大厅创建界面
+void MainWindow::setupLobbyScreen()
+{
+    if (m_lobbyScreen) return;
+
+    m_lobbyScreen = new QWidget(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(m_lobbyScreen);
+
+    // 房间列表
+    QTableWidget *roomTable = new QTableWidget(0, 3); // 3列：ID, 玩家数, 状态
+    roomTable->setHorizontalHeaderLabels(QStringList() << tr("房间ID") << tr("玩家") << tr("状态"));
+    mainLayout->addWidget(roomTable);
+
+    // 按钮区域
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+
+    QPushButton *createRoomBtn = new QPushButton(tr("创建房间"));
+    QPushButton *refreshBtn = new QPushButton(tr("刷新列表"));
+    QPushButton *joinBtn = new QPushButton(tr("加入房间"));
+
+    buttonLayout->addWidget(createRoomBtn);
+    buttonLayout->addWidget(refreshBtn);
+    buttonLayout->addWidget(joinBtn);
+    mainLayout->addLayout(buttonLayout);
+
+    // 连接信号
+    connect(createRoomBtn, &QPushButton::clicked, this, &MainWindow::onCreateRoomClicked);
+    connect(refreshBtn, &QPushButton::clicked, this, [this]() {
+        // 实现刷新房间列表的请求
+    });
+    connect(joinBtn, &QPushButton::clicked, this, [this, roomTable]() {
+        QList<QTableWidgetItem*> selected = roomTable->selectedItems();
+        if (!selected.isEmpty()) {
+            int roomId = roomTable->item(selected.first()->row(), 0)->text().toInt();
+            onJoinRoomClicked(roomId);
+        }
+    });
 }

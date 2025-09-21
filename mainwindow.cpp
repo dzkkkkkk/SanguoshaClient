@@ -399,7 +399,7 @@ void MainWindow::setupGameScreen()
     QVBoxLayout *rightLayout = new QVBoxLayout();
     
     // 手牌区域
-    m_handCardsLayout = new QFlowLayout(); // 需要包含QFlowLayout或使用QScrollArea
+    m_handCardsLayout = new QHBoxLayout(); // 或者 QGridLayout
     QWidget *handCardsWidget = new QWidget();
     handCardsWidget->setLayout(m_handCardsLayout);
     

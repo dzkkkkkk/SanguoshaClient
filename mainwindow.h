@@ -16,7 +16,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QLineEdit>
-#include <QFlowLayout> // 添加QFlowLayout头文件
+//#include <QFlowLayout> 拟删除
 #include "proto/sanguosha.pb.h"
 #include "network/networkmanager.h"
 
@@ -79,7 +79,7 @@ private:
     QLabel *m_deckCountLabel;
     QLabel *m_gameArea;
     QLabel *m_turnInfoLabel;
-    QFlowLayout *m_handCardsLayout; // 修改为QFlowLayout
+    QHBoxLayout *m_handCardsLayout; // 或者 QGridLayout
     QPushButton *m_playCardButton;
     QPushButton *m_endTurnButton;
     QPushButton *m_cancelButton;

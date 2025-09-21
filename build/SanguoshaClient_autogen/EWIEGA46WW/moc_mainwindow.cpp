@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[29];
-    char stringdata0[438];
+    QByteArrayData data[31];
+    char stringdata0[456];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,40 +41,42 @@ QT_MOC_LITERAL(6, 89, 7), // "message"
 QT_MOC_LITERAL(7, 97, 15), // "onErrorOccurred"
 QT_MOC_LITERAL(8, 113, 11), // "errorString"
 QT_MOC_LITERAL(9, 125, 20), // "onLoginButtonClicked"
-QT_MOC_LITERAL(10, 146, 19), // "onCreateRoomClicked"
-QT_MOC_LITERAL(11, 166, 17), // "onJoinRoomClicked"
-QT_MOC_LITERAL(12, 184, 8), // "uint32_t"
-QT_MOC_LITERAL(13, 193, 6), // "roomId"
-QT_MOC_LITERAL(14, 200, 17), // "onPlayCardClicked"
-QT_MOC_LITERAL(15, 218, 6), // "cardId"
-QT_MOC_LITERAL(16, 225, 12), // "targetPlayer"
-QT_MOC_LITERAL(17, 238, 16), // "onEndTurnClicked"
-QT_MOC_LITERAL(18, 255, 19), // "handleLoginResponse"
-QT_MOC_LITERAL(19, 275, 24), // "sanguosha::LoginResponse"
-QT_MOC_LITERAL(20, 300, 8), // "response"
-QT_MOC_LITERAL(21, 309, 18), // "handleRoomResponse"
-QT_MOC_LITERAL(22, 328, 23), // "sanguosha::RoomResponse"
-QT_MOC_LITERAL(23, 352, 15), // "handleGameState"
-QT_MOC_LITERAL(24, 368, 20), // "sanguosha::GameState"
-QT_MOC_LITERAL(25, 389, 5), // "state"
-QT_MOC_LITERAL(26, 395, 15), // "handleGameStart"
-QT_MOC_LITERAL(27, 411, 20), // "sanguosha::GameStart"
-QT_MOC_LITERAL(28, 432, 5) // "start"
+QT_MOC_LITERAL(10, 146, 8), // "username"
+QT_MOC_LITERAL(11, 155, 8), // "password"
+QT_MOC_LITERAL(12, 164, 19), // "onCreateRoomClicked"
+QT_MOC_LITERAL(13, 184, 17), // "onJoinRoomClicked"
+QT_MOC_LITERAL(14, 202, 8), // "uint32_t"
+QT_MOC_LITERAL(15, 211, 6), // "roomId"
+QT_MOC_LITERAL(16, 218, 17), // "onPlayCardClicked"
+QT_MOC_LITERAL(17, 236, 6), // "cardId"
+QT_MOC_LITERAL(18, 243, 12), // "targetPlayer"
+QT_MOC_LITERAL(19, 256, 16), // "onEndTurnClicked"
+QT_MOC_LITERAL(20, 273, 19), // "handleLoginResponse"
+QT_MOC_LITERAL(21, 293, 24), // "sanguosha::LoginResponse"
+QT_MOC_LITERAL(22, 318, 8), // "response"
+QT_MOC_LITERAL(23, 327, 18), // "handleRoomResponse"
+QT_MOC_LITERAL(24, 346, 23), // "sanguosha::RoomResponse"
+QT_MOC_LITERAL(25, 370, 15), // "handleGameState"
+QT_MOC_LITERAL(26, 386, 20), // "sanguosha::GameState"
+QT_MOC_LITERAL(27, 407, 5), // "state"
+QT_MOC_LITERAL(28, 413, 15), // "handleGameStart"
+QT_MOC_LITERAL(29, 429, 20), // "sanguosha::GameStart"
+QT_MOC_LITERAL(30, 450, 5) // "start"
 
     },
     "MainWindow\0onConnectionStatusChanged\0"
     "\0connected\0onMessageReceived\0"
     "sanguosha::GameMessage\0message\0"
     "onErrorOccurred\0errorString\0"
-    "onLoginButtonClicked\0onCreateRoomClicked\0"
-    "onJoinRoomClicked\0uint32_t\0roomId\0"
-    "onPlayCardClicked\0cardId\0targetPlayer\0"
-    "onEndTurnClicked\0handleLoginResponse\0"
-    "sanguosha::LoginResponse\0response\0"
-    "handleRoomResponse\0sanguosha::RoomResponse\0"
-    "handleGameState\0sanguosha::GameState\0"
-    "state\0handleGameStart\0sanguosha::GameStart\0"
-    "start"
+    "onLoginButtonClicked\0username\0password\0"
+    "onCreateRoomClicked\0onJoinRoomClicked\0"
+    "uint32_t\0roomId\0onPlayCardClicked\0"
+    "cardId\0targetPlayer\0onEndTurnClicked\0"
+    "handleLoginResponse\0sanguosha::LoginResponse\0"
+    "response\0handleRoomResponse\0"
+    "sanguosha::RoomResponse\0handleGameState\0"
+    "sanguosha::GameState\0state\0handleGameStart\0"
+    "sanguosha::GameStart\0start"
 };
 #undef QT_MOC_LITERAL
 
@@ -95,29 +97,29 @@ static const uint qt_meta_data_MainWindow[] = {
        1,    1,   74,    2, 0x08 /* Private */,
        4,    1,   77,    2, 0x08 /* Private */,
        7,    1,   80,    2, 0x08 /* Private */,
-       9,    0,   83,    2, 0x08 /* Private */,
-      10,    0,   84,    2, 0x08 /* Private */,
-      11,    1,   85,    2, 0x08 /* Private */,
-      14,    2,   88,    2, 0x08 /* Private */,
-      17,    0,   93,    2, 0x08 /* Private */,
-      18,    1,   94,    2, 0x08 /* Private */,
-      21,    1,   97,    2, 0x08 /* Private */,
-      23,    1,  100,    2, 0x08 /* Private */,
-      26,    1,  103,    2, 0x08 /* Private */,
+       9,    2,   83,    2, 0x08 /* Private */,
+      12,    0,   88,    2, 0x08 /* Private */,
+      13,    1,   89,    2, 0x08 /* Private */,
+      16,    2,   92,    2, 0x08 /* Private */,
+      19,    0,   97,    2, 0x08 /* Private */,
+      20,    1,   98,    2, 0x08 /* Private */,
+      23,    1,  101,    2, 0x08 /* Private */,
+      25,    1,  104,    2, 0x08 /* Private */,
+      28,    1,  107,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Bool,    3,
     QMetaType::Void, 0x80000000 | 5,    6,
     QMetaType::Void, QMetaType::QString,    8,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,   10,   11,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 14,   15,
+    QMetaType::Void, 0x80000000 | 14, 0x80000000 | 14,   17,   18,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 12,   13,
-    QMetaType::Void, 0x80000000 | 12, 0x80000000 | 12,   15,   16,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 19,   20,
-    QMetaType::Void, 0x80000000 | 22,   20,
-    QMetaType::Void, 0x80000000 | 24,   25,
-    QMetaType::Void, 0x80000000 | 27,   28,
+    QMetaType::Void, 0x80000000 | 21,   22,
+    QMetaType::Void, 0x80000000 | 24,   22,
+    QMetaType::Void, 0x80000000 | 26,   27,
+    QMetaType::Void, 0x80000000 | 29,   30,
 
        0        // eod
 };
@@ -131,7 +133,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->onConnectionStatusChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 1: _t->onMessageReceived((*reinterpret_cast< const sanguosha::GameMessage(*)>(_a[1]))); break;
         case 2: _t->onErrorOccurred((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 3: _t->onLoginButtonClicked(); break;
+        case 3: _t->onLoginButtonClicked((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
         case 4: _t->onCreateRoomClicked(); break;
         case 5: _t->onJoinRoomClicked((*reinterpret_cast< uint32_t(*)>(_a[1]))); break;
         case 6: _t->onPlayCardClicked((*reinterpret_cast< uint32_t(*)>(_a[1])),(*reinterpret_cast< uint32_t(*)>(_a[2]))); break;

@@ -1,45 +1,56 @@
 cmake_minimum_required(VERSION 3.5)
-
 project(SanguoshaClient LANGUAGES CXX)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 11)
+# 设置C++标准为17（或14），Protobuf和现代Qt经常需要
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-# Check http://doc.qt.io/qt-5/deployment-android.html for more information.
-# They need to be set before the find_package(Qt5 ...) call.
+# 自动处理Qt的moc、uic、rcc，非常重要！
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-#if(ANDROID)
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-#    if (ANDROID_ABI STREQUAL "armeabi-v7a")
-#        set(ANDROID_EXTRA_LIBS
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libcrypto.so
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
-#    endif()
-#endif()
+# 查找所需的库
+find_package(Qt5 COMPONENTS Widgets Network REQUIRED) # 添加了Network模块
+find_package(Protobuf REQUIRED) # 添加查找Protobuf
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+# 包含Protobuf的头文件目录
+include_directories(${Protobuf_INCLUDE_DIRS})
 
-if(ANDROID)
-  add_library(SanguoshaClient SHARED
+# 添加proto文件生成
+set(PROTO_SRC proto/sanguosha.pb.cc)
+set(PROTO_HDR proto/sanguosha.pb.h)
+
+# 确保包含目录正确
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/proto)
+
+# 可执行文件
+add_executable(SanguoshaClient
+    # 主入口文件
     main.cpp
+
+    # 主窗口
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-  )
-else()
-  add_executable(SanguoshaClient
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-  )
-endif()
 
-target_link_libraries(SanguoshaClient PRIVATE Qt5::Widgets)
+    # 核心网络模块 (新增)
+    network/networkmanager.cpp
+    network/networkmanager.h
+
+    # Protobuf 自动生成的文件 (新增)
+    ${PROTO_SRC}
+    ${PROTO_HDR}
+
+    # 未来你可以添加更多模块，例如：
+    # game/gameinstance.cpp
+    # game/gameinstance.h
+    # ...
+)
+
+# 链接库
+target_link_libraries(SanguoshaClient PRIVATE
+    Qt5::Widgets
+    Qt5::Network # 新增网络模块
+    protobuf::libprotobuf # 链接Protobuf库
+)

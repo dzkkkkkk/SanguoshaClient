@@ -15,7 +15,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void onConnectionStatusChanged(bool connected);
+    void onMessageReceived(const sanguosha::GameMessage &message);
+    void onErrorOccurred(const QString &errorString);
+
 private:
     Ui::MainWindow *ui;
+    NetworkManager *m_networkManager;
 };
 #endif // MAINWINDOW_H

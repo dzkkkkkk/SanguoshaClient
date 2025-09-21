@@ -55,6 +55,20 @@ private:
 
     void setupGameScreen(); // 初始化游戏界面
     QWidget *m_gameScreen;  // 游戏界面控件容器
+
+    // 游戏界面控件
+    QTableWidget *m_playerInfoTable;
+    QTextEdit *m_gameLog;
+    QLabel *m_deckCountLabel;
+    QLabel *m_gameArea;
+    QLabel *m_turnInfoLabel;
+    QLayout *m_handCardsLayout; // 手牌布局
+    QPushButton *m_playCardButton;
+    QPushButton *m_endTurnButton;
+    QPushButton *m_cancelButton;
+    
+    uint32_t m_selectedCard; // 当前选中的卡牌
+    uint32_t m_selfUserId;   // 自己的用户ID
 };
 
 #endif // MAINWINDOW_H

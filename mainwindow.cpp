@@ -37,7 +37,7 @@ void MainWindow::onConnectionStatusChanged(bool connected)
         tr("Connected to server") : tr("Disconnected from server"));
 }
 
-//登录处理
+// 登录处理
 void MainWindow::onLoginButtonClicked()
 {
     QString username = ui->usernameEdit->text();
@@ -78,7 +78,7 @@ void MainWindow::onMessageReceived(const sanguosha::GameMessage &message)
     }
 }
 
-//房间创建
+// 房间创建
 void MainWindow::onCreateRoomClicked()
 {
     sanguosha::GameMessage message;
@@ -89,9 +89,12 @@ void MainWindow::onCreateRoomClicked()
     
     message.set_allocated_room_request(roomRequest);
     m_networkManager->sendMessage(message);
+    
+    // 保存最后的操作类型
+    m_lastRoomAction = sanguosha::CREATE_ROOM;
 }
 
-//房间加入
+// 房间加入
 void MainWindow::onJoinRoomClicked(uint32_t roomId)
 {
     sanguosha::GameMessage message;
@@ -103,6 +106,9 @@ void MainWindow::onJoinRoomClicked(uint32_t roomId)
     
     message.set_allocated_room_request(roomRequest);
     m_networkManager->sendMessage(message);
+    
+    // 保存最后的操作类型
+    m_lastRoomAction = sanguosha::JOIN_ROOM;
 }
 
 void MainWindow::onErrorOccurred(const QString &errorString)
@@ -111,7 +117,7 @@ void MainWindow::onErrorOccurred(const QString &errorString)
     ui->statusbar->showMessage(tr("Error: %1").arg(errorString));
 }
 
-//基本游戏操作
+// 基本游戏操作
 void MainWindow::onPlayCardClicked(uint32_t cardId, uint32_t targetPlayer)
 {
     sanguosha::GameMessage message;
@@ -136,4 +142,62 @@ void MainWindow::onEndTurnClicked()
     
     message.set_allocated_game_action(gameAction);
     m_networkManager->sendMessage(message);
+}
+
+// 处理登录响应
+void MainWindow::handleLoginResponse(const sanguosha::LoginResponse &response)
+{
+    // 处理登录响应
+    if (response.success()) {
+        // 登录成功，更新UI
+        ui->statusbar->showMessage(tr("Login successful"));
+        // 可能需要切换到游戏大厅或房间列表界面
+    } else {
+        // 登录失败，显示错误信息
+        ui->statusbar->showMessage(tr("Login failed: %1").arg(QString::fromStdString(response.error_message())));
+    }
+}
+
+// 处理房间响应
+void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
+{
+    // 使用保存的最后操作类型来处理响应
+    switch (m_lastRoomAction) {
+    case sanguosha::CREATE_ROOM:
+        if (response.success()) {
+            ui->statusbar->showMessage(tr("Room created successfully"));
+            // 更新UI显示房间信息
+        } else {
+            ui->statusbar->showMessage(tr("Failed to create room: %1").arg(QString::fromStdString(response.error_message())));
+        }
+        break;
+    case sanguosha::JOIN_ROOM:
+        if (response.success()) {
+            ui->statusbar->showMessage(tr("Joined room successfully"));
+            // 更新UI显示房间信息
+        } else {
+            ui->statusbar->showMessage(tr("Failed to join room: %1").arg(QString::fromStdString(response.error_message())));
+        }
+        break;
+    default:
+        qWarning() << "Unknown room action:" << m_lastRoomAction;
+        break;
+    }
+}
+
+
+// 处理游戏状态更新
+void MainWindow::handleGameState(const sanguosha::GameState &state)
+{
+    // 处理游戏状态更新
+    // 根据游戏状态更新UI
+    ui->statusbar->showMessage(tr("Game state updated"));
+}
+
+// 处理游戏开始
+void MainWindow::handleGameStart(const sanguosha::GameStart &start)
+{
+    // 处理游戏开始
+    ui->statusbar->showMessage(tr("Game started"));
+    // 切换到游戏界面
 }

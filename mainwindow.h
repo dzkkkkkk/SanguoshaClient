@@ -31,15 +31,17 @@ private slots:
     void onPlayCardClicked(uint32_t cardId, uint32_t targetPlayer);
     void onEndTurnClicked();
 
-private:
-    Ui::MainWindow *ui;
-    NetworkManager *m_networkManager;
-    
-    // 添加以下处理函数的声明
     void handleLoginResponse(const sanguosha::LoginResponse &response);
     void handleRoomResponse(const sanguosha::RoomResponse &response);
     void handleGameState(const sanguosha::GameState &state);
     void handleGameStart(const sanguosha::GameStart &start);
+    
+private:
+    Ui::MainWindow *ui;
+    NetworkManager *m_networkManager;
+    
+    // 添加一个成员变量来跟踪最后的房间操作
+    sanguosha::RoomAction m_lastRoomAction;
 };
 
 #endif // MAINWINDOW_H

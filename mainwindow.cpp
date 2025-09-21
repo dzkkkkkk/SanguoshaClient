@@ -1,5 +1,10 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include <QMessageBox>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QHeaderView>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -168,9 +173,9 @@ void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 // 处理游戏状态更新
 void MainWindow::handleGameState(const sanguosha::GameState &state)
 {
-    // 更新玩家状态
-    for (int i = 0; i < state.player_states_size(); ++i) {
-        const sanguosha::PlayerState &player = state.player_states(i);
+    // 更新玩家状态 - 修正字段名
+    for (int i = 0; i < state.players_size(); ++i) {
+        const sanguosha::PlayerState &player = state.players(i);
         // 更新UI中的玩家血量、手牌数等信息
     }
 
@@ -270,10 +275,13 @@ void MainWindow::setupLobbyScreen()
     connect(refreshBtn, &QPushButton::clicked, this, [this]() {
         // 实现刷新房间列表的请求
     });
+    
+    // 修正lambda捕获 - 确保roomTable被正确捕获
     connect(joinBtn, &QPushButton::clicked, this, [this, roomTable]() {
         QList<QTableWidgetItem*> selected = roomTable->selectedItems();
         if (!selected.isEmpty()) {
-            int roomId = roomTable->item(selected.first()->row(), 0)->text().toInt();
+            int row = selected.first()->row();
+            int roomId = roomTable->item(row, 0)->text().toInt();
             onJoinRoomClicked(roomId);
         }
     });

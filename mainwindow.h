@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QDataStream>
 #include <QDateTime>
+#include <QMessageBox>
+#include <QTableWidget>
 #include "proto/sanguosha.pb.h"
 #include "network/networkmanager.h"
 
@@ -24,8 +26,8 @@ private slots:
     void onMessageReceived(const sanguosha::GameMessage &message);
     void onErrorOccurred(const QString &errorString);
     
-    // 添加以下槽函数声明
-    void onLoginButtonClicked();
+    // 修正参数声明
+    void onLoginButtonClicked(const QString &username, const QString &password);
     void onCreateRoomClicked();
     void onJoinRoomClicked(uint32_t roomId);
     void onPlayCardClicked(uint32_t cardId, uint32_t targetPlayer);

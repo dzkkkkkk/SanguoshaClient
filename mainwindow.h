@@ -50,6 +50,9 @@ private:
     QWidget *m_loginScreen;     // 登录界面控件容器
     QWidget *m_lobbyScreen;     // 大厅界面控件容器
     // 后续可以添加 m_gameScreen 等
+
+    void setupGameScreen(); // 初始化游戏界面
+    QWidget *m_gameScreen;  // 游戏界面控件容器
 };
 
 #endif // MAINWINDOW_H

@@ -168,9 +168,23 @@ void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 // 处理游戏状态更新
 void MainWindow::handleGameState(const sanguosha::GameState &state)
 {
-    // 处理游戏状态更新
-    // 根据游戏状态更新UI
-    ui->statusbar->showMessage(tr("Game state updated"));
+    // 更新玩家状态
+    for (int i = 0; i < state.player_states_size(); ++i) {
+        const sanguosha::PlayerState &player = state.player_states(i);
+        // 更新UI中的玩家血量、手牌数等信息
+    }
+
+    // 更新当前回合信息
+    if (state.has_current_player()) {
+        // 高亮显示当前回合玩家
+    }
+
+    // 更新手牌信息
+    if (state.has_hand_cards()) {
+        // 清空并重新加载手牌显示
+    }
+
+    // 其他游戏状态更新...
 }
 
 // 处理游戏开始
@@ -263,4 +277,31 @@ void MainWindow::setupLobbyScreen()
             onJoinRoomClicked(roomId);
         }
     });
+}
+
+//游戏界面初始化
+void MainWindow::setupGameScreen()
+{
+    if (m_gameScreen) return;
+
+    m_gameScreen = new QWidget(this);
+    QHBoxLayout *mainLayout = new QHBoxLayout(m_gameScreen);
+
+    // 左侧：玩家信息面板
+    QVBoxLayout *playerLayout = new QVBoxLayout();
+    // 这里添加玩家状态、血量等信息显示
+    mainLayout->addLayout(playerLayout, 1); // 1表示占比
+
+    // 中间：游戏区域
+    QVBoxLayout *gameLayout = new QVBoxLayout();
+    // 这里添加游戏牌桌、角色显示等
+    mainLayout->addLayout(gameLayout, 2);
+
+    // 右侧：手牌和操作区域
+    QVBoxLayout *handLayout = new QVBoxLayout();
+    // 这里添加手牌显示和操作按钮
+    QPushButton *endTurnBtn = new QPushButton(tr("结束回合"));
+    handLayout->addWidget(endTurnBtn);
+    connect(endTurnBtn, &QPushButton::clicked, this, &MainWindow::onEndTurnClicked);
+    mainLayout->addLayout(handLayout, 1);
 }

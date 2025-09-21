@@ -171,21 +171,22 @@ void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 
 
 // 处理游戏状态更新
+// 处理游戏状态更新
 void MainWindow::handleGameState(const sanguosha::GameState &state)
 {
-    // 更新玩家状态 - 修正字段名
+    // 更新玩家状态
     for (int i = 0; i < state.players_size(); ++i) {
         const sanguosha::PlayerState &player = state.players(i);
         // 更新UI中的玩家血量、手牌数等信息
     }
 
-    // 更新当前回合信息
-    if (state.has_current_player()) {
+    // 更新当前回合信息 - 使用current_player()而不是has_current_player()
+    if (state.current_player() != 0) { // 假设0表示无当前玩家
         // 高亮显示当前回合玩家
     }
 
-    // 更新手牌信息
-    if (state.has_hand_cards()) {
+    // 更新手牌信息 - 使用hand_cards_size()而不是has_hand_cards()
+    if (state.hand_cards_size() > 0) {
         // 清空并重新加载手牌显示
     }
 

@@ -6,6 +6,17 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <QTableWidget>
+#include <QTextEdit>
+#include <QLabel>
+#include <QScrollArea>
+#include <QComboBox>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QFlowLayout> // 添加QFlowLayout头文件
 #include "proto/sanguosha.pb.h"
 #include "network/networkmanager.h"
 
@@ -38,6 +49,12 @@ private slots:
     void handleGameState(const sanguosha::GameState &state);
     void handleGameStart(const sanguosha::GameStart &start);
     
+    // 添加缺失的槽函数声明
+    void onCardSelected();
+    void onPlayCardButtonClicked();
+    void onCancelButtonClicked();
+    void updateButtonStates(uint32_t phase);
+    
 private:
     Ui::MainWindow *ui;
     NetworkManager *m_networkManager;
@@ -62,7 +79,7 @@ private:
     QLabel *m_deckCountLabel;
     QLabel *m_gameArea;
     QLabel *m_turnInfoLabel;
-    QLayout *m_handCardsLayout; // 手牌布局
+    QFlowLayout *m_handCardsLayout; // 修改为QFlowLayout
     QPushButton *m_playCardButton;
     QPushButton *m_endTurnButton;
     QPushButton *m_cancelButton;

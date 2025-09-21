@@ -4,6 +4,17 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QHeaderView>
+#include <QTextEdit>
+#include <QLabel>
+#include <QScrollArea>
+#include <QComboBox>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QFlowLayout> // 添加QFlowLayout头文件
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,6 +23,18 @@ MainWindow::MainWindow(QWidget *parent)
     , m_networkManager(new NetworkManager(this))
     , m_loginScreen(nullptr)
     , m_lobbyScreen(nullptr)
+    , m_gameScreen(nullptr)
+    , m_playerInfoTable(nullptr)
+    , m_gameLog(nullptr)
+    , m_deckCountLabel(nullptr)
+    , m_gameArea(nullptr)
+    , m_turnInfoLabel(nullptr)
+    , m_handCardsLayout(nullptr)
+    , m_playCardButton(nullptr)
+    , m_endTurnButton(nullptr)
+    , m_cancelButton(nullptr)
+    , m_selectedCard(0)
+    , m_selfUserId(0)
 {
     ui->setupUi(this);
 
@@ -468,6 +491,20 @@ void MainWindow::onPlayCardButtonClicked()
             if (QPushButton *btn = qobject_cast<QPushButton*>(m_handCardsLayout->itemAt(i)->widget())) {
                 btn->setStyleSheet("");
             }
+        }
+    }
+}
+
+void MainWindow::onCancelButtonClicked()
+{
+    // 取消当前选中的卡牌
+    m_selectedCard = 0;
+    m_playCardButton->setEnabled(false);
+    
+    // 清除高亮
+    for (int i = 0; i < m_handCardsLayout->count(); ++i) {
+        if (QPushButton *btn = qobject_cast<QPushButton*>(m_handCardsLayout->itemAt(i)->widget())) {
+            btn->setStyleSheet("");
         }
     }
 }

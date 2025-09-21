@@ -42,6 +42,14 @@ private:
     
     // 添加一个成员变量来跟踪最后的房间操作
     sanguosha::RoomAction m_lastRoomAction;
+
+    void setupLoginScreen();    // 初始化登录界面
+    void setupLobbyScreen();    // 初始化大厅界面
+    void showScreen(QWidget *screen); // 用于切换界面
+
+    QWidget *m_loginScreen;     // 登录界面控件容器
+    QWidget *m_lobbyScreen;     // 大厅界面控件容器
+    // 后续可以添加 m_gameScreen 等
 };
 
 #endif // MAINWINDOW_H

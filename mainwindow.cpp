@@ -5,22 +5,22 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_networkManager(new NetworkManager(this))
+    , m_loginScreen(nullptr)
+    , m_lobbyScreen(nullptr)
 {
     ui->setupUi(this);
 
-    // 连接登录按钮信号
-    connect(ui->loginButton, &QPushButton::clicked, 
-            this, &MainWindow::onLoginButtonClicked);
+    // 初始化登录界面
+    setupLoginScreen();
+    // 默认显示登录界面
+    showScreen(m_loginScreen);
 
-    // 连接NetworkManager的信号槽
-    connect(m_networkManager, &NetworkManager::connectionStatusChanged,
-            this, &MainWindow::onConnectionStatusChanged);
-    connect(m_networkManager, &NetworkManager::messageReceived,
-            this, &MainWindow::onMessageReceived);
-    connect(m_networkManager, &NetworkManager::errorOccurred,
-            this, &MainWindow::onErrorOccurred);
+    // ... 其他现有的连接信号槽的代码
+    connect(m_networkManager, &NetworkManager::connectionStatusChanged, this, &MainWindow::onConnectionStatusChanged);
+    connect(m_networkManager, &NetworkManager::messageReceived, this, &MainWindow::onMessageReceived);
+    connect(m_networkManager, &NetworkManager::errorOccurred, this, &MainWindow::onErrorOccurred);
 
-    // 连接到服务器（示例地址和端口）
+    // 连接到服务器，端口号已改为9527
     m_networkManager->connectToServer("127.0.0.1", 9527);
 }
 
@@ -38,18 +38,15 @@ void MainWindow::onConnectionStatusChanged(bool connected)
 }
 
 // 登录处理
-void MainWindow::onLoginButtonClicked()
+void MainWindow::onLoginButtonClicked(const QString &username, const QString &password)
 {
-    QString username = ui->usernameEdit->text();
-    QString password = ui->passwordEdit->text();
-    
     sanguosha::GameMessage message;
     message.set_type(sanguosha::LOGIN_REQUEST);
-    
+
     sanguosha::LoginRequest* loginRequest = new sanguosha::LoginRequest();
     loginRequest->set_username(username.toStdString());
     loginRequest->set_password(password.toStdString());
-    
+
     message.set_allocated_login_request(loginRequest);
     m_networkManager->sendMessage(message);
 }
@@ -147,14 +144,15 @@ void MainWindow::onEndTurnClicked()
 // 处理登录响应
 void MainWindow::handleLoginResponse(const sanguosha::LoginResponse &response)
 {
-    // 处理登录响应
     if (response.success()) {
-        // 登录成功，更新UI
-        ui->statusbar->showMessage(tr("Login successful"));
-        // 可能需要切换到游戏大厅或房间列表界面
+        ui->statusbar->showMessage(tr("登录成功！"));
+        // 初始化并切换到大厅界面
+        setupLobbyScreen();
+        showScreen(m_lobbyScreen);
+        // 可以在这里请求房间列表
     } else {
-        // 登录失败，显示错误信息
-        ui->statusbar->showMessage(tr("Login failed: %1").arg(QString::fromStdString(response.error_message())));
+        QMessageBox::warning(this, tr("登录失败"), 
+                            QString::fromStdString(response.error_message()));
     }
 }
 
@@ -200,4 +198,48 @@ void MainWindow::handleGameStart(const sanguosha::GameStart &start)
     // 处理游戏开始
     ui->statusbar->showMessage(tr("Game started"));
     // 切换到游戏界面
+}
+
+//界面初始化函数
+void MainWindow::setupLoginScreen()
+{
+    // 如果已经创建，则直接返回
+    if (m_loginScreen) return;
+
+    m_loginScreen = new QWidget(this);
+    QVBoxLayout *layout = new QVBoxLayout(m_loginScreen);
+
+    QLineEdit *usernameEdit = new QLineEdit;
+    usernameEdit->setPlaceholderText(tr("用户名"));
+    layout->addWidget(usernameEdit);
+
+    QLineEdit *passwordEdit = new QLineEdit;
+    passwordEdit->setPlaceholderText(tr("密码"));
+    passwordEdit->setEchoMode(QLineEdit::Password);
+    layout->addWidget(passwordEdit);
+
+    QPushButton *loginButton = new QPushButton(tr("登录"));
+    layout->addWidget(loginButton);
+
+    // 连接登录按钮的信号
+    connect(loginButton, &QPushButton::clicked, this, [this, usernameEdit, passwordEdit]() {
+        QString username = usernameEdit->text();
+        QString password = passwordEdit->text();
+        if (!username.isEmpty() && !password.isEmpty()) {
+            onLoginButtonClicked(username, password);
+        }
+    });
+}
+
+void MainWindow::showScreen(QWidget *screen)
+{
+    // 隐藏所有可能的屏幕
+    if (m_loginScreen) m_loginScreen->hide();
+    if (m_lobbyScreen) m_lobbyScreen->hide();
+
+    // 显示请求的屏幕
+    if (screen) {
+        screen->show();
+        setCentralWidget(screen);
+    }
 }

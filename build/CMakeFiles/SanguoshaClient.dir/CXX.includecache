@@ -37,8 +37,6 @@ QPushButton
 -
 QLineEdit
 -
-QFlowLayout
--
 proto/sanguosha.pb.h
 ../proto/sanguosha.pb.h
 network/networkmanager.h
@@ -149,8 +147,6 @@ QPushButton
 -
 QLineEdit
 -
-QFlowLayout
--
 
 /home/dzkkkkk/SanguoshaClient/mainwindow.h
 QMainWindow
@@ -182,8 +178,6 @@ QHBoxLayout
 QPushButton
 -
 QLineEdit
--
-QFlowLayout
 -
 proto/sanguosha.pb.h
 /home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h

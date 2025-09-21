@@ -14,7 +14,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QLineEdit>
-#include <QFlowLayout> // 添加QFlowLayout头文件
+//#include <QFlowLayout> 拟删除
 
 
 MainWindow::MainWindow(QWidget *parent)

@@ -2,6 +2,8 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <QHostAddress>
+#include <QDataStream>  // 确保这行存在
+#include <QDateTime>    // 确保这行存在
 
 NetworkManager::NetworkManager(QObject *parent)
     : QObject(parent)
@@ -67,7 +69,7 @@ void NetworkManager::sendMessage(const sanguosha::GameMessage &message)
     // 创建数据包：4字节消息长度 + 消息体
     QByteArray packet;
     QDataStream stream(&packet, QIODevice::WriteOnly);
-    stream.setVersion(QDataStream::Qt_5_15);
+    stream.setVersion(QDataStream::Qt_5_0); // 或其他适合
     
     // 写入消息长度
     quint32 messageSize = static_cast<quint32>(serializedMessage.size());
@@ -163,7 +165,7 @@ bool NetworkManager::readMessageSize()
 
     // 从缓冲区读取消息大小
     QDataStream stream(m_buffer);
-    stream.setVersion(QDataStream::Qt_5_15);
+    stream.setVersion(QDataStream::Qt_5_0); // 或其他适合
     stream >> m_messageSize;
 
     // 移除已读取的消息大小数据

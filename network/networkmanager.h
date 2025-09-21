@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QTcpSocket>
 #include <QTimer>
+#include <QDataStream>  // 添加这行
+#include <QDateTime>    // 添加这行
 #include "proto/sanguosha.pb.h"
 
 class NetworkManager : public QObject

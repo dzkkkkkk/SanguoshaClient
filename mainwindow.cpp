@@ -8,6 +8,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // 连接登录按钮信号
+    connect(ui->loginButton, &QPushButton::clicked, 
+            this, &MainWindow::onLoginButtonClicked);
+
     // 连接NetworkManager的信号槽
     connect(m_networkManager, &NetworkManager::connectionStatusChanged,
             this, &MainWindow::onConnectionStatusChanged);

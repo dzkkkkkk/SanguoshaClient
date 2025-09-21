@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+de6459d9301c89ce0de1d859ea56534b CMakeFiles/SanguoshaClient_autogen

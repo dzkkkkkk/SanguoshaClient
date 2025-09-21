@@ -1,0 +1,4 @@
+/home/dzkkkkk/SanguoshaClient/build/CMakeFiles/rebuild_cache.dir
+/home/dzkkkkk/SanguoshaClient/build/CMakeFiles/edit_cache.dir
+/home/dzkkkkk/SanguoshaClient/build/CMakeFiles/SanguoshaClient.dir
+/home/dzkkkkk/SanguoshaClient/build/CMakeFiles/SanguoshaClient_autogen.dir

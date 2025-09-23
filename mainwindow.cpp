@@ -140,7 +140,8 @@ void MainWindow::onPlayCardClicked(uint32_t cardId, uint32_t targetPlayer)
         m_networkManager->sendMessage(message);
         
         // 添加到游戏日志
-        addToGameLog(tr("您对玩家%1使用了【杀】").arg(targetPlayer));
+        //addToGameLog(tr("您对玩家%1使用了【杀】").arg(targetPlayer));    移除
+        m_gameLog->append(tr("您对玩家%1使用了【杀】").arg(targetPlayer));
     }
     else if (cardName == "闪") {
         // 处理闪牌逻辑
@@ -481,7 +482,7 @@ void MainWindow::onCancelButtonClicked()
 }
 
 //禁将
-void MainWindow::updateButtonStates(uint32_t phase)
+void MainWindow::updateButtonStates(const sanguosha::GameState &state)
 {
     bool isMyTurn = (state.current_player() == m_selfUserId);
     bool canPlayCard = false;
@@ -668,13 +669,17 @@ void MainWindow::handleGameOver(const sanguosha::GameOver &gameOver)
     QMessageBox::information(this, title, message);
     
     // 添加游戏日志
-    addToGameLog(message);
+    //addToGameLog(message);    移除
+    m_gameLog->append(message);
     
     // 返回大厅界面
     showScreen(m_lobbyScreen);
     
     // 重置游戏状态
-    resetGameState();
+    //resetGameState();  移除
+    m_selectedCard = 0;
+    m_playCardButton->setEnabled(false);
+    m_endTurnButton->setEnabled(false);
 }
 
 //调试功能
@@ -700,12 +705,6 @@ void MainWindow::addToGameLog(const QString &message)
     QString timestamp = QDateTime::currentDateTime().toString("hh:mm:ss");
     m_gameLog->append(QString("[%1] %2").arg(timestamp).arg(message));
     m_gameLog->moveCursor(QTextCursor::End);
-}
-
-void MainWindow::updateGameLog(const sanguosha::GameState &state)
-{
-    // 可以从游戏状态中提取日志信息，或者由服务器发送专门的日志消息
-    // 这里可以添加解析游戏状态生成日志的逻辑
 }
 
 void MainWindow::resetGameState()

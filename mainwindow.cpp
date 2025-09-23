@@ -208,7 +208,9 @@ void MainWindow::handleGameState(const sanguosha::GameState &state)
     updateTurnInfo(state);
     
     // 4. 根据游戏阶段启用/禁用按钮
-    updateButtonStates(state.phase());
+    //updateButtonStates(state.phase());
+    bool isMyTurn = (state.current_player() == m_selfUserId);
+    updateButtonStates(state.phase(), isMyTurn);
     
     // 5. 检查游戏是否结束
     checkGameEndCondition(state);
@@ -482,23 +484,22 @@ void MainWindow::onCancelButtonClicked()
 }
 
 //禁将
-void MainWindow::updateButtonStates(const sanguosha::GameState &state)
+void MainWindow::updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn)
 {
-    bool isMyTurn = (state.current_player() == m_selfUserId);
     bool canPlayCard = false;
     bool canEndTurn = false;
     
     // 根据游戏阶段和是否是自己回合决定按钮状态
     switch (phase) {
-    case 1: // 摸牌阶段
+    case sanguosha::DRAW_PHASE: // 使用proto中定义的枚举值
         canPlayCard = false;
         canEndTurn = isMyTurn;
         break;
-    case 2: // 出牌阶段
+    case sanguosha::PLAY_PHASE:
         canPlayCard = isMyTurn && m_selectedCard != 0;
         canEndTurn = isMyTurn;
         break;
-    case 3: // 弃牌阶段
+    case sanguosha::DISCARD_PHASE:
         canPlayCard = false;
         canEndTurn = isMyTurn;
         break;

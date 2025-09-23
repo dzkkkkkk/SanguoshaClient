@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[39];
-    char stringdata0[586];
+    QByteArrayData data[38];
+    char stringdata0[580];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -66,10 +66,9 @@ QT_MOC_LITERAL(31, 456, 14), // "onCardSelected"
 QT_MOC_LITERAL(32, 471, 23), // "onPlayCardButtonClicked"
 QT_MOC_LITERAL(33, 495, 21), // "onCancelButtonClicked"
 QT_MOC_LITERAL(34, 517, 18), // "updateButtonStates"
-QT_MOC_LITERAL(35, 536, 5), // "phase"
-QT_MOC_LITERAL(36, 542, 14), // "handleGameOver"
-QT_MOC_LITERAL(37, 557, 19), // "sanguosha::GameOver"
-QT_MOC_LITERAL(38, 577, 8) // "gameOver"
+QT_MOC_LITERAL(35, 536, 14), // "handleGameOver"
+QT_MOC_LITERAL(36, 551, 19), // "sanguosha::GameOver"
+QT_MOC_LITERAL(37, 571, 8) // "gameOver"
 
     },
     "MainWindow\0onConnectionStatusChanged\0"
@@ -86,7 +85,7 @@ QT_MOC_LITERAL(38, 577, 8) // "gameOver"
     "sanguosha::GameState\0state\0handleGameStart\0"
     "sanguosha::GameStart\0start\0onCardSelected\0"
     "onPlayCardButtonClicked\0onCancelButtonClicked\0"
-    "updateButtonStates\0phase\0handleGameOver\0"
+    "updateButtonStates\0handleGameOver\0"
     "sanguosha::GameOver\0gameOver"
 };
 #undef QT_MOC_LITERAL
@@ -121,7 +120,7 @@ static const uint qt_meta_data_MainWindow[] = {
       32,    0,  136,    2, 0x08 /* Private */,
       33,    0,  137,    2, 0x08 /* Private */,
       34,    1,  138,    2, 0x08 /* Private */,
-      36,    1,  141,    2, 0x08 /* Private */,
+      35,    1,  141,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Bool,    3,
@@ -139,8 +138,8 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 14,   35,
-    QMetaType::Void, 0x80000000 | 37,   38,
+    QMetaType::Void, 0x80000000 | 26,   27,
+    QMetaType::Void, 0x80000000 | 36,   37,
 
        0        // eod
 };
@@ -166,7 +165,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 12: _t->onCardSelected(); break;
         case 13: _t->onPlayCardButtonClicked(); break;
         case 14: _t->onCancelButtonClicked(); break;
-        case 15: _t->updateButtonStates((*reinterpret_cast< uint32_t(*)>(_a[1]))); break;
+        case 15: _t->updateButtonStates((*reinterpret_cast< const sanguosha::GameState(*)>(_a[1]))); break;
         case 16: _t->handleGameOver((*reinterpret_cast< const sanguosha::GameOver(*)>(_a[1]))); break;
         default: ;
         }

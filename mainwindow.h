@@ -50,7 +50,7 @@ private slots:
     void onCardSelected();
     void onPlayCardButtonClicked();
     void onCancelButtonClicked();
-    void updateButtonStates(const sanguosha::GameState &state);
+    void updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn);
     
     void handleGameOver(const sanguosha::GameOver &gameOver);
 

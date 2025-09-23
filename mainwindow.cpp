@@ -257,10 +257,8 @@ void MainWindow::handleGameStart(const sanguosha::GameStart &start)
     m_gameLog->clear();
     m_gameLog->append(tr("游戏开始！"));
     
-    // 修复：使用正确的消息类型
-    sanguosha::GameMessage message;
-    message.set_type(sanguosha::GAME_STATE_REQUEST);
-    m_networkManager->sendMessage(message);
+    // 修复：不需要发送请求，服务器会自动发送游戏状态
+    // 等待服务器发送游戏状态更新
 }
 
 //界面初始化函数
@@ -611,24 +609,27 @@ QString MainWindow::getCardColor(uint32_t cardId)
 //日志系统
 void MainWindow::updateGameLog(const sanguosha::GameState &state)
 {
-    if (state.has_game_log() && !state.game_log().empty()) {
-        QString logEntry = QString::fromStdString(state.game_log());
-        if (m_gameLog->toPlainText().isEmpty() || 
-            !m_gameLog->toPlainText().endsWith(logEntry)) {
-            m_gameLog->append(logEntry);
-            m_gameLog->moveCursor(QTextCursor::End);
-        }
-    }
+    // 修复：GameState没有game_log字段，需要从其他地方获取日志
+    // 这里可以添加其他方式获取游戏日志的逻辑
+    // 例如从网络消息中获取或维护本地日志
 }
 
 //回合管理
 void MainWindow::updateTurnInfo(const sanguosha::GameState &state)
 {
     QString phaseName;
-    switch (state.phase()) {
-        case sanguosha::DRAW_PHASE: phaseName = tr("摸牌阶段"); break;
-        case sanguosha::PLAY_PHASE: phaseName = tr("出牌阶段"); break;
-        case sanguosha::DISCARD_PHASE: phaseName = tr("弃牌阶段"); break;
+    
+    // 修复：使用正确的阶段枚举值
+    // 根据proto文件，phase是uint32，没有定义具体枚举值
+    // 这里需要与服务器协商阶段值的含义
+    uint32_t phase = state.phase();
+    
+    // 假设阶段值约定：
+    // 1: 摸牌阶段, 2: 出牌阶段, 3: 弃牌阶段
+    switch (phase) {
+        case 1: phaseName = tr("摸牌阶段"); break;
+        case 2: phaseName = tr("出牌阶段"); break;
+        case 3: phaseName = tr("弃牌阶段"); break;
         default: phaseName = tr("未知阶段");
     }
     

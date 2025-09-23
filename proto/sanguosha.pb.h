@@ -113,12 +113,13 @@ enum MessageType {
   GAME_STATE = 7,
   GAME_START = 8,
   GAME_OVER = 10,
+  GAME_STATE_REQUEST = 11,
   MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool MessageType_IsValid(int value);
 const MessageType MessageType_MIN = UNKNOWN;
-const MessageType MessageType_MAX = GAME_OVER;
+const MessageType MessageType_MAX = GAME_STATE_REQUEST;
 const int MessageType_ARRAYSIZE = MessageType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MessageType_descriptor();
@@ -176,6 +177,29 @@ inline bool CardType_Parse(
     const ::std::string& name, CardType* value) {
   return ::google::protobuf::internal::ParseNamedEnum<CardType>(
     CardType_descriptor(), name, value);
+}
+enum GamePhase {
+  PHASE_UNKNOWN = 0,
+  DRAW_PHASE = 1,
+  PLAY_PHASE = 2,
+  DISCARD_PHASE = 3,
+  GamePhase_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  GamePhase_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool GamePhase_IsValid(int value);
+const GamePhase GamePhase_MIN = PHASE_UNKNOWN;
+const GamePhase GamePhase_MAX = DISCARD_PHASE;
+const int GamePhase_ARRAYSIZE = GamePhase_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* GamePhase_descriptor();
+inline const ::std::string& GamePhase_Name(GamePhase value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    GamePhase_descriptor(), value);
+}
+inline bool GamePhase_Parse(
+    const ::std::string& name, GamePhase* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<GamePhase>(
+    GamePhase_descriptor(), name, value);
 }
 enum ActionType {
   ACTION_PLAY_CARD = 0,
@@ -1274,25 +1298,40 @@ class GameState : public ::google::protobuf::Message /* @@protoc_insertion_point
   const ::google::protobuf::RepeatedPtrField< ::sanguosha::PlayerState >&
       players() const;
 
+  // string game_log = 4;
+  void clear_game_log();
+  static const int kGameLogFieldNumber = 4;
+  const ::std::string& game_log() const;
+  void set_game_log(const ::std::string& value);
+  #if LANG_CXX11
+  void set_game_log(::std::string&& value);
+  #endif
+  void set_game_log(const char* value);
+  void set_game_log(const char* value, size_t size);
+  ::std::string* mutable_game_log();
+  ::std::string* release_game_log();
+  void set_allocated_game_log(::std::string* game_log);
+
   // uint32 current_player = 1;
   void clear_current_player();
   static const int kCurrentPlayerFieldNumber = 1;
   ::google::protobuf::uint32 current_player() const;
   void set_current_player(::google::protobuf::uint32 value);
 
-  // uint32 phase = 3;
+  // .sanguosha.GamePhase phase = 3;
   void clear_phase();
   static const int kPhaseFieldNumber = 3;
-  ::google::protobuf::uint32 phase() const;
-  void set_phase(::google::protobuf::uint32 value);
+  ::sanguosha::GamePhase phase() const;
+  void set_phase(::sanguosha::GamePhase value);
 
   // @@protoc_insertion_point(class_scope:sanguosha.GameState)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::sanguosha::PlayerState > players_;
+  ::google::protobuf::internal::ArenaStringPtr game_log_;
   ::google::protobuf::uint32 current_player_;
-  ::google::protobuf::uint32 phase_;
+  int phase_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_sanguosha_2eproto::TableStruct;
 };
@@ -2416,18 +2455,71 @@ GameState::players() const {
   return players_;
 }
 
-// uint32 phase = 3;
+// .sanguosha.GamePhase phase = 3;
 inline void GameState::clear_phase() {
-  phase_ = 0u;
+  phase_ = 0;
 }
-inline ::google::protobuf::uint32 GameState::phase() const {
+inline ::sanguosha::GamePhase GameState::phase() const {
   // @@protoc_insertion_point(field_get:sanguosha.GameState.phase)
-  return phase_;
+  return static_cast< ::sanguosha::GamePhase >(phase_);
 }
-inline void GameState::set_phase(::google::protobuf::uint32 value) {
+inline void GameState::set_phase(::sanguosha::GamePhase value) {
   
   phase_ = value;
   // @@protoc_insertion_point(field_set:sanguosha.GameState.phase)
+}
+
+// string game_log = 4;
+inline void GameState::clear_game_log() {
+  game_log_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GameState::game_log() const {
+  // @@protoc_insertion_point(field_get:sanguosha.GameState.game_log)
+  return game_log_.GetNoArena();
+}
+inline void GameState::set_game_log(const ::std::string& value) {
+  
+  game_log_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:sanguosha.GameState.game_log)
+}
+#if LANG_CXX11
+inline void GameState::set_game_log(::std::string&& value) {
+  
+  game_log_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:sanguosha.GameState.game_log)
+}
+#endif
+inline void GameState::set_game_log(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  game_log_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:sanguosha.GameState.game_log)
+}
+inline void GameState::set_game_log(const char* value, size_t size) {
+  
+  game_log_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:sanguosha.GameState.game_log)
+}
+inline ::std::string* GameState::mutable_game_log() {
+  
+  // @@protoc_insertion_point(field_mutable:sanguosha.GameState.game_log)
+  return game_log_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GameState::release_game_log() {
+  // @@protoc_insertion_point(field_release:sanguosha.GameState.game_log)
+  
+  return game_log_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GameState::set_allocated_game_log(::std::string* game_log) {
+  if (game_log != NULL) {
+    
+  } else {
+    
+  }
+  game_log_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), game_log);
+  // @@protoc_insertion_point(field_set_allocated:sanguosha.GameState.game_log)
 }
 
 // -------------------------------------------------------------------
@@ -2966,6 +3058,11 @@ template <> struct is_proto_enum< ::sanguosha::CardType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::sanguosha::CardType>() {
   return ::sanguosha::CardType_descriptor();
+}
+template <> struct is_proto_enum< ::sanguosha::GamePhase> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::sanguosha::GamePhase>() {
+  return ::sanguosha::GamePhase_descriptor();
 }
 template <> struct is_proto_enum< ::sanguosha::ActionType> : ::std::true_type {};
 template <>

@@ -97,7 +97,7 @@ private:
     void addCardToHand(uint32_t cardId);
     QString getCardName(uint32_t cardId);
     QString getCardColor(uint32_t cardId);
-    void handleGameOver(const sanguosha::GameOver &gameOver);
+    //void handleGameOver(const sanguosha::GameOver &gameOver);  声明重复Owo
 };
 
 #endif // MAINWINDOW_H

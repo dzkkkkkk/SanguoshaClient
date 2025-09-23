@@ -147,6 +147,8 @@ QPushButton
 -
 QLineEdit
 -
+proto/sanguosha.pb.h
+/home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h
 
 /home/dzkkkkk/SanguoshaClient/mainwindow.h
 QMainWindow
@@ -184,6 +186,20 @@ proto/sanguosha.pb.h
 network/networkmanager.h
 /home/dzkkkkk/SanguoshaClient/network/networkmanager.h
 
+/home/dzkkkkk/SanguoshaClient/network/networkmanager.cpp
+networkmanager.h
+/home/dzkkkkk/SanguoshaClient/network/networkmanager.h
+google/protobuf/io/coded_stream.h
+-
+google/protobuf/io/zero_copy_stream_impl.h
+-
+QHostAddress
+-
+QDataStream
+-
+QDateTime
+-
+
 /home/dzkkkkk/SanguoshaClient/network/networkmanager.h
 QObject
 -
@@ -197,6 +213,30 @@ QDateTime
 -
 proto/sanguosha.pb.h
 /home/dzkkkkk/SanguoshaClient/network/proto/sanguosha.pb.h
+
+/home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.cc
+sanguosha.pb.h
+/home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h
+algorithm
+-
+google/protobuf/stubs/common.h
+-
+google/protobuf/stubs/port.h
+-
+google/protobuf/io/coded_stream.h
+-
+google/protobuf/wire_format_lite_inl.h
+-
+google/protobuf/descriptor.h
+-
+google/protobuf/generated_message_reflection.h
+-
+google/protobuf/reflection_ops.h
+-
+google/protobuf/wire_format.h
+-
+third_party/protobuf/version.h
+/home/dzkkkkk/SanguoshaClient/proto/third_party/protobuf/version.h
 
 /home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h
 string
@@ -1416,6 +1456,10 @@ QtGui/qwindowdefs_win.h
 QtGui/qtguiglobal.h
 -
 
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QHostAddress
+qhostaddress.h
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qhostaddress.h
+
 /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QTcpSocket
 qtcpsocket.h
 /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h
@@ -1428,6 +1472,18 @@ QtCore/qiodevice.h
 QtCore/qobject.h
 -
 QtCore/qdebug.h
+-
+
+/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qhostaddress.h
+QtNetwork/qtnetworkglobal.h
+-
+QtCore/qpair.h
+-
+QtCore/qstring.h
+-
+QtCore/qshareddata.h
+-
+QtNetwork/qabstractsocket.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h

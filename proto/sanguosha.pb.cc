@@ -299,7 +299,7 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[12];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[4];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[5];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -371,6 +371,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::GameState, current_player_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::GameState, players_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::GameState, phase_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::GameState, game_log_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::GameStart, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -411,9 +412,9 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 43, -1, sizeof(::sanguosha::GameAction)},
   { 51, -1, sizeof(::sanguosha::PlayerState)},
   { 61, -1, sizeof(::sanguosha::GameState)},
-  { 69, -1, sizeof(::sanguosha::GameStart)},
-  { 76, -1, sizeof(::sanguosha::GameMessage)},
-  { 92, -1, sizeof(::sanguosha::GameOver)},
+  { 70, -1, sizeof(::sanguosha::GameStart)},
+  { 77, -1, sizeof(::sanguosha::GameMessage)},
+  { 93, -1, sizeof(::sanguosha::GameOver)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -466,37 +467,41 @@ void AddDescriptorsImpl() {
       "ActionType\022\017\n\007card_id\030\002 \001(\r\022\025\n\rtarget_pl"
       "ayer\030\003 \001(\r\"b\n\013PlayerState\022\021\n\tplayer_id\030\001"
       " \001(\r\022\020\n\010username\030\002 \001(\t\022\n\n\002hp\030\003 \001(\r\022\016\n\006ma"
-      "x_hp\030\004 \001(\r\022\022\n\nhand_cards\030\005 \003(\r\"[\n\tGameSt"
-      "ate\022\026\n\016current_player\030\001 \001(\r\022\'\n\007players\030\002"
-      " \003(\0132\026.sanguosha.PlayerState\022\r\n\005phase\030\003 "
-      "\001(\r\"0\n\tGameStart\022\017\n\007room_id\030\001 \001(\r\022\022\n\npla"
-      "yer_ids\030\002 \003(\r\"\341\003\n\013GameMessage\022$\n\004type\030\001 "
-      "\001(\0162\026.sanguosha.MessageType\0220\n\rlogin_req"
-      "uest\030\002 \001(\0132\027.sanguosha.LoginRequestH\000\0222\n"
-      "\016login_response\030\003 \001(\0132\030.sanguosha.LoginR"
-      "esponseH\000\022)\n\theartbeat\030\004 \001(\0132\024.sanguosha"
-      ".HeartbeatH\000\022.\n\014room_request\030\005 \001(\0132\026.san"
-      "guosha.RoomRequestH\000\0220\n\rroom_response\030\006 "
-      "\001(\0132\027.sanguosha.RoomResponseH\000\022,\n\013game_a"
-      "ction\030\007 \001(\0132\025.sanguosha.GameActionH\000\022*\n\n"
-      "game_state\030\010 \001(\0132\024.sanguosha.GameStateH\000"
-      "\022*\n\ngame_start\030\t \001(\0132\024.sanguosha.GameSta"
-      "rtH\000\022(\n\tgame_over\030\n \001(\0132\023.sanguosha.Game"
-      "OverH\000B\t\n\007content\"\035\n\010GameOver\022\021\n\twinner_"
-      "id\030\001 \001(\r*\265\001\n\013MessageType\022\013\n\007UNKNOWN\020\000\022\021\n"
-      "\rLOGIN_REQUEST\020\001\022\022\n\016LOGIN_RESPONSE\020\002\022\r\n\t"
-      "HEARTBEAT\020\003\022\020\n\014ROOM_REQUEST\020\004\022\021\n\rROOM_RE"
-      "SPONSE\020\005\022\017\n\013GAME_ACTION\020\006\022\016\n\nGAME_STATE\020"
-      "\007\022\016\n\nGAME_START\020\010\022\r\n\tGAME_OVER\020\n*L\n\nRoom"
-      "Action\022\017\n\013CREATE_ROOM\020\000\022\r\n\tJOIN_ROOM\020\001\022\016"
-      "\n\nLEAVE_ROOM\020\002\022\016\n\nSTART_GAME\020\003*M\n\010CardTy"
-      "pe\022\020\n\014CARD_UNKNOWN\020\000\022\017\n\013CARD_ATTACK\020\001\022\017\n"
-      "\013CARD_DEFEND\020\002\022\r\n\tCARD_HEAL\020\003*7\n\nActionT"
-      "ype\022\024\n\020ACTION_PLAY_CARD\020\000\022\023\n\017ACTION_END_"
-      "TURN\020\001b\006proto3"
+      "x_hp\030\004 \001(\r\022\022\n\nhand_cards\030\005 \003(\r\"\203\001\n\tGameS"
+      "tate\022\026\n\016current_player\030\001 \001(\r\022\'\n\007players\030"
+      "\002 \003(\0132\026.sanguosha.PlayerState\022#\n\005phase\030\003"
+      " \001(\0162\024.sanguosha.GamePhase\022\020\n\010game_log\030\004"
+      " \001(\t\"0\n\tGameStart\022\017\n\007room_id\030\001 \001(\r\022\022\n\npl"
+      "ayer_ids\030\002 \003(\r\"\341\003\n\013GameMessage\022$\n\004type\030\001"
+      " \001(\0162\026.sanguosha.MessageType\0220\n\rlogin_re"
+      "quest\030\002 \001(\0132\027.sanguosha.LoginRequestH\000\0222"
+      "\n\016login_response\030\003 \001(\0132\030.sanguosha.Login"
+      "ResponseH\000\022)\n\theartbeat\030\004 \001(\0132\024.sanguosh"
+      "a.HeartbeatH\000\022.\n\014room_request\030\005 \001(\0132\026.sa"
+      "nguosha.RoomRequestH\000\0220\n\rroom_response\030\006"
+      " \001(\0132\027.sanguosha.RoomResponseH\000\022,\n\013game_"
+      "action\030\007 \001(\0132\025.sanguosha.GameActionH\000\022*\n"
+      "\ngame_state\030\010 \001(\0132\024.sanguosha.GameStateH"
+      "\000\022*\n\ngame_start\030\t \001(\0132\024.sanguosha.GameSt"
+      "artH\000\022(\n\tgame_over\030\n \001(\0132\023.sanguosha.Gam"
+      "eOverH\000B\t\n\007content\"\035\n\010GameOver\022\021\n\twinner"
+      "_id\030\001 \001(\r*\315\001\n\013MessageType\022\013\n\007UNKNOWN\020\000\022\021"
+      "\n\rLOGIN_REQUEST\020\001\022\022\n\016LOGIN_RESPONSE\020\002\022\r\n"
+      "\tHEARTBEAT\020\003\022\020\n\014ROOM_REQUEST\020\004\022\021\n\rROOM_R"
+      "ESPONSE\020\005\022\017\n\013GAME_ACTION\020\006\022\016\n\nGAME_STATE"
+      "\020\007\022\016\n\nGAME_START\020\010\022\r\n\tGAME_OVER\020\n\022\026\n\022GAM"
+      "E_STATE_REQUEST\020\013*L\n\nRoomAction\022\017\n\013CREAT"
+      "E_ROOM\020\000\022\r\n\tJOIN_ROOM\020\001\022\016\n\nLEAVE_ROOM\020\002\022"
+      "\016\n\nSTART_GAME\020\003*M\n\010CardType\022\020\n\014CARD_UNKN"
+      "OWN\020\000\022\017\n\013CARD_ATTACK\020\001\022\017\n\013CARD_DEFEND\020\002\022"
+      "\r\n\tCARD_HEAL\020\003*Q\n\tGamePhase\022\021\n\rPHASE_UNK"
+      "NOWN\020\000\022\016\n\nDRAW_PHASE\020\001\022\016\n\nPLAY_PHASE\020\002\022\021"
+      "\n\rDISCARD_PHASE\020\003*7\n\nActionType\022\024\n\020ACTIO"
+      "N_PLAY_CARD\020\000\022\023\n\017ACTION_END_TURN\020\001b\006prot"
+      "o3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1654);
+      descriptor, 1802);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "sanguosha.proto", &protobuf_RegisterTypes);
 }
@@ -529,6 +534,7 @@ bool MessageType_IsValid(int value) {
     case 7:
     case 8:
     case 10:
+    case 11:
       return true;
     default:
       return false;
@@ -567,9 +573,25 @@ bool CardType_IsValid(int value) {
   }
 }
 
-const ::google::protobuf::EnumDescriptor* ActionType_descriptor() {
+const ::google::protobuf::EnumDescriptor* GamePhase_descriptor() {
   protobuf_sanguosha_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_sanguosha_2eproto::file_level_enum_descriptors[3];
+}
+bool GamePhase_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* ActionType_descriptor() {
+  protobuf_sanguosha_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_sanguosha_2eproto::file_level_enum_descriptors[4];
 }
 bool ActionType_IsValid(int value) {
   switch (value) {
@@ -3044,6 +3066,7 @@ void GameState::InitAsDefaultInstance() {
 const int GameState::kCurrentPlayerFieldNumber;
 const int GameState::kPlayersFieldNumber;
 const int GameState::kPhaseFieldNumber;
+const int GameState::kGameLogFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GameState::GameState()
@@ -3058,6 +3081,10 @@ GameState::GameState(const GameState& from)
       _internal_metadata_(NULL),
       players_(from.players_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  game_log_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.game_log().size() > 0) {
+    game_log_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.game_log_);
+  }
   ::memcpy(&current_player_, &from.current_player_,
     static_cast<size_t>(reinterpret_cast<char*>(&phase_) -
     reinterpret_cast<char*>(&current_player_)) + sizeof(phase_));
@@ -3065,6 +3092,7 @@ GameState::GameState(const GameState& from)
 }
 
 void GameState::SharedCtor() {
+  game_log_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&current_player_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&phase_) -
       reinterpret_cast<char*>(&current_player_)) + sizeof(phase_));
@@ -3076,6 +3104,7 @@ GameState::~GameState() {
 }
 
 void GameState::SharedDtor() {
+  game_log_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void GameState::SetCachedSize(int size) const {
@@ -3099,6 +3128,7 @@ void GameState::Clear() {
   (void) cached_has_bits;
 
   players_.Clear();
+  game_log_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&current_player_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&phase_) -
       reinterpret_cast<char*>(&current_player_)) + sizeof(phase_));
@@ -3141,14 +3171,31 @@ bool GameState::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 phase = 3;
+      // .sanguosha.GamePhase phase = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-
+          int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &phase_)));
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_phase(static_cast< ::sanguosha::GamePhase >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string game_log = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_game_log()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->game_log().data(), static_cast<int>(this->game_log().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "sanguosha.GameState.game_log"));
         } else {
           goto handle_unusual;
         }
@@ -3195,9 +3242,20 @@ void GameState::SerializeWithCachedSizes(
       output);
   }
 
-  // uint32 phase = 3;
+  // .sanguosha.GamePhase phase = 3;
   if (this->phase() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->phase(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      3, this->phase(), output);
+  }
+
+  // string game_log = 4;
+  if (this->game_log().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->game_log().data(), static_cast<int>(this->game_log().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.GameState.game_log");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->game_log(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3227,9 +3285,21 @@ void GameState::SerializeWithCachedSizes(
         2, this->players(static_cast<int>(i)), deterministic, target);
   }
 
-  // uint32 phase = 3;
+  // .sanguosha.GamePhase phase = 3;
   if (this->phase() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->phase(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      3, this->phase(), target);
+  }
+
+  // string game_log = 4;
+  if (this->game_log().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->game_log().data(), static_cast<int>(this->game_log().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.GameState.game_log");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->game_log(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3260,6 +3330,13 @@ size_t GameState::ByteSizeLong() const {
     }
   }
 
+  // string game_log = 4;
+  if (this->game_log().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->game_log());
+  }
+
   // uint32 current_player = 1;
   if (this->current_player() != 0) {
     total_size += 1 +
@@ -3267,11 +3344,10 @@ size_t GameState::ByteSizeLong() const {
         this->current_player());
   }
 
-  // uint32 phase = 3;
+  // .sanguosha.GamePhase phase = 3;
   if (this->phase() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->phase());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->phase());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -3302,6 +3378,10 @@ void GameState::MergeFrom(const GameState& from) {
   (void) cached_has_bits;
 
   players_.MergeFrom(from.players_);
+  if (from.game_log().size() > 0) {
+
+    game_log_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.game_log_);
+  }
   if (from.current_player() != 0) {
     set_current_player(from.current_player());
   }
@@ -3335,6 +3415,8 @@ void GameState::Swap(GameState* other) {
 void GameState::InternalSwap(GameState* other) {
   using std::swap;
   CastToBase(&players_)->InternalSwap(CastToBase(&other->players_));
+  game_log_.Swap(&other->game_log_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(current_player_, other->current_player_);
   swap(phase_, other->phase_);
   _internal_metadata_.Swap(&other->_internal_metadata_);

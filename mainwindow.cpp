@@ -615,3 +615,44 @@ QString MainWindow::getCardColor(uint32_t cardId)
     if (cardId == 3) return "#66ff66"; // 桃 - 绿色
     return "#ffff66"; // 其他 - 黄色
 }
+
+//日志系统
+void MainWindow::updateGameLog(const sanguosha::GameState &state)
+{
+    if (state.has_game_log() && !state.game_log().empty()) {
+        QString logEntry = QString::fromStdString(state.game_log());
+        if (m_gameLog->toPlainText().isEmpty() || 
+            !m_gameLog->toPlainText().endsWith(logEntry)) {
+            m_gameLog->append(logEntry);
+            m_gameLog->moveCursor(QTextCursor::End);
+        }
+    }
+}
+
+//回合管理
+void MainWindow::updateTurnInfo(const sanguosha::GameState &state)
+{
+    QString phaseName;
+    switch (state.phase()) {
+        case sanguosha::DRAW_PHASE: phaseName = tr("摸牌阶段"); break;
+        case sanguosha::PLAY_PHASE: phaseName = tr("出牌阶段"); break;
+        case sanguosha::DISCARD_PHASE: phaseName = tr("弃牌阶段"); break;
+        default: phaseName = tr("未知阶段");
+    }
+    
+    m_turnInfoLabel->setText(tr("当前回合: 玩家%1, 阶段: %2")
+                            .arg(state.current_player())
+                            .arg(phaseName));
+}
+
+void MainWindow::updateButtonStates(uint32_t phase)
+{
+    bool isMyTurn = false;
+    // 检查是否是自己的回合（需要从游戏状态中获取当前玩家）
+    
+    bool canPlayCard = (phase == sanguosha::PLAY_PHASE) && isMyTurn;
+    bool canEndTurn = isMyTurn;
+    
+    m_playCardButton->setEnabled(canPlayCard && m_selectedCard != 0);
+    m_endTurnButton->setEnabled(canEndTurn);
+}

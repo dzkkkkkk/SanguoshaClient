@@ -79,28 +79,22 @@ void MainWindow::onLoginButtonClicked(const QString &username, const QString &pa
     m_networkManager->sendMessage(message);
 }
 
-void MainWindow::onMessageReceived(const sanguosha::GameMessage &message)
+void MainWindow::handleGameState(const sanguosha::GameState &state)
 {
-    switch (message.type()) {
-    case sanguosha::LOGIN_RESPONSE:
-        handleLoginResponse(message.login_response());
-        break;
-    case sanguosha::ROOM_RESPONSE:
-        handleRoomResponse(message.room_response());
-        break;
-    case sanguosha::GAME_STATE:
-        handleGameState(message.game_state());
-        break;
-    case sanguosha::GAME_START:
-        handleGameStart(message.game_start());
-        break;
-    case sanguosha::HEARTBEAT:
-        // 心跳包，通常不需要处理
-        break;
-    default:
-        qWarning() << "Received unknown message type:" << message.type();
-        break;
-    }
+    // 更新玩家信息表
+    updatePlayerInfoTable(state);
+    
+    // 更新手牌显示
+    updateHandCards(state);
+    
+    // 更新游戏日志
+    updateGameLog(state);
+    
+    // 更新回合信息
+    updateTurnInfo(state);
+    
+    // 更新按钮状态
+    updateButtonStates(state.phase());
 }
 
 // 房间创建
@@ -259,9 +253,22 @@ void MainWindow::handleGameState(const sanguosha::GameState &state)
 void MainWindow::handleGameStart(const sanguosha::GameStart &start)
 {
     ui->statusbar->showMessage(tr("游戏开始！"));
-    // 这里需要初始化并切换到游戏界面
-    // setupGameScreen();
-    // showScreen(m_gameScreen);
+    
+    // 保存自己的用户ID
+    m_selfUserId = start.player_id();
+    
+    // 初始化游戏界面
+    setupGameScreen();
+    showScreen(m_gameScreen);
+    
+    // 清空游戏日志
+    m_gameLog->clear();
+    m_gameLog->append(tr("游戏开始！"));
+    
+    // 请求初始游戏状态
+    sanguosha::GameMessage message;
+    message.set_type(sanguosha::GAME_STATE_REQUEST);
+    m_networkManager->sendMessage(message);
 }
 
 //界面初始化函数
@@ -519,4 +526,32 @@ void MainWindow::updateButtonStates(uint32_t phase)
     
     m_playCardButton->setEnabled(canPlayCard && m_selectedCard != 0);
     m_endTurnButton->setEnabled(canEndTurn);
+}
+
+//玩家信息列表
+void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state)
+{
+    m_playerInfoTable->setRowCount(state.players_size());
+    for (int i = 0; i < state.players_size(); ++i) {
+        const sanguosha::PlayerState &player = state.players(i);
+        
+        // 设置玩家ID
+        m_playerInfoTable->setItem(i, 0, new QTableWidgetItem(QString::number(player.player_id())));
+        
+        // 设置玩家名称
+        m_playerInfoTable->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(player.username())));
+        
+        // 设置玩家血量
+        m_playerInfoTable->setItem(i, 2, new QTableWidgetItem(
+            QString("%1/%2").arg(player.hp()).arg(player.max_hp())));
+        
+        // 高亮当前玩家
+        for (int col = 0; col < 3; ++col) {
+            if (player.player_id() == state.current_player()) {
+                m_playerInfoTable->item(i, col)->setBackground(Qt::yellow);
+            } else {
+                m_playerInfoTable->item(i, col)->setBackground(Qt::white);
+            }
+        }
+    }
 }

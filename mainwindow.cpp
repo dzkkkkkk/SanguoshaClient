@@ -123,16 +123,33 @@ void MainWindow::onErrorOccurred(const QString &errorString)
 // 基本游戏操作
 void MainWindow::onPlayCardClicked(uint32_t cardId, uint32_t targetPlayer)
 {
-    sanguosha::GameMessage message;
-    message.set_type(sanguosha::GAME_ACTION);
+    // 根据卡牌类型执行不同的逻辑
+    QString cardName = getCardName(cardId);
     
-    sanguosha::GameAction* gameAction = new sanguosha::GameAction();
-    gameAction->set_type(sanguosha::ACTION_PLAY_CARD);
-    gameAction->set_card_id(cardId);
-    gameAction->set_target_player(targetPlayer);
-    
-    message.set_allocated_game_action(gameAction);
-    m_networkManager->sendMessage(message);
+    if (cardName == "杀") {
+        // 处理杀牌逻辑
+        sanguosha::GameMessage message;
+        message.set_type(sanguosha::GAME_ACTION);
+        
+        sanguosha::GameAction* gameAction = new sanguosha::GameAction();
+        gameAction->set_type(sanguosha::ACTION_PLAY_CARD);
+        gameAction->set_card_id(cardId);
+        gameAction->set_target_player(targetPlayer);
+        
+        message.set_allocated_game_action(gameAction);
+        m_networkManager->sendMessage(message);
+        
+        // 添加到游戏日志
+        addToGameLog(tr("您对玩家%1使用了【杀】").arg(targetPlayer));
+    }
+    else if (cardName == "闪") {
+        // 处理闪牌逻辑
+        // ...
+    }
+    else if (cardName == "桃") {
+        // 处理桃牌逻辑
+        // ...
+    }
 }
 
 void MainWindow::onEndTurnClicked()
@@ -181,62 +198,19 @@ void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 void MainWindow::handleGameState(const sanguosha::GameState &state)
 {
     // 1. 更新玩家信息表
-    m_playerInfoTable->setRowCount(state.players_size());
-    for (int i = 0; i < state.players_size(); ++i) {
-        const sanguosha::PlayerState &player = state.players(i);
-        
-        // 设置玩家ID
-        QTableWidgetItem *idItem = new QTableWidgetItem(QString::number(player.player_id()));
-        m_playerInfoTable->setItem(i, 0, idItem);
-        
-        // 设置玩家名称
-        QTableWidgetItem *nameItem = new QTableWidgetItem(QString::fromStdString(player.username()));
-        m_playerInfoTable->setItem(i, 1, nameItem);
-        
-        // 设置玩家血量
-        QTableWidgetItem *hpItem = new QTableWidgetItem(
-            QString("%1/%2").arg(player.hp()).arg(player.max_hp()));
-        m_playerInfoTable->setItem(i, 2, hpItem);
-        
-        // 高亮当前玩家
-        if (player.player_id() == state.current_player()) {
-            for (int col = 0; col < 3; ++col) {
-                m_playerInfoTable->item(i, col)->setBackground(Qt::yellow);
-            }
-        }
-    }
+    updatePlayerInfoTable(state);
     
     // 2. 更新手牌显示
-    // 先清除现有手牌
-    QLayoutItem *item;
-    while ((item = m_handCardsLayout->takeAt(0)) != nullptr) {
-        delete item->widget();
-        delete item;
-    }
-    
-    // 查找当前玩家手牌
-    for (int i = 0; i < state.players_size(); ++i) {
-        const sanguosha::PlayerState &player = state.players(i);
-        if (player.player_id() == m_selfUserId) { // 假设m_selfUserId已保存
-            // 添加手牌按钮
-            for (int j = 0; j < player.hand_cards_size(); ++j) {
-                uint32_t cardId = player.hand_cards(j);
-                QPushButton *cardButton = new QPushButton(QString::number(cardId));
-                cardButton->setProperty("cardId", cardId);
-                connect(cardButton, &QPushButton::clicked, this, &MainWindow::onCardSelected);
-                m_handCardsLayout->addWidget(cardButton);
-            }
-            break;
-        }
-    }
+    updateHandCards(state);
     
     // 3. 更新回合信息
-    m_turnInfoLabel->setText(tr("当前回合: 玩家%1, 阶段: %2")
-                            .arg(state.current_player())
-                            .arg(state.phase()));
+    updateTurnInfo(state);
     
     // 4. 根据游戏阶段启用/禁用按钮
     updateButtonStates(state.phase());
+    
+    // 5. 检查游戏是否结束
+    checkGameEndCondition(state);
 }
 
 // 处理游戏开始
@@ -509,13 +483,38 @@ void MainWindow::onCancelButtonClicked()
 //禁将
 void MainWindow::updateButtonStates(uint32_t phase)
 {
-    // 根据游戏阶段启用/禁用按钮
-    // 这里需要根据实际游戏规则实现
-    bool canPlayCard = (phase == 1); // 假设阶段1是出牌阶段
-    bool canEndTurn = true;
+    bool isMyTurn = (state.current_player() == m_selfUserId);
+    bool canPlayCard = false;
+    bool canEndTurn = false;
     
-    m_playCardButton->setEnabled(canPlayCard && m_selectedCard != 0);
+    // 根据游戏阶段和是否是自己回合决定按钮状态
+    switch (phase) {
+    case 1: // 摸牌阶段
+        canPlayCard = false;
+        canEndTurn = isMyTurn;
+        break;
+    case 2: // 出牌阶段
+        canPlayCard = isMyTurn && m_selectedCard != 0;
+        canEndTurn = isMyTurn;
+        break;
+    case 3: // 弃牌阶段
+        canPlayCard = false;
+        canEndTurn = isMyTurn;
+        break;
+    default:
+        canPlayCard = false;
+        canEndTurn = false;
+    }
+    
+    m_playCardButton->setEnabled(canPlayCard);
     m_endTurnButton->setEnabled(canEndTurn);
+    
+    // 更新状态栏信息
+    if (isMyTurn) {
+        ui->statusbar->showMessage(tr("轮到您的回合，请操作"));
+    } else {
+        ui->statusbar->showMessage(tr("等待其他玩家操作"));
+    }
 }
 
 //玩家信息列表
@@ -655,16 +654,27 @@ void MainWindow::onMessageReceived(const sanguosha::GameMessage &message)
 void MainWindow::handleGameOver(const sanguosha::GameOver &gameOver)
 {
     QString message;
+    QString title;
+    
     if (gameOver.winner_id() == m_selfUserId) {
-        message = tr("恭喜！你获得了胜利！");
+        title = tr("胜利！");
+        message = tr("恭喜！您获得了游戏的胜利！");
     } else {
+        title = tr("游戏结束");
         message = tr("游戏结束，玩家%1获得了胜利").arg(gameOver.winner_id());
     }
     
-    QMessageBox::information(this, tr("游戏结束"), message);
+    // 显示游戏结果对话框
+    QMessageBox::information(this, title, message);
+    
+    // 添加游戏日志
+    addToGameLog(message);
     
     // 返回大厅界面
     showScreen(m_lobbyScreen);
+    
+    // 重置游戏状态
+    resetGameState();
 }
 
 //调试功能
@@ -683,4 +693,38 @@ void MainWindow::debugSendTestMessage()
     message.set_allocated_game_action(gameAction);
     m_networkManager->sendMessage(message);
     #endif
+}
+
+void MainWindow::addToGameLog(const QString &message)
+{
+    QString timestamp = QDateTime::currentDateTime().toString("hh:mm:ss");
+    m_gameLog->append(QString("[%1] %2").arg(timestamp).arg(message));
+    m_gameLog->moveCursor(QTextCursor::End);
+}
+
+void MainWindow::updateGameLog(const sanguosha::GameState &state)
+{
+    // 可以从游戏状态中提取日志信息，或者由服务器发送专门的日志消息
+    // 这里可以添加解析游戏状态生成日志的逻辑
+}
+
+void MainWindow::resetGameState()
+{
+    m_selectedCard = 0;
+    m_playCardButton->setEnabled(false);
+    m_endTurnButton->setEnabled(false);
+}
+
+void MainWindow::checkGameEndCondition(const sanguosha::GameState &state)
+{
+    // 检查是否有玩家死亡
+    for (int i = 0; i < state.players_size(); ++i) {
+        const sanguosha::PlayerState &player = state.players(i);
+        if (player.hp() <= 0) {
+            // 玩家死亡，游戏结束
+            addToGameLog(tr("玩家%1死亡").arg(player.player_id()));
+            // 服务器应该会发送GAME_OVER消息
+            return;
+        }
+    }
 }

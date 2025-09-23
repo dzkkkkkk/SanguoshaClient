@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package sanguosha;
+
+// 扩展消息类型
+enum MessageType {
+  UNKNOWN = 0;
+  LOGIN_REQUEST = 1;
+  LOGIN_RESPONSE = 2;
+  HEARTBEAT = 3;
+  ROOM_REQUEST = 4;
+  ROOM_RESPONSE = 5;
+  GAME_ACTION = 6;          // 新增：游戏操作
+  GAME_STATE = 7;           // 新增：游戏状态
+  GAME_START = 8;           // 新增：游戏开始
+  GAME_OVER = 10;           // 新增：游戏结束
+}
+
+// 登录请求
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+// 登录响应
+message LoginResponse {
+  bool success = 1;
+  string error_message = 2;
+  uint32 user_id = 3;
+}
+
+// 心跳消息
+message Heartbeat {
+  uint64 timestamp = 1;
+}
+
+// 房间操作类型
+enum RoomAction {
+  CREATE_ROOM = 0;
+  JOIN_ROOM = 1;
+  LEAVE_ROOM = 2;
+  START_GAME = 3;
+}
+
+// 房间信息
+message RoomInfo {
+  uint32 room_id = 1;
+  repeated uint32 players = 2;  // 玩家ID列表
+}
+
+// 房间请求
+message RoomRequest {
+  RoomAction action = 1;
+  uint32 room_id = 2;  // 用于加入/离开房间
+}
+
+// 房间响应
+message RoomResponse {
+  bool success = 1;
+  string error_message = 2;
+  RoomInfo room_info = 3;
+}
+
+// 卡牌类型
+enum CardType {
+  CARD_UNKNOWN = 0;
+  CARD_ATTACK = 1;   // 杀
+  CARD_DEFEND = 2;   // 闪  
+  CARD_HEAL = 3;     // 桃
+}
+
+// 游戏操作类型
+enum ActionType {
+  ACTION_PLAY_CARD = 0;
+  ACTION_END_TURN = 1;
+}
+
+// 游戏操作请求
+message GameAction {
+  ActionType type = 1;
+  uint32 card_id = 2;        // 出的牌ID
+  uint32 target_player = 3;  // 目标玩家
+}
+
+// 玩家状态
+message PlayerState {
+  uint32 player_id = 1;
+  string username = 2;
+  uint32 hp = 3;
+  uint32 max_hp = 4;
+  repeated uint32 hand_cards = 5;  // 手牌ID列表
+}
+
+// 游戏状态
+message GameState {
+  uint32 current_player = 1;
+  repeated PlayerState players = 2;
+  uint32 phase = 3;  // 回合阶段
+}
+
+// 游戏开始通知
+message GameStart {
+  uint32 room_id = 1;
+  repeated uint32 player_ids = 2;
+}
+
+// 扩展顶层消息容器
+message GameMessage {
+  MessageType type = 1;
+  oneof content {
+    LoginRequest login_request = 2;
+    LoginResponse login_response = 3;
+    Heartbeat heartbeat = 4;
+    RoomRequest room_request = 5;
+    RoomResponse room_response = 6;
+    GameAction game_action = 7;    // 新增
+    GameState game_state = 8;     // 新增
+    GameStart game_start = 9;     // 新增
+    GameOver game_over = 10;     // 新增
+  }
+}
+
+// 游戏结束通知
+message GameOver {
+  uint32 winner_id = 1;
+}

@@ -89,6 +89,15 @@ private:
     
     uint32_t m_selectedCard; // 当前选中的卡牌
     uint32_t m_selfUserId;   // 自己的用户ID
+
+    void updatePlayerInfoTable(const sanguosha::GameState &state);
+    void updateHandCards(const sanguosha::GameState &state);
+    void updateGameLog(const sanguosha::GameState &state);
+    void updateTurnInfo(const sanguosha::GameState &state);
+    void addCardToHand(uint32_t cardId);
+    QString getCardName(uint32_t cardId);
+    QString getCardColor(uint32_t cardId);
+    void handleGameOver(const sanguosha::GameOver &gameOver);
 };
 
 #endif // MAINWINDOW_H

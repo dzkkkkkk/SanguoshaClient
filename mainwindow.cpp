@@ -14,6 +14,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QLineEdit>
+#include "proto/sanguosha.pb.h"
 //#include <QFlowLayout> 拟删除
 
 
@@ -79,23 +80,7 @@ void MainWindow::onLoginButtonClicked(const QString &username, const QString &pa
     m_networkManager->sendMessage(message);
 }
 
-void MainWindow::handleGameState(const sanguosha::GameState &state)
-{
-    // 更新玩家信息表
-    updatePlayerInfoTable(state);
-    
-    // 更新手牌显示
-    updateHandCards(state);
-    
-    // 更新游戏日志
-    updateGameLog(state);
-    
-    // 更新回合信息
-    updateTurnInfo(state);
-    
-    // 更新按钮状态
-    updateButtonStates(state.phase());
-}
+
 
 // 房间创建
 void MainWindow::onCreateRoomClicked()
@@ -259,8 +244,10 @@ void MainWindow::handleGameStart(const sanguosha::GameStart &start)
 {
     ui->statusbar->showMessage(tr("游戏开始！"));
     
-    // 保存自己的用户ID
-    m_selfUserId = start.player_id();
+    // 修复：使用player_ids而不是player_id
+    if (start.player_ids_size() > 0) {
+        m_selfUserId = start.player_ids(0); // 假设第一个玩家是自己
+    }
     
     // 初始化游戏界面
     setupGameScreen();
@@ -270,7 +257,7 @@ void MainWindow::handleGameStart(const sanguosha::GameStart &start)
     m_gameLog->clear();
     m_gameLog->append(tr("游戏开始！"));
     
-    // 请求初始游戏状态
+    // 修复：使用正确的消息类型
     sanguosha::GameMessage message;
     message.set_type(sanguosha::GAME_STATE_REQUEST);
     m_networkManager->sendMessage(message);
@@ -650,18 +637,9 @@ void MainWindow::updateTurnInfo(const sanguosha::GameState &state)
                             .arg(phaseName));
 }
 
-void MainWindow::updateButtonStates(uint32_t phase)
-{
-    bool isMyTurn = false;
-    // 检查是否是自己的回合（需要从游戏状态中获取当前玩家）
-    
-    bool canPlayCard = (phase == sanguosha::PLAY_PHASE) && isMyTurn;
-    bool canEndTurn = isMyTurn;
-    
-    m_playCardButton->setEnabled(canPlayCard && m_selectedCard != 0);
-    m_endTurnButton->setEnabled(canEndTurn);
-}
 
+
+// 修复onMessageReceived函数
 void MainWindow::onMessageReceived(const sanguosha::GameMessage &message)
 {
     switch (message.type()) {

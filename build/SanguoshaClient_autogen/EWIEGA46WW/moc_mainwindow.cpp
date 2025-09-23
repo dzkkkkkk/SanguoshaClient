@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[36];
-    char stringdata0[542];
+    QByteArrayData data[39];
+    char stringdata0[586];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -66,7 +66,10 @@ QT_MOC_LITERAL(31, 456, 14), // "onCardSelected"
 QT_MOC_LITERAL(32, 471, 23), // "onPlayCardButtonClicked"
 QT_MOC_LITERAL(33, 495, 21), // "onCancelButtonClicked"
 QT_MOC_LITERAL(34, 517, 18), // "updateButtonStates"
-QT_MOC_LITERAL(35, 536, 5) // "phase"
+QT_MOC_LITERAL(35, 536, 5), // "phase"
+QT_MOC_LITERAL(36, 542, 14), // "handleGameOver"
+QT_MOC_LITERAL(37, 557, 19), // "sanguosha::GameOver"
+QT_MOC_LITERAL(38, 577, 8) // "gameOver"
 
     },
     "MainWindow\0onConnectionStatusChanged\0"
@@ -83,7 +86,8 @@ QT_MOC_LITERAL(35, 536, 5) // "phase"
     "sanguosha::GameState\0state\0handleGameStart\0"
     "sanguosha::GameStart\0start\0onCardSelected\0"
     "onPlayCardButtonClicked\0onCancelButtonClicked\0"
-    "updateButtonStates\0phase"
+    "updateButtonStates\0phase\0handleGameOver\0"
+    "sanguosha::GameOver\0gameOver"
 };
 #undef QT_MOC_LITERAL
 
@@ -93,7 +97,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -101,22 +105,23 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   94,    2, 0x08 /* Private */,
-       4,    1,   97,    2, 0x08 /* Private */,
-       7,    1,  100,    2, 0x08 /* Private */,
-       9,    2,  103,    2, 0x08 /* Private */,
-      12,    0,  108,    2, 0x08 /* Private */,
-      13,    1,  109,    2, 0x08 /* Private */,
-      16,    2,  112,    2, 0x08 /* Private */,
-      19,    0,  117,    2, 0x08 /* Private */,
-      20,    1,  118,    2, 0x08 /* Private */,
-      23,    1,  121,    2, 0x08 /* Private */,
-      25,    1,  124,    2, 0x08 /* Private */,
-      28,    1,  127,    2, 0x08 /* Private */,
-      31,    0,  130,    2, 0x08 /* Private */,
-      32,    0,  131,    2, 0x08 /* Private */,
-      33,    0,  132,    2, 0x08 /* Private */,
-      34,    1,  133,    2, 0x08 /* Private */,
+       1,    1,   99,    2, 0x08 /* Private */,
+       4,    1,  102,    2, 0x08 /* Private */,
+       7,    1,  105,    2, 0x08 /* Private */,
+       9,    2,  108,    2, 0x08 /* Private */,
+      12,    0,  113,    2, 0x08 /* Private */,
+      13,    1,  114,    2, 0x08 /* Private */,
+      16,    2,  117,    2, 0x08 /* Private */,
+      19,    0,  122,    2, 0x08 /* Private */,
+      20,    1,  123,    2, 0x08 /* Private */,
+      23,    1,  126,    2, 0x08 /* Private */,
+      25,    1,  129,    2, 0x08 /* Private */,
+      28,    1,  132,    2, 0x08 /* Private */,
+      31,    0,  135,    2, 0x08 /* Private */,
+      32,    0,  136,    2, 0x08 /* Private */,
+      33,    0,  137,    2, 0x08 /* Private */,
+      34,    1,  138,    2, 0x08 /* Private */,
+      36,    1,  141,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Bool,    3,
@@ -135,6 +140,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 14,   35,
+    QMetaType::Void, 0x80000000 | 37,   38,
 
        0        // eod
 };
@@ -161,6 +167,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 13: _t->onPlayCardButtonClicked(); break;
         case 14: _t->onCancelButtonClicked(); break;
         case 15: _t->updateButtonStates((*reinterpret_cast< uint32_t(*)>(_a[1]))); break;
+        case 16: _t->handleGameOver((*reinterpret_cast< const sanguosha::GameOver(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -195,13 +202,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 17;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 17)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 16;
+        _id -= 17;
     }
     return _id;
 }

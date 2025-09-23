@@ -656,3 +656,29 @@ void MainWindow::updateButtonStates(uint32_t phase)
     m_playCardButton->setEnabled(canPlayCard && m_selectedCard != 0);
     m_endTurnButton->setEnabled(canEndTurn);
 }
+
+void MainWindow::onMessageReceived(const sanguosha::GameMessage &message)
+{
+    switch (message.type()) {
+    // ... 其他case语句
+    case sanguosha::GAME_OVER:
+        handleGameOver(message.game_over());
+        break;
+    // ...
+    }
+}
+
+void MainWindow::handleGameOver(const sanguosha::GameOver &gameOver)
+{
+    QString message;
+    if (gameOver.winner_id() == m_selfUserId) {
+        message = tr("恭喜！你获得了胜利！");
+    } else {
+        message = tr("游戏结束，玩家%1获得了胜利").arg(gameOver.winner_id());
+    }
+    
+    QMessageBox::information(this, tr("游戏结束"), message);
+    
+    // 返回大厅界面
+    showScreen(m_lobbyScreen);
+}

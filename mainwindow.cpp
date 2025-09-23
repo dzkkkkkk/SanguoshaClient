@@ -555,3 +555,63 @@ void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state)
         }
     }
 }
+
+//手牌显示
+void MainWindow::updateHandCards(const sanguosha::GameState &state)
+{
+    // 清除现有手牌
+    QLayoutItem *item;
+    while ((item = m_handCardsLayout->takeAt(0)) != nullptr) {
+        delete item->widget();
+        delete item;
+    }
+    
+    // 查找当前玩家手牌
+    for (int i = 0; i < state.players_size(); ++i) {
+        const sanguosha::PlayerState &player = state.players(i);
+        if (player.player_id() == m_selfUserId) {
+            // 添加手牌按钮
+            for (int j = 0; j < player.hand_cards_size(); ++j) {
+                uint32_t cardId = player.hand_cards(j);
+                addCardToHand(cardId);
+            }
+            break;
+        }
+    }
+}
+
+//添加手牌
+void MainWindow::addCardToHand(uint32_t cardId)
+{
+    QPushButton *cardButton = new QPushButton(getCardName(cardId));
+    cardButton->setProperty("cardId", cardId);
+    cardButton->setMinimumSize(80, 120);
+    cardButton->setMaximumSize(80, 120);
+    
+    // 根据卡牌类型设置不同颜色
+    QString style = QString("QPushButton { background-color: %1; border: 2px solid black; }")
+                   .arg(getCardColor(cardId));
+    cardButton->setStyleSheet(style);
+    
+    connect(cardButton, &QPushButton::clicked, this, &MainWindow::onCardSelected);
+    m_handCardsLayout->addWidget(cardButton);
+}
+
+QString MainWindow::getCardName(uint32_t cardId)
+{
+    // 简单的卡牌ID到名称映射
+    static QMap<uint32_t, QString> cardNames = {
+        {1, "杀"}, {2, "闪"}, {3, "桃"},
+        {4, "过河拆桥"}, {5, "顺手牵羊"}, {6, "无中生有"}
+    };
+    return cardNames.value(cardId, QString::number(cardId));
+}
+
+QString MainWindow::getCardColor(uint32_t cardId)
+{
+    // 根据卡牌类型设置颜色
+    if (cardId == 1) return "#ff6666"; // 杀 - 红色
+    if (cardId == 2) return "#66aaff"; // 闪 - 蓝色  
+    if (cardId == 3) return "#66ff66"; // 桃 - 绿色
+    return "#ffff66"; // 其他 - 黄色
+}

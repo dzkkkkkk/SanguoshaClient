@@ -55,6 +55,8 @@ private slots:
     void onCancelButtonClicked();
     void updateButtonStates(uint32_t phase);
     
+    void handleGameOver(const sanguosha::GameOver &gameOver);
+
 private:
     Ui::MainWindow *ui;
     NetworkManager *m_networkManager;
@@ -65,6 +67,7 @@ private:
     void setupLoginScreen();    // 初始化登录界面
     void setupLobbyScreen();    // 初始化大厅界面
     void showScreen(QWidget *screen); // 用于切换界面
+    void debugSendTestMessage(); // 测试用
 
     QWidget *m_loginScreen;     // 登录界面控件容器
     QWidget *m_lobbyScreen;     // 大厅界面控件容器

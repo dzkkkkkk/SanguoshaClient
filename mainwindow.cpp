@@ -126,8 +126,13 @@ void MainWindow::onJoinRoomClicked(uint32_t roomId)
 
 void MainWindow::onErrorOccurred(const QString &errorString)
 {
-    // 显示错误信息
-    ui->statusbar->showMessage(tr("Error: %1").arg(errorString));
+    QMessageBox::critical(this, tr("网络错误"), 
+                         tr("发生网络错误: %1").arg(errorString));
+    
+    // 尝试重新连接
+    QTimer::singleShot(3000, this, [this]() {
+        m_networkManager->connectToServer("127.0.0.1", 9527);
+    });
 }
 
 // 基本游戏操作
@@ -681,4 +686,22 @@ void MainWindow::handleGameOver(const sanguosha::GameOver &gameOver)
     
     // 返回大厅界面
     showScreen(m_lobbyScreen);
+}
+
+//调试功能
+void MainWindow::debugSendTestMessage()
+{
+    // 仅在调试模式下使用
+    #ifdef QT_DEBUG
+    sanguosha::GameMessage message;
+    message.set_type(sanguosha::GAME_ACTION);
+    
+    sanguosha::GameAction* gameAction = new sanguosha::GameAction();
+    gameAction->set_type(sanguosha::ACTION_PLAY_CARD);
+    gameAction->set_card_id(1); // 测试卡牌
+    gameAction->set_target_player(2); // 测试目标
+    
+    message.set_allocated_game_action(gameAction);
+    m_networkManager->sendMessage(message);
+    #endif
 }

@@ -44,8 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
     // 默认显示登录界面
     showScreen(m_loginScreen);
 
-    // ... 其他现有的连接信号槽的代码
-    connect(m_networkManager, &NetworkManager::connected, this, &MainWindow::onConnectionStatusChanged);
+    // 修改连接信号槽的代码
+    connect(m_networkManager, &NetworkManager::connected, this, [this]() { onConnectionStatusChanged(true); });
     connect(m_networkManager, &NetworkManager::disconnected, this, [this]() { onConnectionStatusChanged(false); });
 
     connect(m_networkManager, &NetworkManager::loginResponseReceived, this, &MainWindow::handleLoginResponse);

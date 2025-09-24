@@ -175,6 +175,7 @@ CMakeFiles/SanguoshaClient.dir/SanguoshaClient_autogen/mocs_compilation.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o
+ ../proto/sanguosha.pb.h
  /home/dzkkkkk/SanguoshaClient/main.cpp
  /home/dzkkkkk/SanguoshaClient/mainwindow.h
  /home/dzkkkkk/SanguoshaClient/network/networkmanager.h
@@ -353,6 +354,7 @@ CMakeFiles/SanguoshaClient.dir/main.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o
+ ../proto/sanguosha.pb.h
  /home/dzkkkkk/SanguoshaClient/mainwindow.cpp
  /home/dzkkkkk/SanguoshaClient/mainwindow.h
  /home/dzkkkkk/SanguoshaClient/network/networkmanager.h
@@ -544,13 +546,7 @@ CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
  SanguoshaClient_autogen/include/ui_mainwindow.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o
- ../proto/sanguosha.pb.h
  /home/dzkkkkk/SanguoshaClient/network/networkmanager.cpp
- /home/dzkkkkk/SanguoshaClient/network/networkmanager.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QDataStream
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h
@@ -558,7 +554,6 @@ CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_cxx11.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_msvc.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasicatomic.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasictimer.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearraylist.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h
@@ -568,8 +563,6 @@ CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontainerfwd.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qgenericatomic.h
@@ -612,17 +605,14 @@ CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qtimer.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QHostAddress
- /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QTcpSocket
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qabstractsocket.h
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qhostaddress.h
- /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtnetwork-config.h
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtnetworkglobal.h
 CMakeFiles/SanguoshaClient.dir/proto/sanguosha.pb.cc.o

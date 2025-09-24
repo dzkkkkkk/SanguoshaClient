@@ -1,200 +1,153 @@
-#include "networkmanager.h"
-#include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include "network_manager.h"
 #include <QHostAddress>
-#include <QDataStream>  // 确保这行存在
-#include <QDateTime>    // 确保这行存在
+#include <google/protobuf/io/coded_stream.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <stdexcept>
+#include <arpa/inet.h>
 
-NetworkManager::NetworkManager(QObject *parent)
-    : QObject(parent)
-    , m_socket(new QTcpSocket(this))
-    , m_heartbeatTimer(new QTimer(this))
-    , m_messageSize(0)
-{
-    // 设置低延迟选项
-    m_socket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
-
-    // 连接信号槽
-    connect(m_socket, &QTcpSocket::connected, [this]() {
-        m_heartbeatTimer->start();
-    });
-    connect(m_socket, &QTcpSocket::disconnected, this, &NetworkManager::onDisconnected);
-    connect(m_socket, &QTcpSocket::readyRead, this, &NetworkManager::onReadyRead);
-    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
-            this, &NetworkManager::onError);
-
-    // 设置心跳定时器（每30秒发送一次）
-    m_heartbeatTimer->setInterval(30000);
+NetworkManager& NetworkManager::instance() {
+    static NetworkManager instance;
+    return instance;
 }
 
-NetworkManager::~NetworkManager()
-{
-    disconnectFromServer();
-}
-
-void NetworkManager::connectToServer(const QString &host, quint16 port)
-{
-    if (m_socket->state() != QAbstractSocket::UnconnectedState) {
-        m_socket->abort();
-    }
+NetworkManager::NetworkManager(QObject *parent) 
+    : QObject(parent), 
+      m_socket(new QTcpSocket(this)),
+      m_heartbeatTimer(new QTimer(this)),
+      m_expectedBodySize(0),
+      m_headerRead(false) {
     
+    connect(m_socket, &QTcpSocket::connected, this, &NetworkManager::onConnected);
+    connect(m_socket, &QTcpSocket::readyRead, this, &NetworkManager::onReadyRead);
+    connect(m_socket, &QTcpSocket::disconnected, this, &NetworkManager::disconnected);
+    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::errorOccurred),
+            this, &NetworkManager::onErrorOccurred);
+    
+    connect(m_heartbeatTimer, &QTimer::timeout, this, &NetworkManager::sendHeartbeat);
+    m_heartbeatTimer->setInterval(25000); // 25秒发送一次心跳
+}
+
+NetworkManager::~NetworkManager() {
+    m_heartbeatTimer->stop();
+    if (m_socket->state() == QAbstractSocket::ConnectedState) {
+        m_socket->disconnectFromHost();
+    }
+}
+
+void NetworkManager::connectToServer(const QString& host, quint16 port) {
     m_socket->connectToHost(host, port);
 }
 
-void NetworkManager::disconnectFromServer()
-{
-    m_heartbeatTimer->stop();
-    m_socket->disconnectFromHost();
-}
-
-bool NetworkManager::isConnected() const
-{
+bool NetworkManager::isConnected() const {
     return m_socket->state() == QAbstractSocket::ConnectedState;
 }
 
-void NetworkManager::sendMessage(const sanguosha::GameMessage &message)
-{
-    if (!isConnected()) {
-        emit errorOccurred(tr("Not connected to server"));
-        return;
-    }
-
-    // 序列化消息
-    std::string serializedMessage;
-    if (!message.SerializeToString(&serializedMessage)) {
-        emit errorOccurred(tr("Failed to serialize message"));
-        return;
-    }
-
-    // 创建数据包：4字节消息长度 + 消息体
-    QByteArray packet;
-    QDataStream stream(&packet, QIODevice::WriteOnly);
-    stream.setVersion(QDataStream::Qt_5_0); // 或其他适合
-    
-    // 写入消息长度
-    quint32 messageSize = static_cast<quint32>(serializedMessage.size());
-    stream << messageSize;
-    
-    // 写入消息体
-    packet.append(serializedMessage.data(), messageSize);
-
-    // 发送数据
-    m_socket->write(packet);
-}
-
-void NetworkManager::onConnected()
-{
-    emit connectionStatusChanged(true);
-}
-
-void NetworkManager::onDisconnected()
-{
-    m_heartbeatTimer->stop();
+void NetworkManager::onConnected() {
+    m_heartbeatTimer->start();
     m_buffer.clear();
-    m_messageSize = 0;
-    emit connectionStatusChanged(false);
+    m_expectedBodySize = 0;
+    m_headerRead = false;
+    emit connected();
 }
 
-void NetworkManager::onReadyRead()
-{
-    // 将新数据添加到缓冲区
-    m_buffer.append(m_socket->readAll());
-
-    // 处理缓冲区中的所有完整消息
-    while (true) {
-        // 如果还不知道消息大小，尝试读取
-        if (m_messageSize == 0) {
-            if (!readMessageSize()) {
-                break; // 没有足够的数据读取消息大小
-            }
+void NetworkManager::onReadyRead() {
+    QByteArray data = m_socket->readAll();
+    m_buffer.insert(m_buffer.end(), data.begin(), data.end());
+    
+    while (!m_buffer.empty()) {
+        if (!m_headerRead && m_buffer.size() >= 4) {
+            // 读取消息头（4字节长度）
+            uint32_t net_size;
+            memcpy(&net_size, m_buffer.data(), 4);
+            m_expectedBodySize = ntohl(net_size);
+            m_headerRead = true;
+            
+            // 移除已处理的头数据
+            m_buffer.erase(m_buffer.begin(), m_buffer.begin() + 4);
+            continue;
         }
-
-        // 检查是否有足够的数据读取消息体
-        if (m_buffer.size() < static_cast<int>(sizeof(quint32) + m_messageSize)) {
-            break; // 没有足够的数据读取完整消息
+        
+        if (m_headerRead && m_buffer.size() >= m_expectedBodySize) {
+            // 读取完整的消息体
+            std::vector<char> messageData(m_buffer.begin(), m_buffer.begin() + m_expectedBodySize);
+            parseMessage(messageData);
+            
+            // 移除已处理的消息体数据
+            m_buffer.erase(m_buffer.begin(), m_buffer.begin() + m_expectedBodySize);
+            m_headerRead = false;
+            m_expectedBodySize = 0;
+            continue;
         }
-
-        // 读取消息体
-        if (!readMessageBody()) {
-            break; // 消息解析失败
-        }
+        
+        break; // 数据不足，等待下次接收
     }
 }
 
-void NetworkManager::onError(QAbstractSocket::SocketError error)
-{
-    QString errorMsg;
-    switch (error) {
-    case QAbstractSocket::ConnectionRefusedError:
-        errorMsg = tr("Connection refused");
+void NetworkManager::parseMessage(const std::vector<char>& buffer) {
+    sanguosha::GameMessage message;
+    if (!message.ParseFromArray(buffer.data(), buffer.size())) {
+        qWarning() << "Failed to parse message from server";
+        return;
+    }
+    
+    switch (message.type()) {
+    case sanguosha::LOGIN_RESPONSE:
+        emit loginResponseReceived(message.login_response());
         break;
-    case QAbstractSocket::RemoteHostClosedError:
-        errorMsg = tr("Remote host closed connection");
+    case sanguosha::ROOM_RESPONSE:
+        emit roomResponseReceived(message.room_response());
         break;
-    case QAbstractSocket::HostNotFoundError:
-        errorMsg = tr("Host not found");
+    case sanguosha::GAME_STATE:
+        emit gameStateReceived(message.game_state());
         break;
-    case QAbstractSocket::SocketTimeoutError:
-        errorMsg = tr("Connection timeout");
+    case sanguosha::GAME_START:
+        emit gameStartReceived(message.game_start());
+        break;
+    case sanguosha::HEARTBEAT:
+        // 心跳包，无需处理
         break;
     default:
-        errorMsg = m_socket->errorString();
+        qWarning() << "Unknown message type received:" << message.type();
+        break;
     }
-    emit errorOccurred(errorMsg);
 }
 
-void NetworkManager::sendHeartbeat()
-{
+void NetworkManager::sendMessage(const sanguosha::GameMessage& message) {
+    if (!isConnected()) {
+        qWarning() << "Not connected to server";
+        return;
+    }
+    
+    // 编码消息（复用服务器相同的逻辑）
+    size_t body_size = message.ByteSizeLong();
+    size_t total_size = 4 + body_size;
+    
+    std::vector<char> buffer(total_size);
+    uint32_t net_size = htonl(static_cast<uint32_t>(body_size));
+    memcpy(buffer.data(), &net_size, 4);
+    message.SerializeToArray(buffer.data() + 4, body_size);
+    
+    m_socket->write(buffer.data(), total_size);
+}
+
+void NetworkManager::sendHeartbeat() {
     sanguosha::GameMessage message;
     message.set_type(sanguosha::HEARTBEAT);
-    
-    sanguosha::Heartbeat *heartbeat = new sanguosha::Heartbeat();
-    heartbeat->set_timestamp(QDateTime::currentDateTime().toMSecsSinceEpoch());
-    
-    message.set_allocated_heartbeat(heartbeat);
-    
     sendMessage(message);
 }
 
-bool NetworkManager::readMessageSize()
-{
-    // 检查是否有足够的数据读取消息大小（4字节）
-    if (m_buffer.size() < static_cast<int>(sizeof(quint32))) {
-        return false;
-    }
-
-    // 从缓冲区读取消息大小
-    QDataStream stream(m_buffer);
-    stream.setVersion(QDataStream::Qt_5_0); // 或其他适合
-    stream >> m_messageSize;
-
-    // 移除已读取的消息大小数据
-    m_buffer = m_buffer.mid(sizeof(quint32));
-
-    return true;
+void NetworkManager::login(const QString& username) {
+    sanguosha::GameMessage message;
+    message.set_type(sanguosha::LOGIN_REQUEST);
+    message.mutable_login_request()->set_username(username.toStdString());
+    sendMessage(message);
 }
 
-bool NetworkManager::readMessageBody()
-{
-    // 检查是否有足够的数据读取消息体
-    if (m_buffer.size() < static_cast<int>(m_messageSize)) {
-        return false;
-    }
+void NetworkManager::onDisconnected() {
+    m_heartbeatTimer->stop();
+    emit disconnected();
+}
 
-    // 提取消息体数据
-    QByteArray messageData = m_buffer.left(m_messageSize);
-    m_buffer = m_buffer.mid(m_messageSize);
-
-    // 解析Protocol Buffers消息
-    sanguosha::GameMessage message;
-    if (message.ParseFromArray(messageData.constData(), messageData.size())) {
-        emit messageReceived(message);
-    } else {
-        emit errorOccurred(tr("Failed to parse message from server"));
-    }
-
-    // 重置消息大小，准备读取下一条消息
-    m_messageSize = 0;
-
-    return true;
+void NetworkManager::onErrorOccurred(QAbstractSocket::SocketError error) {
+    emit errorOccurred(m_socket->errorString());
 }

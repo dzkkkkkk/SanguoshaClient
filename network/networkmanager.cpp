@@ -4,6 +4,7 @@
 #include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 #include <stdexcept>
 #include <arpa/inet.h>
+#include <cstring>  // 添加这行
 
 NetworkManager& NetworkManager::instance() {
     static NetworkManager instance;
@@ -52,6 +53,7 @@ void NetworkManager::onConnected() {
 
 void NetworkManager::onReadyRead() {
     QByteArray data = m_socket->readAll();
+    qDebug() << "Received" << data.size() << "bytes from server";
     m_buffer.insert(m_buffer.end(), data.begin(), data.end());
     
     while (!m_buffer.empty()) {
@@ -115,22 +117,38 @@ void NetworkManager::parseMessage(const std::vector<char>& buffer) {
     }
 }
 
+// 在NetworkManager::sendMessage中，确保编码正确
 void NetworkManager::sendMessage(const sanguosha::GameMessage& message) {
     if (!isConnected()) {
         qWarning() << "Not connected to server";
         return;
     }
     
-    // 编码消息（复用服务器相同的逻辑）
+    // 计算消息体大小
     size_t body_size = message.ByteSizeLong();
     size_t total_size = 4 + body_size;
     
     std::vector<char> buffer(total_size);
-    uint32_t net_size = htonl(static_cast<uint32_t>(body_size));
-    memcpy(buffer.data(), &net_size, 4);
-    message.SerializeToArray(buffer.data() + 4, body_size);
     
-    m_socket->write(buffer.data(), total_size);
+    // 写入消息头（长度）- 使用网络字节序
+    uint32_t net_size = htonl(static_cast<uint32_t>(body_size));
+    memcpy(buffer.data(), &net_size, 4);  // 去掉 std:: 前缀
+    
+    // 写入消息体
+    if (!message.SerializeToArray(buffer.data() + 4, body_size)) {
+        qWarning() << "Failed to serialize message";
+        return;
+    }
+    
+    // 发送完整消息
+    qint64 bytesWritten = m_socket->write(buffer.data(), total_size);
+    if (bytesWritten == -1) {
+        qWarning() << "Write error:" << m_socket->errorString();
+    } else if (bytesWritten != total_size) {
+        qWarning() << "Incomplete write:" << bytesWritten << "of" << total_size;
+    }
+    
+    m_socket->flush(); // 确保数据被发送
 }
 
 void NetworkManager::sendHeartbeat() {

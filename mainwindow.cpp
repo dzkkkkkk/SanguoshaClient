@@ -200,24 +200,29 @@ void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 
 
 // 处理游戏状态更新
-void MainWindow::handleGameState(const sanguosha::GameState &state)
-{
-    // 1. 更新玩家信息表
+void MainWindow::handleGameState(const sanguosha::GameState& state) {
+    // 更新玩家信息
     updatePlayerInfoTable(state);
-    
-    // 2. 更新手牌显示
+
+    // 更新手牌
     updateHandCards(state);
-    
-    // 3. 更新回合信息
+
+    // 更新回合信息
     updateTurnInfo(state);
-    
-    // 4. 根据游戏阶段启用/禁用按钮
-    //updateButtonStates(state.phase());
+
+    // 确定是否是我的回合
     bool isMyTurn = (state.current_player() == m_selfUserId);
+
+    // 更新按钮状态
     updateButtonStates(state.phase(), isMyTurn);
-    
-    // 5. 检查游戏是否结束
+
+    // 检查游戏结束条件
     checkGameEndCondition(state);
+
+    // 更新游戏日志
+    if (!state.game_log().empty()) {
+        addToGameLog(QString::fromStdString(state.game_log()));
+    }
 }
 
 // 处理游戏开始
@@ -429,48 +434,31 @@ void MainWindow::onCardSelected()
     }
 }
 
-void MainWindow::onPlayCardButtonClicked()
-{
+// 修改onPlayCardButtonClicked，直接确定目标
+void MainWindow::onPlayCardButtonClicked() {
     if (m_selectedCard == 0) return;
-    
-    // 这里需要根据游戏逻辑确定目标玩家
-    // 暂时简化：弹出对话框选择目标
-    QDialog dialog(this);
-    QVBoxLayout layout(&dialog);
-    QComboBox playerCombo;
-    
-    // 添加玩家选项
-    for (int i = 0; i < m_playerInfoTable->rowCount(); ++i) {
-        int playerId = m_playerInfoTable->item(i, 0)->text().toInt();
-        QString playerName = m_playerInfoTable->item(i, 1)->text();
-        if (playerId != m_selfUserId) { // 不能选择自己
-            playerCombo.addItem(QString("%1: %2").arg(playerId).arg(playerName), playerId);
-        }
-    }
-    
-    layout.addWidget(new QLabel(tr("选择目标玩家:")));
-    layout.addWidget(&playerCombo);
-    QDialogButtonBox buttons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    layout.addWidget(&buttons);
-    
-    connect(&buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
-    connect(&buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
-    
-    if (dialog.exec() == QDialog::Accepted) {
-        uint32_t targetPlayer = playerCombo.currentData().toUInt();
-        onPlayCardClicked(m_selectedCard, targetPlayer);
-        
-        // 重置选择状态
-        m_selectedCard = 0;
-        m_playCardButton->setEnabled(false);
-        
-        // 清除高亮
-        for (int i = 0; i < m_handCardsLayout->count(); ++i) {
-            if (QPushButton *btn = qobject_cast<QPushButton*>(m_handCardsLayout->itemAt(i)->widget())) {
-                btn->setStyleSheet("");
+
+    // 在1v1中，目标要么是对手，要么是自己（对于桃）
+    uint32_t targetPlayer = m_selfUserId; // 默认是自己
+    QString cardName = getCardName(m_selectedCard);
+
+    // 如果是杀，目标是对手
+    if (cardName == "杀") {
+        // 查找对手ID
+        for (int i = 0; i < m_playerInfoTable->rowCount(); ++i) {
+            int playerId = m_playerInfoTable->item(i, 0)->text().toInt();
+            if (playerId != m_selfUserId) {
+                targetPlayer = playerId;
+                break;
             }
         }
     }
+
+    onPlayCardClicked(m_selectedCard, targetPlayer);
+
+    // 重置选择状态
+    m_selectedCard = 0;
+    m_playCardButton->setEnabled(false);
 }
 
 void MainWindow::onCancelButtonClicked()
@@ -657,34 +645,17 @@ void MainWindow::onMessageReceived(const sanguosha::GameMessage &message)
     }
 }
 
-void MainWindow::handleGameOver(const sanguosha::GameOver &gameOver)
-{
-    QString message;
-    QString title;
-    
+void MainWindow::handleGameOver(const sanguosha::GameOver& gameOver) {
     if (gameOver.winner_id() == m_selfUserId) {
-        title = tr("胜利！");
-        message = tr("恭喜！您获得了游戏的胜利！");
+        addToGameLog("恭喜！你获得了胜利！");
+        QMessageBox::information(this, "游戏结束", "你赢了！");
     } else {
-        title = tr("游戏结束");
-        message = tr("游戏结束，玩家%1获得了胜利").arg(gameOver.winner_id());
+        addToGameLog("游戏结束，你输了。");
+        QMessageBox::information(this, "游戏结束", "你输了！");
     }
     
-    // 显示游戏结果对话框
-    QMessageBox::information(this, title, message);
-    
-    // 添加游戏日志
-    //addToGameLog(message);    移除
-    m_gameLog->append(message);
-    
-    // 返回大厅界面
+    // 返回大厅
     showScreen(m_lobbyScreen);
-    
-    // 重置游戏状态
-    //resetGameState();  移除
-    m_selectedCard = 0;
-    m_playCardButton->setEnabled(false);
-    m_endTurnButton->setEnabled(false);
 }
 
 //调试功能

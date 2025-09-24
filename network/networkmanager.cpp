@@ -103,6 +103,9 @@ void NetworkManager::parseMessage(const std::vector<char>& buffer) {
     case sanguosha::GAME_START:
         emit gameStartReceived(message.game_start());
         break;
+    case sanguosha::GAME_OVER:
+        emit gameOverReceived(message.game_over());
+        break;
     case sanguosha::HEARTBEAT:
         // 心跳包，无需处理
         break;

@@ -545,7 +545,11 @@ CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/q
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: SanguoshaClient_autogen/include/ui_mainwindow.h
 
+CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: ../proto/sanguosha.pb.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: ../network/networkmanager.cpp
+CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: ../network/networkmanager.h
+CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
+CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h
@@ -553,6 +557,7 @@ CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_cxx11.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_msvc.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasicatomic.h
+CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasictimer.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearraylist.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h
@@ -604,14 +609,17 @@ CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h
+CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtimer.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QHostAddress
+CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QTcpSocket
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qabstractsocket.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qhostaddress.h
+CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtnetwork-config.h
 CMakeFiles/SanguoshaClient.dir/network/networkmanager.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtnetworkglobal.h
 

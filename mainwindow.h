@@ -54,6 +54,13 @@ private slots:
     
     void handleGameOver(const sanguosha::GameOver &gameOver);
 
+    void onConnected();
+    void onDisconnected();
+    void onLoginResponseReceived(const sanguosha::LoginResponse &response);
+    void onRoomResponseReceived(const sanguosha::RoomResponse &response);
+    void onGameStateReceived(const sanguosha::GameState &state);
+    void onGameStartReceived(const sanguosha::GameStart &start);
+    
 private:
     Ui::MainWindow *ui;
     NetworkManager *m_networkManager;

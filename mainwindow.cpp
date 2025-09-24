@@ -21,7 +21,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , m_networkManager(new NetworkManager(this))
+    , m_networkManager(&NetworkManager::instance())
     , m_loginScreen(nullptr)
     , m_lobbyScreen(nullptr)
     , m_gameScreen(nullptr)
@@ -45,9 +45,13 @@ MainWindow::MainWindow(QWidget *parent)
     showScreen(m_loginScreen);
 
     // ... 其他现有的连接信号槽的代码
-    connect(m_networkManager, &NetworkManager::connectionStatusChanged, this, &MainWindow::onConnectionStatusChanged);
-    connect(m_networkManager, &NetworkManager::messageReceived, this, &MainWindow::onMessageReceived);
-    connect(m_networkManager, &NetworkManager::errorOccurred, this, &MainWindow::onErrorOccurred);
+    connect(m_networkManager, &NetworkManager::connected, this, &MainWindow::onConnectionStatusChanged);
+    connect(m_networkManager, &NetworkManager::disconnected, this, [this]() { onConnectionStatusChanged(false); });
+
+    connect(m_networkManager, &NetworkManager::loginResponseReceived, this, &MainWindow::handleLoginResponse);
+    connect(m_networkManager, &NetworkManager::roomResponseReceived, this, &MainWindow::handleRoomResponse);
+    connect(m_networkManager, &NetworkManager::gameStateReceived, this, &MainWindow::handleGameState);
+    connect(m_networkManager, &NetworkManager::gameStartReceived, this, &MainWindow::handleGameStart);
 
     // 连接到服务器，端口号已改为9527
     m_networkManager->connectToServer("127.0.0.1", 9527);

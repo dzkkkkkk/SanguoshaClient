@@ -1,4 +1,4 @@
-#include "network_manager.h"
+#include "networkmanager.h"
 #include <QHostAddress>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl_lite.h>
@@ -20,8 +20,8 @@ NetworkManager::NetworkManager(QObject *parent)
     connect(m_socket, &QTcpSocket::connected, this, &NetworkManager::onConnected);
     connect(m_socket, &QTcpSocket::readyRead, this, &NetworkManager::onReadyRead);
     connect(m_socket, &QTcpSocket::disconnected, this, &NetworkManager::disconnected);
-    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::errorOccurred),
-            this, &NetworkManager::onErrorOccurred);
+    connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
+        this, SLOT(onErrorOccurred(QAbstractSocket::SocketError)));
     
     connect(m_heartbeatTimer, &QTimer::timeout, this, &NetworkManager::sendHeartbeat);
     m_heartbeatTimer->setInterval(25000); // 25秒发送一次心跳

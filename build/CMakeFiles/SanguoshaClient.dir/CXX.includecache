@@ -183,8 +183,8 @@ network/networkmanager.h
 /home/dzkkkkk/SanguoshaClient/network/networkmanager.h
 
 /home/dzkkkkk/SanguoshaClient/network/networkmanager.cpp
-network_manager.h
-/home/dzkkkkk/SanguoshaClient/network/network_manager.h
+networkmanager.h
+/home/dzkkkkk/SanguoshaClient/network/networkmanager.h
 QHostAddress
 -
 google/protobuf/io/coded_stream.h

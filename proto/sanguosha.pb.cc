@@ -30,6 +30,7 @@ extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::i
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_RoomInfo;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_RoomRequest;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_GameState;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_RoomListResponse;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_RoomResponse;
 }  // namespace protobuf_sanguosha_2eproto
 namespace sanguosha {
@@ -101,6 +102,7 @@ class GameMessageDefaultTypeInternal {
   const ::sanguosha::GameState* game_state_;
   const ::sanguosha::GameStart* game_start_;
   const ::sanguosha::GameOver* game_over_;
+  const ::sanguosha::RoomListResponse* room_list_response_;
 } _GameMessage_default_instance_;
 class GameOverDefaultTypeInternal {
  public:
@@ -277,8 +279,8 @@ static void InitDefaultsGameMessage() {
   ::sanguosha::GameMessage::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<9> scc_info_GameMessage =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 9, InitDefaultsGameMessage}, {
+::google::protobuf::internal::SCCInfo<10> scc_info_GameMessage =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 10, InitDefaultsGameMessage}, {
       &protobuf_sanguosha_2eproto::scc_info_LoginRequest.base,
       &protobuf_sanguosha_2eproto::scc_info_LoginResponse.base,
       &protobuf_sanguosha_2eproto::scc_info_Heartbeat.base,
@@ -287,7 +289,8 @@ static void InitDefaultsGameMessage() {
       &protobuf_sanguosha_2eproto::scc_info_GameAction.base,
       &protobuf_sanguosha_2eproto::scc_info_GameState.base,
       &protobuf_sanguosha_2eproto::scc_info_GameStart.base,
-      &protobuf_sanguosha_2eproto::scc_info_GameOver.base,}};
+      &protobuf_sanguosha_2eproto::scc_info_GameOver.base,
+      &protobuf_sanguosha_2eproto::scc_info_RoomListResponse.base,}};
 
 static void InitDefaultsGameOver() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -424,6 +427,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   offsetof(::sanguosha::GameMessageDefaultTypeInternal, game_state_),
   offsetof(::sanguosha::GameMessageDefaultTypeInternal, game_start_),
   offsetof(::sanguosha::GameMessageDefaultTypeInternal, game_over_),
+  offsetof(::sanguosha::GameMessageDefaultTypeInternal, room_list_response_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::GameMessage, content_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::GameOver, _internal_metadata_),
@@ -445,7 +449,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 70, -1, sizeof(::sanguosha::GameState)},
   { 79, -1, sizeof(::sanguosha::GameStart)},
   { 86, -1, sizeof(::sanguosha::GameMessage)},
-  { 102, -1, sizeof(::sanguosha::GameOver)},
+  { 103, -1, sizeof(::sanguosha::GameOver)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -507,7 +511,7 @@ void AddDescriptorsImpl() {
       "ayer\030\001 \001(\r\022\'\n\007players\030\002 \003(\0132\026.sanguosha."
       "PlayerState\022#\n\005phase\030\003 \001(\0162\024.sanguosha.G"
       "amePhase\022\020\n\010game_log\030\004 \001(\t\"0\n\tGameStart\022"
-      "\017\n\007room_id\030\001 \001(\r\022\022\n\nplayer_ids\030\002 \003(\r\"\341\003\n"
+      "\017\n\007room_id\030\001 \001(\r\022\022\n\nplayer_ids\030\002 \003(\r\"\234\004\n"
       "\013GameMessage\022$\n\004type\030\001 \001(\0162\026.sanguosha.M"
       "essageType\0220\n\rlogin_request\030\002 \001(\0132\027.sang"
       "uosha.LoginRequestH\000\0222\n\016login_response\030\003"
@@ -519,26 +523,28 @@ void AddDescriptorsImpl() {
       "guosha.GameActionH\000\022*\n\ngame_state\030\010 \001(\0132"
       "\024.sanguosha.GameStateH\000\022*\n\ngame_start\030\t "
       "\001(\0132\024.sanguosha.GameStartH\000\022(\n\tgame_over"
-      "\030\n \001(\0132\023.sanguosha.GameOverH\000B\t\n\007content"
-      "\"\035\n\010GameOver\022\021\n\twinner_id\030\001 \001(\r*\374\001\n\013Mess"
-      "ageType\022\013\n\007UNKNOWN\020\000\022\021\n\rLOGIN_REQUEST\020\001\022"
-      "\022\n\016LOGIN_RESPONSE\020\002\022\r\n\tHEARTBEAT\020\003\022\020\n\014RO"
-      "OM_REQUEST\020\004\022\021\n\rROOM_RESPONSE\020\005\022\017\n\013GAME_"
-      "ACTION\020\006\022\016\n\nGAME_STATE\020\007\022\016\n\nGAME_START\020\010"
-      "\022\r\n\tGAME_OVER\020\n\022\026\n\022GAME_STATE_REQUEST\020\013\022"
-      "\025\n\021ROOM_LIST_REQUEST\020\014\022\026\n\022ROOM_LIST_RESP"
-      "ONSE\020\r*L\n\nRoomAction\022\017\n\013CREATE_ROOM\020\000\022\r\n"
-      "\tJOIN_ROOM\020\001\022\016\n\nLEAVE_ROOM\020\002\022\016\n\nSTART_GA"
-      "ME\020\003*&\n\nRoomStatus\022\013\n\007WAITING\020\000\022\013\n\007PLAYI"
-      "NG\020\001*M\n\010CardType\022\020\n\014CARD_UNKNOWN\020\000\022\017\n\013CA"
-      "RD_ATTACK\020\001\022\017\n\013CARD_DEFEND\020\002\022\r\n\tCARD_HEA"
-      "L\020\003*Q\n\tGamePhase\022\021\n\rPHASE_UNKNOWN\020\000\022\016\n\nD"
-      "RAW_PHASE\020\001\022\016\n\nPLAY_PHASE\020\002\022\021\n\rDISCARD_P"
-      "HASE\020\003*7\n\nActionType\022\024\n\020ACTION_PLAY_CARD"
-      "\020\000\022\023\n\017ACTION_END_TURN\020\001b\006proto3"
+      "\030\n \001(\0132\023.sanguosha.GameOverH\000\0229\n\022room_li"
+      "st_response\030\016 \001(\0132\033.sanguosha.RoomListRe"
+      "sponseH\000B\t\n\007content\"\035\n\010GameOver\022\021\n\twinne"
+      "r_id\030\001 \001(\r*\374\001\n\013MessageType\022\013\n\007UNKNOWN\020\000\022"
+      "\021\n\rLOGIN_REQUEST\020\001\022\022\n\016LOGIN_RESPONSE\020\002\022\r"
+      "\n\tHEARTBEAT\020\003\022\020\n\014ROOM_REQUEST\020\004\022\021\n\rROOM_"
+      "RESPONSE\020\005\022\017\n\013GAME_ACTION\020\006\022\016\n\nGAME_STAT"
+      "E\020\007\022\016\n\nGAME_START\020\010\022\r\n\tGAME_OVER\020\n\022\026\n\022GA"
+      "ME_STATE_REQUEST\020\013\022\025\n\021ROOM_LIST_REQUEST\020"
+      "\014\022\026\n\022ROOM_LIST_RESPONSE\020\r*L\n\nRoomAction\022"
+      "\017\n\013CREATE_ROOM\020\000\022\r\n\tJOIN_ROOM\020\001\022\016\n\nLEAVE"
+      "_ROOM\020\002\022\016\n\nSTART_GAME\020\003*&\n\nRoomStatus\022\013\n"
+      "\007WAITING\020\000\022\013\n\007PLAYING\020\001*M\n\010CardType\022\020\n\014C"
+      "ARD_UNKNOWN\020\000\022\017\n\013CARD_ATTACK\020\001\022\017\n\013CARD_D"
+      "EFEND\020\002\022\r\n\tCARD_HEAL\020\003*Q\n\tGamePhase\022\021\n\rP"
+      "HASE_UNKNOWN\020\000\022\016\n\nDRAW_PHASE\020\001\022\016\n\nPLAY_P"
+      "HASE\020\002\022\021\n\rDISCARD_PHASE\020\003*7\n\nActionType\022"
+      "\024\n\020ACTION_PLAY_CARD\020\000\022\023\n\017ACTION_END_TURN"
+      "\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2031);
+      descriptor, 2090);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "sanguosha.proto", &protobuf_RegisterTypes);
 }
@@ -4134,6 +4140,8 @@ void GameMessage::InitAsDefaultInstance() {
       ::sanguosha::GameStart::internal_default_instance());
   ::sanguosha::_GameMessage_default_instance_.game_over_ = const_cast< ::sanguosha::GameOver*>(
       ::sanguosha::GameOver::internal_default_instance());
+  ::sanguosha::_GameMessage_default_instance_.room_list_response_ = const_cast< ::sanguosha::RoomListResponse*>(
+      ::sanguosha::RoomListResponse::internal_default_instance());
 }
 void GameMessage::set_allocated_login_request(::sanguosha::LoginRequest* login_request) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -4261,6 +4269,20 @@ void GameMessage::set_allocated_game_over(::sanguosha::GameOver* game_over) {
   }
   // @@protoc_insertion_point(field_set_allocated:sanguosha.GameMessage.game_over)
 }
+void GameMessage::set_allocated_room_list_response(::sanguosha::RoomListResponse* room_list_response) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_content();
+  if (room_list_response) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      room_list_response = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, room_list_response, submessage_arena);
+    }
+    set_has_room_list_response();
+    content_.room_list_response_ = room_list_response;
+  }
+  // @@protoc_insertion_point(field_set_allocated:sanguosha.GameMessage.room_list_response)
+}
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int GameMessage::kTypeFieldNumber;
 const int GameMessage::kLoginRequestFieldNumber;
@@ -4272,6 +4294,7 @@ const int GameMessage::kGameActionFieldNumber;
 const int GameMessage::kGameStateFieldNumber;
 const int GameMessage::kGameStartFieldNumber;
 const int GameMessage::kGameOverFieldNumber;
+const int GameMessage::kRoomListResponseFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GameMessage::GameMessage()
@@ -4322,6 +4345,10 @@ GameMessage::GameMessage(const GameMessage& from)
     }
     case kGameOver: {
       mutable_game_over()->::sanguosha::GameOver::MergeFrom(from.game_over());
+      break;
+    }
+    case kRoomListResponse: {
+      mutable_room_list_response()->::sanguosha::RoomListResponse::MergeFrom(from.room_list_response());
       break;
     }
     case CONTENT_NOT_SET: {
@@ -4398,6 +4425,10 @@ void GameMessage::clear_content() {
     }
     case kGameOver: {
       delete content_.game_over_;
+      break;
+    }
+    case kRoomListResponse: {
+      delete content_.room_list_response_;
       break;
     }
     case CONTENT_NOT_SET: {
@@ -4552,6 +4583,18 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
+      // .sanguosha.RoomListResponse room_list_response = 14;
+      case 14: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(114u /* 114 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_room_list_response()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -4638,6 +4681,12 @@ void GameMessage::SerializeWithCachedSizes(
       10, this->_internal_game_over(), output);
   }
 
+  // .sanguosha.RoomListResponse room_list_response = 14;
+  if (has_room_list_response()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      14, this->_internal_room_list_response(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -4719,6 +4768,13 @@ void GameMessage::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         10, this->_internal_game_over(), deterministic, target);
+  }
+
+  // .sanguosha.RoomListResponse room_list_response = 14;
+  if (has_room_list_response()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        14, this->_internal_room_list_response(), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4808,6 +4864,13 @@ size_t GameMessage::ByteSizeLong() const {
           *content_.game_over_);
       break;
     }
+    // .sanguosha.RoomListResponse room_list_response = 14;
+    case kRoomListResponse: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *content_.room_list_response_);
+      break;
+    }
     case CONTENT_NOT_SET: {
       break;
     }
@@ -4877,6 +4940,10 @@ void GameMessage::MergeFrom(const GameMessage& from) {
     }
     case kGameOver: {
       mutable_game_over()->::sanguosha::GameOver::MergeFrom(from.game_over());
+      break;
+    }
+    case kRoomListResponse: {
+      mutable_room_list_response()->::sanguosha::RoomListResponse::MergeFrom(from.room_list_response());
       break;
     }
     case CONTENT_NOT_SET: {

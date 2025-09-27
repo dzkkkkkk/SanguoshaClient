@@ -1650,6 +1650,7 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
     kGameState = 8,
     kGameStart = 9,
     kGameOver = 10,
+    kRoomListResponse = 14,
     CONTENT_NOT_SET = 0,
   };
 
@@ -1825,6 +1826,18 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::GameOver* mutable_game_over();
   void set_allocated_game_over(::sanguosha::GameOver* game_over);
 
+  // .sanguosha.RoomListResponse room_list_response = 14;
+  bool has_room_list_response() const;
+  void clear_room_list_response();
+  static const int kRoomListResponseFieldNumber = 14;
+  private:
+  const ::sanguosha::RoomListResponse& _internal_room_list_response() const;
+  public:
+  const ::sanguosha::RoomListResponse& room_list_response() const;
+  ::sanguosha::RoomListResponse* release_room_list_response();
+  ::sanguosha::RoomListResponse* mutable_room_list_response();
+  void set_allocated_room_list_response(::sanguosha::RoomListResponse* room_list_response);
+
   void clear_content();
   ContentCase content_case() const;
   // @@protoc_insertion_point(class_scope:sanguosha.GameMessage)
@@ -1838,6 +1851,7 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void set_has_game_state();
   void set_has_game_start();
   void set_has_game_over();
+  void set_has_room_list_response();
 
   inline bool has_content() const;
   inline void clear_has_content();
@@ -1855,6 +1869,7 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
     ::sanguosha::GameState* game_state_;
     ::sanguosha::GameStart* game_start_;
     ::sanguosha::GameOver* game_over_;
+    ::sanguosha::RoomListResponse* room_list_response_;
   } content_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -3215,6 +3230,50 @@ inline ::sanguosha::GameOver* GameMessage::mutable_game_over() {
   }
   // @@protoc_insertion_point(field_mutable:sanguosha.GameMessage.game_over)
   return content_.game_over_;
+}
+
+// .sanguosha.RoomListResponse room_list_response = 14;
+inline bool GameMessage::has_room_list_response() const {
+  return content_case() == kRoomListResponse;
+}
+inline void GameMessage::set_has_room_list_response() {
+  _oneof_case_[0] = kRoomListResponse;
+}
+inline void GameMessage::clear_room_list_response() {
+  if (has_room_list_response()) {
+    delete content_.room_list_response_;
+    clear_has_content();
+  }
+}
+inline const ::sanguosha::RoomListResponse& GameMessage::_internal_room_list_response() const {
+  return *content_.room_list_response_;
+}
+inline ::sanguosha::RoomListResponse* GameMessage::release_room_list_response() {
+  // @@protoc_insertion_point(field_release:sanguosha.GameMessage.room_list_response)
+  if (has_room_list_response()) {
+    clear_has_content();
+      ::sanguosha::RoomListResponse* temp = content_.room_list_response_;
+    content_.room_list_response_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::sanguosha::RoomListResponse& GameMessage::room_list_response() const {
+  // @@protoc_insertion_point(field_get:sanguosha.GameMessage.room_list_response)
+  return has_room_list_response()
+      ? *content_.room_list_response_
+      : *reinterpret_cast< ::sanguosha::RoomListResponse*>(&::sanguosha::_RoomListResponse_default_instance_);
+}
+inline ::sanguosha::RoomListResponse* GameMessage::mutable_room_list_response() {
+  if (!has_room_list_response()) {
+    clear_content();
+    set_has_room_list_response();
+    content_.room_list_response_ = CreateMaybeMessage< ::sanguosha::RoomListResponse >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:sanguosha.GameMessage.room_list_response)
+  return content_.room_list_response_;
 }
 
 inline bool GameMessage::has_content() const {

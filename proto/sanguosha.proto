@@ -141,6 +141,7 @@ message GameMessage {
     GameState game_state = 8;     // 新增
     GameStart game_start = 9;     // 新增
     GameOver game_over = 10;     // 新增
+    RoomListResponse room_list_response = 14; // 添加这行，使用新的字段编号
   }
 }
 

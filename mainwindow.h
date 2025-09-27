@@ -55,7 +55,7 @@ private slots:
     void handleGameOver(const sanguosha::GameOver &gameOver);
 
     void handleRoomListResponse(const sanguosha::RoomListResponse &response);
-    
+    void requestRoomList(QTableWidget* roomTable); // 添加函数声明
     
 private:
     Ui::MainWindow *ui;

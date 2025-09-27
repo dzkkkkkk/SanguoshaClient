@@ -36,41 +36,17 @@ google/protobuf/generated_enum_reflection.h
 google/protobuf/unknown_field_set.h
 -
 
-/home/dzkkkkk/SanguoshaClient/mainwindow.cpp
+/home/dzkkkkk/SanguoshaClient/main.cpp
+QApplication
+-
+QTextCodec
+-
+QFont
+-
+QFontDatabase
+-
 mainwindow.h
 /home/dzkkkkk/SanguoshaClient/mainwindow.h
-./ui_mainwindow.h
-/home/dzkkkkk/SanguoshaClient/ui_mainwindow.h
-QMessageBox
--
-QTableWidget
--
-QTableWidgetItem
--
-QHeaderView
--
-QTextEdit
--
-QLabel
--
-QScrollArea
--
-QComboBox
--
-QDialog
--
-QDialogButtonBox
--
-QVBoxLayout
--
-QHBoxLayout
--
-QPushButton
--
-QLineEdit
--
-proto/sanguosha.pb.h
-/home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h
 
 /home/dzkkkkk/SanguoshaClient/mainwindow.h
 QMainWindow
@@ -160,13 +136,13 @@ qdatetime.h
 qobject.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h
 
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QTextCodec
+qtextcodec.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qtextcodec.h
+
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer
 qtimer.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qtimer.h
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QVariant
-qvariant.h
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h
 QtCore/qvariant.h
@@ -802,6 +778,12 @@ AvailabilityMacros.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
 
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qtextcodec.h
+QtCore/qstring.h
+-
+QtCore/qlist.h
+-
+
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h
 QtCore/qiodevice.h
 -
@@ -932,6 +914,14 @@ QtCore/qpoint.h
 QtCore/qglobal.h
 -
 
+/usr/include/x86_64-linux-gnu/qt5/QtGui/QFont
+qfont.h
+/usr/include/x86_64-linux-gnu/qt5/QtGui/qfont.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtGui/QFontDatabase
+qfontdatabase.h
+/usr/include/x86_64-linux-gnu/qt5/QtGui/qfontdatabase.h
+
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qbrush.h
 QtGui/qtguiglobal.h
 -
@@ -1014,6 +1004,16 @@ QtGui/qwindowdefs.h
 QtCore/qstring.h
 -
 QtCore/qsharedpointer.h
+-
+
+/usr/include/x86_64-linux-gnu/qt5/QtGui/qfontdatabase.h
+QtGui/qtguiglobal.h
+-
+QtGui/qwindowdefs.h
+-
+QtCore/qstring.h
+-
+QtGui/qfont.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qfontinfo.h
@@ -1386,10 +1386,6 @@ qdialogbuttonbox.h
 qboxlayout.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QHeaderView
-qheaderview.h
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qheaderview.h
-
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel
 qlabel.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h
@@ -1401,10 +1397,6 @@ qlineedit.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow
 qmainwindow.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMenuBar
-qmenubar.h
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmenubar.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMessageBox
 qmessagebox.h
@@ -1418,15 +1410,7 @@ qpushbutton.h
 qscrollarea.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qscrollarea.h
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QStatusBar
-qstatusbar.h
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstatusbar.h
-
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QTableWidget
-qtablewidget.h
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtablewidget.h
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QTableWidgetItem
 qtablewidget.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtablewidget.h
 
@@ -1437,10 +1421,6 @@ qtextedit.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QVBoxLayout
 qboxlayout.h
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qboxlayout.h
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget
-qwidget.h
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h
 QtWidgets/qtwidgetsglobal.h
@@ -1490,28 +1470,6 @@ QtWidgets/qtwidgetsglobal.h
 QtWidgets/qwidget.h
 -
 QtGui/qvalidator.h
--
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qaction.h
-QtWidgets/qtwidgetsglobal.h
--
-QtGui/qkeysequence.h
--
-QtCore/qstring.h
--
-QtWidgets/qwidget.h
--
-QtCore/qvariant.h
--
-QtGui/qicon.h
--
-QtWidgets/qactiongroup.h
--
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qactiongroup.h
-QtWidgets/qtwidgetsglobal.h
--
-QtWidgets/qaction.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qapplication.h
@@ -1590,12 +1548,6 @@ QtWidgets/qwidget.h
 limits.h
 -
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qheaderview.h
-QtWidgets/qtwidgetsglobal.h
--
-QtWidgets/qabstractitemview.h
--
-
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h
 QtWidgets/qtwidgetsglobal.h
 -
@@ -1652,24 +1604,6 @@ QtWidgets/qwidget.h
 QtWidgets/qtabwidget.h
 -
 
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmenu.h
-QtWidgets/qtwidgetsglobal.h
--
-QtWidgets/qwidget.h
--
-QtCore/qstring.h
--
-QtGui/qicon.h
--
-QtWidgets/qaction.h
--
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmenubar.h
-QtWidgets/qtwidgetsglobal.h
--
-QtWidgets/qmenu.h
--
-
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmessagebox.h
 QtWidgets/qtwidgetsglobal.h
 -
@@ -1706,12 +1640,6 @@ QtCore/qalgorithms.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qabstractslider.h
--
-
-/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstatusbar.h
-QtWidgets/qtwidgetsglobal.h
--
-QtWidgets/qwidget.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstyle.h
@@ -1842,25 +1770,5 @@ QtGui/qcursor.h
 QtGui/qkeysequence.h
 -
 QtGui/qevent.h
--
-
-SanguoshaClient_autogen/include/ui_mainwindow.h
-QtCore/QVariant
--
-QtWidgets/QApplication
--
-QtWidgets/QLineEdit
--
-QtWidgets/QMainWindow
--
-QtWidgets/QMenuBar
--
-QtWidgets/QPushButton
--
-QtWidgets/QStatusBar
--
-QtWidgets/QVBoxLayout
--
-QtWidgets/QWidget
 -
 

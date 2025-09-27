@@ -182,6 +182,7 @@ CMakeFiles/SanguoshaClient.dir/main.cpp.o: ../proto/sanguosha.pb.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDataStream
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
+CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QTextCodec
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qabstractitemmodel.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
@@ -254,6 +255,7 @@ CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtC
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qsysinfo.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
+CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextcodec.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtimer.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h
@@ -263,11 +265,14 @@ CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtC
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h
+CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QFont
+CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QFontDatabase
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qbrush.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qcolor.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qcursor.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qfont.h
+CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qfontdatabase.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qfontinfo.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qfontmetrics.h
 CMakeFiles/SanguoshaClient.dir/main.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/qguiapplication.h

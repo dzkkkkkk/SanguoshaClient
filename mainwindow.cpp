@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_networkManager(&NetworkManager::instance())
-    , m_loginScreen(nullptr)
+    //, m_loginScreen(nullptr) 移除
     , m_lobbyScreen(nullptr)
     , m_gameScreen(nullptr)
     , m_playerInfoTable(nullptr)
@@ -39,10 +39,14 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // 初始化登录界面
-    setupLoginScreen();
-    // 默认显示登录界面
-    showScreen(m_loginScreen);
+    // 直接使用UI文件中的组件
+    connect(ui->loginButton, &QPushButton::clicked, this, [this]() {
+        QString username = ui->usernameEdit->text();
+        QString password = ui->passwordEdit->text();
+        if (!username.isEmpty() && !password.isEmpty()) {
+            onLoginButtonClicked(username, password);
+        }
+    });
 
     // 修改连接信号槽的代码
     connect(m_networkManager, &NetworkManager::connected, this, [this]() { onConnectionStatusChanged(true); });
@@ -248,7 +252,7 @@ void MainWindow::handleGameStart(const sanguosha::GameStart &start)
 }
 
 //界面初始化函数
-void MainWindow::setupLoginScreen()
+void MainWindow::setupLoginScreen()   //拟移除
 {
     // 如果已经创建，则直接返回
     if (m_loginScreen) return;
@@ -281,13 +285,18 @@ void MainWindow::setupLoginScreen()
 void MainWindow::showScreen(QWidget *screen)
 {
     // 隐藏所有可能的屏幕
-    if (m_loginScreen) m_loginScreen->hide();
+    ui->centralwidget->setVisible(false);
     if (m_lobbyScreen) m_lobbyScreen->hide();
+    if (m_gameScreen) m_gameScreen->hide();
 
     // 显示请求的屏幕
     if (screen) {
         screen->show();
         setCentralWidget(screen);
+    } else {
+        // 显示主UI
+        ui->centralwidget->setVisible(true);
+        setCentralWidget(ui->centralwidget);
     }
 }
 

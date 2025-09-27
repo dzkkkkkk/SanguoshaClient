@@ -54,6 +54,7 @@ private slots:
     
     void handleGameOver(const sanguosha::GameOver &gameOver);
 
+    void handleRoomListResponse(const sanguosha::RoomListResponse &response);
     
     
 private:
@@ -82,6 +83,7 @@ private:
     QPushButton *m_playCardButton;
     QPushButton *m_endTurnButton;
     QPushButton *m_cancelButton;
+    QTimer *m_roomOperationTimer;
     
     uint32_t m_selectedCard;
     uint32_t m_selfUserId;
@@ -98,6 +100,8 @@ private:
     void addToGameLog(const QString &message);
     void resetGameState();
     void checkGameEndCondition(const sanguosha::GameState &state);
+
+    
 };
 
 #endif // MAINWINDOW_H

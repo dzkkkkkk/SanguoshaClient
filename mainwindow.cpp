@@ -45,6 +45,24 @@ MainWindow::MainWindow(QWidget *parent)
     // 设置状态栏初始消息
     ui->statusbar->showMessage(tr("正在连接服务器..."));
 
+    // 添加连接超时检查
+    QTimer::singleShot(5000, this, [this]() {
+        if (!m_networkManager->isConnected()) {
+            ui->statusbar->showMessage(tr("连接服务器失败，请检查服务器状态"));
+            QMessageBox::warning(this, tr("连接失败"), 
+                                tr("无法连接到服务器，请确保服务器已启动"));
+        }
+    });
+
+    m_roomOperationTimer = new QTimer(this);
+    m_roomOperationTimer->setSingleShot(true);
+    connect(m_roomOperationTimer, &QTimer::timeout, this, [this]() {
+    if (!m_networkManager->isConnected()) {
+        QMessageBox::warning(this, tr("操作超时"), 
+                            tr("网络操作超时，请检查网络连接"));
+        }
+    });
+
     // 直接使用UI文件中的组件
     connect(ui->loginButton, &QPushButton::clicked, this, [this]() {
         QString username = ui->usernameEdit->text();
@@ -62,6 +80,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_networkManager, &NetworkManager::roomResponseReceived, this, &MainWindow::handleRoomResponse);
     connect(m_networkManager, &NetworkManager::gameStateReceived, this, &MainWindow::handleGameState);
     connect(m_networkManager, &NetworkManager::gameStartReceived, this, &MainWindow::handleGameStart);
+
+    // 添加房间列表响应信号连接
+    connect(m_networkManager, &NetworkManager::roomListResponseReceived, this, &MainWindow::handleRoomListResponse);
 
     // 连接到服务器，端口号已改为9527
     m_networkManager->connectToServer("127.0.0.1", 9527);
@@ -99,6 +120,8 @@ void MainWindow::onLoginButtonClicked(const QString &username, const QString &pa
 // 房间创建
 void MainWindow::onCreateRoomClicked()
 {
+    m_roomOperationTimer->start(5000); // 5秒超时
+
     sanguosha::GameMessage message;
     message.set_type(sanguosha::ROOM_REQUEST);
 
@@ -112,6 +135,8 @@ void MainWindow::onCreateRoomClicked()
 // 房间加入
 void MainWindow::onJoinRoomClicked(uint32_t roomId)
 {
+    m_roomOperationTimer->start(5000); // 5秒超时
+
     sanguosha::GameMessage message;
     message.set_type(sanguosha::ROOM_REQUEST);
 
@@ -197,10 +222,27 @@ void MainWindow::handleLoginResponse(const sanguosha::LoginResponse &response)
 // 处理房间响应
 void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 {
+    m_roomOperationTimer->stop();
+    
     if (response.success()) {
         ui->statusbar->showMessage(tr("房间操作成功"));
+        
         if (response.has_room_info()) {
-            // 更新房间界面信息
+            const sanguosha::RoomInfo& roomInfo = response.room_info();
+            
+            // 显示房间信息
+            QString message = tr("房间ID: %1, 玩家: %2/%3, 状态: %4")
+                .arg(roomInfo.room_id())
+                .arg(roomInfo.current_players())
+                .arg(roomInfo.max_players())
+                .arg(roomInfo.status() == sanguosha::WAITING ? tr("等待中") : tr("游戏中"));
+                
+            QMessageBox::information(this, tr("房间操作成功"), message);
+            
+            // 如果是创建房间，等待其他玩家加入
+            if (response.room_info().current_players() == 1) {
+                ui->statusbar->showMessage(tr("房间已创建，等待其他玩家加入..."));
+            }
         }
     } else {
         QMessageBox::warning(this, tr("房间操作失败"), 
@@ -315,8 +357,9 @@ void MainWindow::setupLobbyScreen()
     QVBoxLayout *mainLayout = new QVBoxLayout(m_lobbyScreen);
 
     // 房间列表
-    QTableWidget *roomTable = new QTableWidget(0, 3); // 3列：ID, 玩家数, 状态
+    QTableWidget *roomTable = new QTableWidget(0, 3);
     roomTable->setHorizontalHeaderLabels(QStringList() << tr("房间ID") << tr("玩家") << tr("状态"));
+    roomTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mainLayout->addWidget(roomTable);
 
     // 按钮区域
@@ -333,19 +376,25 @@ void MainWindow::setupLobbyScreen()
 
     // 连接信号
     connect(createRoomBtn, &QPushButton::clicked, this, &MainWindow::onCreateRoomClicked);
-    connect(refreshBtn, &QPushButton::clicked, this, [this]() {
+    connect(refreshBtn, &QPushButton::clicked, this, [this, roomTable]() {
         // 实现刷新房间列表的请求
+        requestRoomList(roomTable);
     });
     
-    // 修正lambda捕获 - 确保roomTable被正确捕获
+    // 修正lambda捕获
     connect(joinBtn, &QPushButton::clicked, this, [this, roomTable]() {
         QList<QTableWidgetItem*> selected = roomTable->selectedItems();
         if (!selected.isEmpty()) {
             int row = selected.first()->row();
             int roomId = roomTable->item(row, 0)->text().toInt();
             onJoinRoomClicked(roomId);
+        } else {
+            QMessageBox::warning(this, tr("选择房间"), tr("请先选择一个房间"));
         }
     });
+    
+    // 初始刷新房间列表
+    requestRoomList(roomTable);
 }
 
 //游戏界面初始化
@@ -717,4 +766,52 @@ void MainWindow::checkGameEndCondition(const sanguosha::GameState &state)
             return;
         }
     }
+}
+
+// 添加请求房间列表的函数
+void MainWindow::requestRoomList(QTableWidget* roomTable)
+{
+    sanguosha::GameMessage message;
+    message.set_type(sanguosha::ROOM_LIST_REQUEST);
+    
+    // 清空现有房间列表
+    roomTable->setRowCount(0);
+    
+    // 发送请求
+    m_networkManager->sendMessage(message);
+    
+    ui->statusbar->showMessage(tr("正在获取房间列表..."));
+}
+
+void MainWindow::handleRoomListResponse(const sanguosha::RoomListResponse &response)
+{
+    // 获取大厅界面中的房间表格
+    QTableWidget* roomTable = m_lobbyScreen->findChild<QTableWidget*>();
+    if (!roomTable) return;
+    
+    // 清空现有房间列表
+    roomTable->setRowCount(0);
+    
+    // 添加房间信息
+    for (int i = 0; i < response.rooms_size(); i++) {
+        const sanguosha::RoomInfo& roomInfo = response.rooms(i);
+        
+        int row = roomTable->rowCount();
+        roomTable->insertRow(row);
+        
+        roomTable->setItem(row, 0, new QTableWidgetItem(QString::number(roomInfo.room_id())));
+        roomTable->setItem(row, 1, new QTableWidgetItem(
+            QString("%1/%2").arg(roomInfo.current_players()).arg(roomInfo.max_players())));
+        
+        // 根据房间状态设置状态文本
+        QString statusText;
+        switch (roomInfo.status()) {
+            case sanguosha::WAITING: statusText = tr("等待中"); break;
+            case sanguosha::PLAYING: statusText = tr("游戏中"); break;
+            default: statusText = tr("未知");
+        }
+        roomTable->setItem(row, 2, new QTableWidgetItem(statusText));
+    }
+    
+    ui->statusbar->showMessage(tr("房间列表已更新"));
 }

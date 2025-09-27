@@ -38,6 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
     , m_selfUserId(0)
 {
     ui->setupUi(this);
+    
+    // 设置窗口标题
+    this->setWindowTitle(tr("三国杀客户端"));
+    
+    // 设置状态栏初始消息
+    ui->statusbar->showMessage(tr("正在连接服务器..."));
 
     // 直接使用UI文件中的组件
     connect(ui->loginButton, &QPushButton::clicked, this, [this]() {

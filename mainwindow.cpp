@@ -286,40 +286,16 @@ void MainWindow::handleGameStart(const sanguosha::GameStart &start)
     qDebug() << "Handling game start, room ID:" << start.room_id();
     qDebug() << "Player IDs count:" << start.player_ids_size();
     qDebug() << "Current thread:" << QThread::currentThread();
-    qDebug() << "Game screen pointer:" << m_gameScreen;
-    qDebug() << "Game log pointer:" << m_gameLog;
     
-    // 添加更严格的安全检查
-    if (start.player_ids_size() < 2) {
-        qWarning() << "GameStart message has insufficient player ids!";
+    // 确保在UI线程中执行界面操作
+    if (QThread::currentThread() != this->thread()) {
+        QMetaObject::invokeMethod(this, "handleGameStartInUIThread", 
+                                  Qt::QueuedConnection,
+                                  Q_ARG(sanguosha::GameStart, start));
         return;
     }
     
-    // 确保在UI线程中执行界面操作
-    QMetaObject::invokeMethod(this, [this, start]() {
-        ui->statusbar->showMessage(tr("游戏开始！"));
-        
-        // 确保游戏界面已初始化
-        if (!m_gameScreen) {
-            setupGameScreen();
-        }
-        
-        showScreen(m_gameScreen);
-        
-        // 清空游戏日志 - 添加空指针检查
-        if (m_gameLog) {
-            m_gameLog->clear();
-            m_gameLog->append(tr("游戏开始！"));
-        } else {
-            qWarning() << "Game log widget is not initialized!";
-            // 尝试重新初始化
-            setupGameScreen();
-            if (m_gameLog) {
-                m_gameLog->clear();
-                m_gameLog->append(tr("游戏开始！"));
-            }
-        }
-    }, Qt::QueuedConnection);
+    handleGameStartInUIThread(start);
 }
 
 //界面初始化函数
@@ -864,4 +840,53 @@ void MainWindow::handleRoomListResponse(const sanguosha::RoomListResponse &respo
     }
     
     ui->statusbar->showMessage(tr("房间列表已更新"));
+}
+
+// 新增的UI线程处理函数
+void MainWindow::handleGameStartInUIThread(const sanguosha::GameStart &start)
+{
+    qDebug() << "Handling game start in UI thread";
+    qDebug() << "Game screen pointer:" << m_gameScreen;
+    qDebug() << "Game log pointer:" << m_gameLog;
+    
+    // 添加更严格的安全检查
+    if (start.player_ids_size() < 2) {
+        qWarning() << "GameStart message has insufficient player ids!";
+        return;
+    }
+    
+    ui->statusbar->showMessage(tr("游戏开始！"));
+    
+    // 确保游戏界面已初始化
+    if (!m_gameScreen) {
+        setupGameScreen();
+    }
+    
+    // 再次检查是否初始化成功
+    if (!m_gameScreen) {
+        qCritical() << "Failed to initialize game screen!";
+        return;
+    }
+    
+    showScreen(m_gameScreen);
+    
+    // 清空游戏日志 - 添加空指针检查
+    if (m_gameLog) {
+        m_gameLog->clear();
+        m_gameLog->append(tr("游戏开始！"));
+    } else {
+        qWarning() << "Game log widget is not initialized!";
+        // 尝试重新初始化
+        setupGameScreen();
+        if (m_gameLog) {
+            m_gameLog->clear();
+            m_gameLog->append(tr("游戏开始！"));
+        }
+    }
+    
+    // 设置自己的用户ID（假设第一个玩家是自己）
+    if (start.player_ids_size() > 0) {
+        m_selfUserId = start.player_ids(0);
+        qDebug() << "Self user ID set to:" << m_selfUserId;
+    }
 }

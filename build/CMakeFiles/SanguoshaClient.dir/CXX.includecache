@@ -71,6 +71,8 @@ QLineEdit
 -
 proto/sanguosha.pb.h
 /home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h
+QThread
+-
 
 /home/dzkkkkk/SanguoshaClient/mainwindow.h
 QMainWindow
@@ -107,22 +109,6 @@ proto/sanguosha.pb.h
 /home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h
 network/networkmanager.h
 /home/dzkkkkk/SanguoshaClient/network/networkmanager.h
-
-/home/dzkkkkk/SanguoshaClient/network/networkmanager.cpp
-networkmanager.h
-/home/dzkkkkk/SanguoshaClient/network/networkmanager.h
-QHostAddress
--
-google/protobuf/io/coded_stream.h
--
-google/protobuf/io/zero_copy_stream_impl_lite.h
--
-stdexcept
--
-arpa/inet.h
--
-cstring
--
 
 /home/dzkkkkk/SanguoshaClient/network/networkmanager.h
 QObject
@@ -175,6 +161,10 @@ qdatetime.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
 qobject.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QThread
+qthread.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qthread.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer
 qtimer.h
@@ -832,6 +822,16 @@ QtCore/qscopedpointer.h
 stdio.h
 -
 
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qthread.h
+QtCore/qobject.h
+-
+future
+-
+functional
+-
+limits.h
+-
+
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qtimer.h
 QtCore/qglobal.h
 -
@@ -1352,10 +1352,6 @@ QtGui/qwindowdefs_win.h
 QtGui/qtguiglobal.h
 -
 
-/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QHostAddress
-qhostaddress.h
-/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qhostaddress.h
-
 /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QTcpSocket
 qtcpsocket.h
 /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h
@@ -1368,18 +1364,6 @@ QtCore/qiodevice.h
 QtCore/qobject.h
 -
 QtCore/qdebug.h
--
-
-/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qhostaddress.h
-QtNetwork/qtnetworkglobal.h
--
-QtCore/qpair.h
--
-QtCore/qstring.h
--
-QtCore/qshareddata.h
--
-QtNetwork/qabstractsocket.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h

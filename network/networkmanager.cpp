@@ -92,6 +92,8 @@ void NetworkManager::parseMessage(const std::vector<char>& buffer) {
         return;
     }
     
+    qDebug() << "Received message type:" << message.type(); // 添加调试输出
+
     switch (message.type()) {
     case sanguosha::LOGIN_RESPONSE:
         emit loginResponseReceived(message.login_response());

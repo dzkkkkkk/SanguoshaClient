@@ -133,19 +133,20 @@ void MainWindow::onCreateRoomClicked()
 }
 
 // 房间加入
-void MainWindow::onJoinRoomClicked(uint32_t roomId)
-{
+void MainWindow::onJoinRoomClicked(uint32_t roomId) {
     m_roomOperationTimer->start(5000); // 5秒超时
-
+    
     sanguosha::GameMessage message;
     message.set_type(sanguosha::ROOM_REQUEST);
-
+    
     sanguosha::RoomRequest* roomRequest = new sanguosha::RoomRequest();
     roomRequest->set_action(sanguosha::JOIN_ROOM);
     roomRequest->set_room_id(roomId);
-
+    
     message.set_allocated_room_request(roomRequest);
     m_networkManager->sendMessage(message);
+    
+    qDebug() << "Join room request sent for room:" << roomId;
 }
 
 void MainWindow::onErrorOccurred(const QString &errorString)

@@ -15,6 +15,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include "proto/sanguosha.pb.h"
+#include <QThread>
 //#include <QFlowLayout> 拟删除
 
 

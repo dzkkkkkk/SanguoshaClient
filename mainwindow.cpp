@@ -279,25 +279,42 @@ void MainWindow::handleGameState(const sanguosha::GameState& state) {
 }
 
 // 处理游戏开始
+// mainwindow.cpp - 修改handleGameStart函数
 void MainWindow::handleGameStart(const sanguosha::GameStart &start)
 {
-    ui->statusbar->showMessage(tr("游戏开始！"));
+
+    qDebug() << "Handling game start, room ID:" << start.room_id();
+    qDebug() << "Player IDs count:" << start.player_ids_size();
     
-    // 修复：使用player_ids而不是player_id
-    if (start.player_ids_size() > 0) {
-        m_selfUserId = start.player_ids(0); // 假设第一个玩家是自己
+    for (int i = 0; i < start.player_ids_size(); i++) {
+        qDebug() << "Player" << i << "ID:" << start.player_ids(i);
+    }
+
+    // 添加安全检查
+    if (start.player_ids_size() == 0) {
+        qWarning() << "GameStart message has no player ids!";
+        return;
     }
     
-    // 初始化游戏界面
-    setupGameScreen();
+    ui->statusbar->showMessage(tr("游戏开始！"));
+    
+    // 安全地设置自己的用户ID
+    m_selfUserId = start.player_ids(0);
+    
+    // 确保游戏界面已初始化
+    if (!m_gameScreen) {
+        setupGameScreen();
+    }
+    
     showScreen(m_gameScreen);
     
     // 清空游戏日志
-    m_gameLog->clear();
-    m_gameLog->append(tr("游戏开始！"));
-    
-    // 修复：不需要发送请求，服务器会自动发送游戏状态
-    // 等待服务器发送游戏状态更新
+    if (m_gameLog) {
+        m_gameLog->clear();
+        m_gameLog->append(tr("游戏开始！"));
+    } else {
+        qWarning() << "Game log widget is not initialized!";
+    }
 }
 
 //界面初始化函数

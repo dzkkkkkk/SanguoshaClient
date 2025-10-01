@@ -279,42 +279,46 @@ void MainWindow::handleGameState(const sanguosha::GameState& state) {
 }
 
 // 处理游戏开始
-// mainwindow.cpp - 修改handleGameStart函数
+// mainwindow.cpp - 修复handleGameStart函数
 void MainWindow::handleGameStart(const sanguosha::GameStart &start)
 {
-
     qDebug() << "Handling game start, room ID:" << start.room_id();
     qDebug() << "Player IDs count:" << start.player_ids_size();
+    qDebug() << "Current thread:" << QThread::currentThread();
+    qDebug() << "Game screen pointer:" << m_gameScreen;
+    qDebug() << "Game log pointer:" << m_gameLog;
     
-    for (int i = 0; i < start.player_ids_size(); i++) {
-        qDebug() << "Player" << i << "ID:" << start.player_ids(i);
-    }
-
-    // 添加安全检查
-    if (start.player_ids_size() == 0) {
-        qWarning() << "GameStart message has no player ids!";
+    // 添加更严格的安全检查
+    if (start.player_ids_size() < 2) {
+        qWarning() << "GameStart message has insufficient player ids!";
         return;
     }
     
-    ui->statusbar->showMessage(tr("游戏开始！"));
-    
-    // 安全地设置自己的用户ID
-    m_selfUserId = start.player_ids(0);
-    
-    // 确保游戏界面已初始化
-    if (!m_gameScreen) {
-        setupGameScreen();
-    }
-    
-    showScreen(m_gameScreen);
-    
-    // 清空游戏日志
-    if (m_gameLog) {
-        m_gameLog->clear();
-        m_gameLog->append(tr("游戏开始！"));
-    } else {
-        qWarning() << "Game log widget is not initialized!";
-    }
+    // 确保在UI线程中执行界面操作
+    QMetaObject::invokeMethod(this, [this, start]() {
+        ui->statusbar->showMessage(tr("游戏开始！"));
+        
+        // 确保游戏界面已初始化
+        if (!m_gameScreen) {
+            setupGameScreen();
+        }
+        
+        showScreen(m_gameScreen);
+        
+        // 清空游戏日志 - 添加空指针检查
+        if (m_gameLog) {
+            m_gameLog->clear();
+            m_gameLog->append(tr("游戏开始！"));
+        } else {
+            qWarning() << "Game log widget is not initialized!";
+            // 尝试重新初始化
+            setupGameScreen();
+            if (m_gameLog) {
+                m_gameLog->clear();
+                m_gameLog->append(tr("游戏开始！"));
+            }
+        }
+    }, Qt::QueuedConnection);
 }
 
 //界面初始化函数
@@ -416,9 +420,25 @@ void MainWindow::setupLobbyScreen()
 }
 
 //游戏界面初始化
+// mainwindow.cpp - 修复setupGameScreen函数
 void MainWindow::setupGameScreen()
 {
-    if (m_gameScreen) return;
+    if (m_gameScreen) {
+        // 如果已经存在，先清理再重新创建
+        delete m_gameScreen;
+        m_gameScreen = nullptr;
+    }
+
+    // 确保所有成员变量都被正确初始化
+    m_playerInfoTable = nullptr;
+    m_gameLog = nullptr;
+    m_deckCountLabel = nullptr;
+    m_gameArea = nullptr;
+    m_turnInfoLabel = nullptr;
+    m_handCardsLayout = nullptr;
+    m_playCardButton = nullptr;
+    m_endTurnButton = nullptr;
+    m_cancelButton = nullptr;
 
     m_gameScreen = new QWidget(this);
     QHBoxLayout *mainLayout = new QHBoxLayout(m_gameScreen);
@@ -494,6 +514,17 @@ void MainWindow::setupGameScreen()
     // 初始状态
     m_playCardButton->setEnabled(false);
     m_cancelButton->setEnabled(false);
+
+    // 确保所有控件都已创建
+    Q_ASSERT(m_playerInfoTable != nullptr);
+    Q_ASSERT(m_gameLog != nullptr);
+    Q_ASSERT(m_deckCountLabel != nullptr);
+    Q_ASSERT(m_gameArea != nullptr);
+    Q_ASSERT(m_turnInfoLabel != nullptr);
+    Q_ASSERT(m_handCardsLayout != nullptr);
+    Q_ASSERT(m_playCardButton != nullptr);
+    Q_ASSERT(m_endTurnButton != nullptr);
+    Q_ASSERT(m_cancelButton != nullptr);
 }
 
 //卡牌使用逻辑

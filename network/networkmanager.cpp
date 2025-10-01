@@ -85,6 +85,7 @@ void NetworkManager::onReadyRead() {
     }
 }
 
+// networkmanager.cpp - 确保消息处理在UI线程
 void NetworkManager::parseMessage(const std::vector<char>& buffer) {
     sanguosha::GameMessage message;
     if (!message.ParseFromArray(buffer.data(), buffer.size())) {
@@ -92,34 +93,37 @@ void NetworkManager::parseMessage(const std::vector<char>& buffer) {
         return;
     }
     
-    qDebug() << "Received message type:" << message.type(); // 添加调试输出
+    // 确保在UI线程处理消息
+    QMetaObject::invokeMethod(this, [this, message]() {
+        qDebug() << "Received message type:" << message.type(); // 添加调试输出
 
-    switch (message.type()) {
-    case sanguosha::LOGIN_RESPONSE:
-        emit loginResponseReceived(message.login_response());
-        break;
-    case sanguosha::ROOM_RESPONSE:
-        emit roomResponseReceived(message.room_response());
-        break;
-    case sanguosha::GAME_STATE:
-        emit gameStateReceived(message.game_state());
-        break;
-    case sanguosha::GAME_START:
-        emit gameStartReceived(message.game_start());
-        break;
-    case sanguosha::GAME_OVER:
-        emit gameOverReceived(message.game_over());
-        break;
-    case sanguosha::ROOM_LIST_RESPONSE:
-        emit roomListResponseReceived(message.room_list_response());
-        break;
-    case sanguosha::HEARTBEAT:
-        // 心跳包，无需处理
-        break;
-    default:
-        qWarning() << "Unknown message type received:" << message.type();
-        break;
-    }
+        switch (message.type()) {
+        case sanguosha::LOGIN_RESPONSE:
+            emit loginResponseReceived(message.login_response());
+            break;
+        case sanguosha::ROOM_RESPONSE:
+            emit roomResponseReceived(message.room_response());
+            break;
+        case sanguosha::GAME_STATE:
+            emit gameStateReceived(message.game_state());
+            break;
+        case sanguosha::GAME_START:
+            emit gameStartReceived(message.game_start());
+            break;
+        case sanguosha::GAME_OVER:
+            emit gameOverReceived(message.game_over());
+            break;
+        case sanguosha::ROOM_LIST_RESPONSE:
+            emit roomListResponseReceived(message.room_list_response());
+            break;
+        case sanguosha::HEARTBEAT:
+            // 心跳包，无需处理
+            break;
+        default:
+            qWarning() << "Unknown message type received:" << message.type();
+            break;
+        }
+    }, Qt::QueuedConnection);
 }
 
 // 在NetworkManager::sendMessage中，确保编码正确

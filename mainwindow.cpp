@@ -162,36 +162,23 @@ void MainWindow::onErrorOccurred(const QString &errorString)
 }
 
 // 基本游戏操作
-void MainWindow::onPlayCardClicked(uint32_t cardId, uint32_t targetPlayer)
-{
+void MainWindow::onPlayCardClicked(uint32_t cardId, uint32_t targetPlayer) {
     // 根据卡牌类型执行不同的逻辑
     QString cardName = getCardName(cardId);
     
-    if (cardName == "杀") {
-        // 处理杀牌逻辑
-        sanguosha::GameMessage message;
-        message.set_type(sanguosha::GAME_ACTION);
-        
-        sanguosha::GameAction* gameAction = new sanguosha::GameAction();
-        gameAction->set_type(sanguosha::ACTION_PLAY_CARD);
-        gameAction->set_card_id(cardId);
-        gameAction->set_target_player(targetPlayer);
-        
-        message.set_allocated_game_action(gameAction);
-        m_networkManager->sendMessage(message);
-        
-        // 添加到游戏日志
-        //addToGameLog(tr("您对玩家%1使用了【杀】").arg(targetPlayer));    移除
-        m_gameLog->append(tr("您对玩家%1使用了【杀】").arg(targetPlayer));
-    }
-    else if (cardName == "闪") {
-        // 处理闪牌逻辑
-        // ...
-    }
-    else if (cardName == "桃") {
-        // 处理桃牌逻辑
-        // ...
-    }
+    sanguosha::GameMessage message;
+    message.set_type(sanguosha::GAME_ACTION);
+    
+    sanguosha::GameAction* gameAction = new sanguosha::GameAction();
+    gameAction->set_type(sanguosha::ACTION_PLAY_CARD);
+    gameAction->set_card_id(cardId);
+    gameAction->set_target_player(targetPlayer);
+    
+    message.set_allocated_game_action(gameAction);
+    m_networkManager->sendMessage(message);
+    
+    // 添加到游戏日志
+    addToGameLog(tr("您对玩家%1使用了【%2】").arg(targetPlayer).arg(cardName));
 }
 
 void MainWindow::onEndTurnClicked()
@@ -282,6 +269,9 @@ void MainWindow::handleGameStateInUIThread(const sanguosha::GameState& state) {
     // 更新回合信息
     updateTurnInfo(state);
     
+    // 更新游戏日志
+    updateGameLog(state);
+    
     // 确定是否是我的回合
     bool isMyTurn = (state.current_player() == m_selfUserId);
     
@@ -290,11 +280,6 @@ void MainWindow::handleGameStateInUIThread(const sanguosha::GameState& state) {
     
     // 检查游戏结束条件
     checkGameEndCondition(state);
-    
-    // 更新游戏日志
-    if (!state.game_log().empty()) {
-        addToGameLog(QString::fromStdString(state.game_log()));
-    }
 }
 
 // 处理游戏开始
@@ -696,11 +681,10 @@ QString MainWindow::getCardColor(uint32_t cardId)
 }
 
 //日志系统
-void MainWindow::updateGameLog(const sanguosha::GameState &state)
-{
-    // 修复：GameState没有game_log字段，需要从其他地方获取日志
-    // 这里可以添加其他方式获取游戏日志的逻辑
-    // 例如从网络消息中获取或维护本地日志
+void MainWindow::updateGameLog(const sanguosha::GameState &state) {
+    if (!state.game_log().empty()) {
+        addToGameLog(QString::fromStdString(state.game_log()));
+    }
 }
 
 //回合管理
@@ -772,8 +756,7 @@ void MainWindow::debugSendTestMessage()
     #endif
 }
 
-void MainWindow::addToGameLog(const QString &message)
-{
+void MainWindow::addToGameLog(const QString &message) {
     QString timestamp = QDateTime::currentDateTime().toString("hh:mm:ss");
     m_gameLog->append(QString("[%1] %2").arg(timestamp).arg(message));
     m_gameLog->moveCursor(QTextCursor::End);
@@ -917,4 +900,16 @@ void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state)
             }
         }
     }
+}
+
+void MainWindow::handleGameActionResponse(const sanguosha::GameState& state) {
+    // 更新游戏状态
+    updatePlayerInfoTable(state);
+    updateHandCards(state);
+    updateTurnInfo(state);
+    updateGameLog(state);
+    
+    // 确定是否是我的回合
+    bool isMyTurn = (state.current_player() == m_selfUserId);
+    updateButtonStates(state.phase(), isMyTurn);
 }

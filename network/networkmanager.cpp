@@ -182,3 +182,15 @@ void NetworkManager::onDisconnected() {
 void NetworkManager::onErrorOccurred(QAbstractSocket::SocketError error) {
     emit errorOccurred(m_socket->errorString());
 }
+
+void NetworkManager::sendGameAction(uint32_t cardId, uint32_t targetPlayer) {
+    sanguosha::GameMessage message;
+    message.set_type(sanguosha::GAME_ACTION);
+    
+    sanguosha::GameAction* gameAction = message.mutable_game_action();
+    gameAction->set_type(sanguosha::ACTION_PLAY_CARD);
+    gameAction->set_card_id(cardId);
+    gameAction->set_target_player(targetPlayer);
+    
+    sendMessage(message);
+}

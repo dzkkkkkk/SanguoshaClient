@@ -255,24 +255,42 @@ void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 
 // 处理游戏状态更新
 void MainWindow::handleGameState(const sanguosha::GameState& state) {
-    // 更新玩家信息
-    updatePlayerInfoTable(state);
+    // 确保在UI线程中执行
+    if (QThread::currentThread() != this->thread()) {
+        QMetaObject::invokeMethod(this, "handleGameStateInUIThread", 
+                                  Qt::QueuedConnection,
+                                  Q_ARG(sanguosha::GameState, state));
+        return;
+    }
+    
+    handleGameStateInUIThread(state);
+}
 
+void MainWindow::handleGameStateInUIThread(const sanguosha::GameState& state) {
+    // 检查游戏界面是否已初始化
+    if (!m_gameScreen || !m_playerInfoTable) {
+        qWarning() << "Game screen or player info table not initialized when handling game state";
+        return;
+    }
+    
+    // 更新玩家信息表
+    updatePlayerInfoTable(state);
+    
     // 更新手牌
     updateHandCards(state);
-
+    
     // 更新回合信息
     updateTurnInfo(state);
-
+    
     // 确定是否是我的回合
     bool isMyTurn = (state.current_player() == m_selfUserId);
-
+    
     // 更新按钮状态
     updateButtonStates(state.phase(), isMyTurn);
-
+    
     // 检查游戏结束条件
     checkGameEndCondition(state);
-
+    
     // 更新游戏日志
     if (!state.game_log().empty()) {
         addToGameLog(QString::fromStdString(state.game_log()));
@@ -400,6 +418,8 @@ void MainWindow::setupLobbyScreen()
 // mainwindow.cpp - 修复setupGameScreen函数
 void MainWindow::setupGameScreen()
 {
+    qDebug() << "Setting up game screen";
+
     if (m_gameScreen) {
         // 如果已经存在，先清理再重新创建
         delete m_gameScreen;
@@ -502,6 +522,10 @@ void MainWindow::setupGameScreen()
     Q_ASSERT(m_playCardButton != nullptr);
     Q_ASSERT(m_endTurnButton != nullptr);
     Q_ASSERT(m_cancelButton != nullptr);
+
+    qDebug() << "Game screen setup completed";
+    qDebug() << "Player info table:" << m_playerInfoTable;
+    qDebug() << "Game log:" << m_gameLog;
 }
 
 //卡牌使用逻辑
@@ -602,7 +626,7 @@ void MainWindow::updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn)
 }
 
 //玩家信息列表
-void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state)
+void MainWindow::(const sanguosha::GameState &state)
 {
     m_playerInfoTable->setRowCount(state.players_size());
     for (int i = 0; i < state.players_size(); ++i) {
@@ -842,12 +866,10 @@ void MainWindow::handleRoomListResponse(const sanguosha::RoomListResponse &respo
     ui->statusbar->showMessage(tr("房间列表已更新"));
 }
 
-// 新增的UI线程处理函数
+// mainwindow.cpp - 修改handleGameStartInUIThread函数
 void MainWindow::handleGameStartInUIThread(const sanguosha::GameStart &start)
 {
     qDebug() << "Handling game start in UI thread";
-    qDebug() << "Game screen pointer:" << m_gameScreen;
-    qDebug() << "Game log pointer:" << m_gameLog;
     
     // 添加更严格的安全检查
     if (start.player_ids_size() < 2) {
@@ -863,30 +885,54 @@ void MainWindow::handleGameStartInUIThread(const sanguosha::GameStart &start)
     }
     
     // 再次检查是否初始化成功
-    if (!m_gameScreen) {
-        qCritical() << "Failed to initialize game screen!";
+    if (!m_gameScreen || !m_playerInfoTable) {
+        qCritical() << "Failed to initialize game screen or player info table!";
         return;
     }
     
     showScreen(m_gameScreen);
     
-    // 清空游戏日志 - 添加空指针检查
+    // 清空游戏日志
     if (m_gameLog) {
         m_gameLog->clear();
         m_gameLog->append(tr("游戏开始！"));
-    } else {
-        qWarning() << "Game log widget is not initialized!";
-        // 尝试重新初始化
-        setupGameScreen();
-        if (m_gameLog) {
-            m_gameLog->clear();
-            m_gameLog->append(tr("游戏开始！"));
-        }
     }
     
     // 设置自己的用户ID（假设第一个玩家是自己）
     if (start.player_ids_size() > 0) {
         m_selfUserId = start.player_ids(0);
         qDebug() << "Self user ID set to:" << m_selfUserId;
+    }
+}
+
+void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state)
+{
+    if (!m_playerInfoTable) {
+        qWarning() << "Player info table is null in updatePlayerInfoTable";
+        return;
+    }
+    
+    m_playerInfoTable->setRowCount(state.players_size());
+    for (int i = 0; i < state.players_size(); ++i) {
+        const sanguosha::PlayerState &player = state.players(i);
+        
+        // 设置玩家ID
+        m_playerInfoTable->setItem(i, 0, new QTableWidgetItem(QString::number(player.player_id())));
+        
+        // 设置玩家名称
+        m_playerInfoTable->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(player.username())));
+        
+        // 设置玩家血量
+        m_playerInfoTable->setItem(i, 2, new QTableWidgetItem(
+            QString("%1/%2").arg(player.hp()).arg(player.max_hp())));
+        
+        // 高亮当前玩家
+        for (int col = 0; col < 3; ++col) {
+            if (player.player_id() == state.current_player()) {
+                m_playerInfoTable->item(i, col)->setBackground(Qt::yellow);
+            } else {
+                m_playerInfoTable->item(i, col)->setBackground(Qt::white);
+            }
+        }
     }
 }

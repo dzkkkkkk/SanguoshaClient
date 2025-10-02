@@ -349,19 +349,27 @@ void MainWindow::setupLoginScreen()   //拟移除
 
 void MainWindow::showScreen(QWidget *screen)
 {
-    // 隐藏所有可能的屏幕
-    ui->centralwidget->setVisible(false);
-    if (m_lobbyScreen) m_lobbyScreen->hide();
-    if (m_gameScreen) m_gameScreen->hide();
+    // 获取当前中心部件
+    QWidget* current = centralWidget();
+    
+    // 隐藏当前屏幕（如果不是我们要显示的屏幕）
+    if (current && current != screen) {
+        current->hide();
+    }
 
     // 显示请求的屏幕
     if (screen) {
         screen->show();
-        setCentralWidget(screen);
+        // 只有当屏幕不是当前中心部件时才设置
+        if (centralWidget() != screen) {
+            setCentralWidget(screen);
+        }
     } else {
         // 显示主UI
-        ui->centralwidget->setVisible(true);
-        setCentralWidget(ui->centralwidget);
+        if (centralWidget() != ui->centralwidget) {
+            ui->centralwidget->show();
+            setCentralWidget(ui->centralwidget);
+        }
     }
 }
 
@@ -626,32 +634,6 @@ void MainWindow::updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn)
 }
 
 //玩家信息列表
-void MainWindow::(const sanguosha::GameState &state)
-{
-    m_playerInfoTable->setRowCount(state.players_size());
-    for (int i = 0; i < state.players_size(); ++i) {
-        const sanguosha::PlayerState &player = state.players(i);
-        
-        // 设置玩家ID
-        m_playerInfoTable->setItem(i, 0, new QTableWidgetItem(QString::number(player.player_id())));
-        
-        // 设置玩家名称
-        m_playerInfoTable->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(player.username())));
-        
-        // 设置玩家血量
-        m_playerInfoTable->setItem(i, 2, new QTableWidgetItem(
-            QString("%1/%2").arg(player.hp()).arg(player.max_hp())));
-        
-        // 高亮当前玩家
-        for (int col = 0; col < 3; ++col) {
-            if (player.player_id() == state.current_player()) {
-                m_playerInfoTable->item(i, col)->setBackground(Qt::yellow);
-            } else {
-                m_playerInfoTable->item(i, col)->setBackground(Qt::white);
-            }
-        }
-    }
-}
 
 //手牌显示
 void MainWindow::updateHandCards(const sanguosha::GameState &state)
@@ -885,18 +867,22 @@ void MainWindow::handleGameStartInUIThread(const sanguosha::GameStart &start)
     }
     
     // 再次检查是否初始化成功
-    if (!m_gameScreen || !m_playerInfoTable) {
-        qCritical() << "Failed to initialize game screen or player info table!";
+    if (!m_gameScreen) {
+        qCritical() << "Failed to initialize game screen!";
+        return;
+    }
+    
+    // 确保所有必要的组件都已创建
+    if (!m_playerInfoTable || !m_gameLog) {
+        qCritical() << "Game screen components not properly initialized!";
         return;
     }
     
     showScreen(m_gameScreen);
     
     // 清空游戏日志
-    if (m_gameLog) {
-        m_gameLog->clear();
-        m_gameLog->append(tr("游戏开始！"));
-    }
+    m_gameLog->clear();
+    m_gameLog->append(tr("游戏开始！"));
     
     // 设置自己的用户ID（假设第一个玩家是自己）
     if (start.player_ids_size() > 0) {
@@ -905,13 +891,9 @@ void MainWindow::handleGameStartInUIThread(const sanguosha::GameStart &start)
     }
 }
 
+//玩家信息列表
 void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state)
 {
-    if (!m_playerInfoTable) {
-        qWarning() << "Player info table is null in updatePlayerInfoTable";
-        return;
-    }
-    
     m_playerInfoTable->setRowCount(state.players_size());
     for (int i = 0; i < state.players_size(); ++i) {
         const sanguosha::PlayerState &player = state.players(i);

@@ -16,6 +16,9 @@
 #include <QLineEdit>
 #include "proto/sanguosha.pb.h"
 #include <QThread>
+#include <QDebug>
+#include <QTimer>
+#include <QDateTime>
 //#include <QFlowLayout> 拟删除
 
 
@@ -197,11 +200,19 @@ void MainWindow::onEndTurnClicked()
 void MainWindow::handleLoginResponse(const sanguosha::LoginResponse &response)
 {
     if (response.success()) {
-        ui->statusbar->showMessage(tr("登录成功！"));
+        // 保存用户ID
+        m_selfUserId = response.user_id();
+        ui->statusbar->showMessage(tr("登录成功！用户ID: %1").arg(m_selfUserId));
+        
         // 初始化并切换到大厅界面
         setupLobbyScreen();
         showScreen(m_lobbyScreen);
-        // 可以在这里请求房间列表
+        
+        // 请求房间列表
+        QTableWidget* roomTable = m_lobbyScreen->findChild<QTableWidget*>();
+        if (roomTable) {
+            requestRoomList(roomTable);
+        }
     } else {
         QMessageBox::warning(this, tr("登录失败"), 
                             QString::fromStdString(response.error_message()));
@@ -242,6 +253,10 @@ void MainWindow::handleRoomResponse(const sanguosha::RoomResponse &response)
 
 // 处理游戏状态更新
 void MainWindow::handleGameState(const sanguosha::GameState& state) {
+    qDebug() << "Received game state, current player:" << state.current_player()
+             << ", phase:" << state.phase()
+             << ", game screen ready:" << (m_gameScreen != nullptr);
+    
     // 确保在UI线程中执行
     if (QThread::currentThread() != this->thread()) {
         QMetaObject::invokeMethod(this, "handleGameStateInUIThread", 
@@ -254,33 +269,26 @@ void MainWindow::handleGameState(const sanguosha::GameState& state) {
 }
 
 void MainWindow::handleGameStateInUIThread(const sanguosha::GameState& state) {
-    // 检查游戏界面是否已初始化
+    // 检查游戏界面是否已初始化，如果没有则忽略状态更新
     if (!m_gameScreen || !m_playerInfoTable) {
-        qWarning() << "Game screen or player info table not initialized when handling game state";
+        qDebug() << "Game screen not ready, ignoring game state update";
         return;
     }
     
-    // 更新玩家信息表
+    // 更新游戏状态
     updatePlayerInfoTable(state);
-    
-    // 更新手牌
     updateHandCards(state);
-    
-    // 更新回合信息
     updateTurnInfo(state);
-    
-    // 更新游戏日志
     updateGameLog(state);
     
     // 确定是否是我的回合
     bool isMyTurn = (state.current_player() == m_selfUserId);
-    
-    // 更新按钮状态
     updateButtonStates(state.phase(), isMyTurn);
     
     // 检查游戏结束条件
     checkGameEndCondition(state);
 }
+
 
 // 处理游戏开始
 // mainwindow.cpp - 修复handleGameStart函数
@@ -867,10 +875,14 @@ void MainWindow::handleGameStartInUIThread(const sanguosha::GameStart &start)
     m_gameLog->clear();
     m_gameLog->append(tr("游戏开始！"));
     
-    // 设置自己的用户ID（假设第一个玩家是自己）
-    if (start.player_ids_size() > 0) {
-        m_selfUserId = start.player_ids(0);
-        qDebug() << "Self user ID set to:" << m_selfUserId;
+    // 正确设置自己的用户ID - 从登录响应中获取，而不是从GameStart中获取
+    // m_selfUserId 应该在登录响应中已经设置好了
+    qDebug() << "Self user ID is:" << m_selfUserId;
+    
+    // 添加玩家信息到日志
+    for (int i = 0; i < start.player_ids_size(); ++i) {
+        uint32_t playerId = start.player_ids(i);
+        m_gameLog->append(tr("玩家 %1 加入游戏").arg(playerId));
     }
 }
 

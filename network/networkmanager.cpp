@@ -86,7 +86,6 @@ void NetworkManager::onReadyRead() {
 }
 
 // networkmanager.cpp - 确保消息处理在UI线程
-// networkmanager.cpp - 修改parseMessage函数
 void NetworkManager::parseMessage(const std::vector<char>& buffer) {
     sanguosha::GameMessage message;
     if (!message.ParseFromArray(buffer.data(), buffer.size())) {
@@ -98,18 +97,22 @@ void NetworkManager::parseMessage(const std::vector<char>& buffer) {
     QMetaObject::invokeMethod(this, [this, message]() {
         qDebug() << "Received message type:" << message.type();
         
+        // 处理消息顺序 - 确保游戏开始消息先处理
         switch (message.type()) {
+        case sanguosha::GAME_START:
+            emit gameStartReceived(message.game_start());
+            break;
+        case sanguosha::GAME_STATE:
+            // 短暂延迟处理游戏状态，确保游戏界面已初始化
+            QTimer::singleShot(100, this, [this, message]() {
+                emit gameStateReceived(message.game_state());
+            });
+            break;
         case sanguosha::LOGIN_RESPONSE:
             emit loginResponseReceived(message.login_response());
             break;
         case sanguosha::ROOM_RESPONSE:
             emit roomResponseReceived(message.room_response());
-            break;
-        case sanguosha::GAME_STATE:
-            emit gameStateReceived(message.game_state());
-            break;
-        case sanguosha::GAME_START:
-            emit gameStartReceived(message.game_start());
             break;
         case sanguosha::GAME_OVER:
             emit gameOverReceived(message.game_over());

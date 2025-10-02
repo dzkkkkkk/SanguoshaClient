@@ -20,6 +20,7 @@ public:
 
     // 登录相关
     void login(const QString& username);
+    void sendGameAction(uint32_t cardId, uint32_t targetPlayer);
 
 signals:
     // 连接状态信号

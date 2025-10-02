@@ -591,36 +591,58 @@ void MainWindow::onCancelButtonClicked()
 }
 
 //禁将
-void MainWindow::updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn)
-{
+void MainWindow::updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn) {
+    // 检查自己是否已死亡
+    bool isAlive = true;
+    for (int i = 0; i < m_playerInfoTable->rowCount(); ++i) {
+        int playerId = m_playerInfoTable->item(i, 0)->text().toInt();
+        if (playerId == m_selfUserId) {
+            QString hpText = m_playerInfoTable->item(i, 2)->text();
+            int hp = hpText.split('/')[0].toInt();
+            if (hp <= 0) {
+                isAlive = false;
+                break;
+            }
+        }
+    }
+    
     bool canPlayCard = false;
     bool canEndTurn = false;
     
     // 根据游戏阶段和是否是自己回合决定按钮状态
-    switch (phase) {
-    case sanguosha::DRAW_PHASE: // 使用proto中定义的枚举值
-        canPlayCard = false;
-        canEndTurn = isMyTurn;
-        break;
-    case sanguosha::PLAY_PHASE:
-        canPlayCard = isMyTurn && m_selectedCard != 0;
-        canEndTurn = isMyTurn;
-        break;
-    case sanguosha::DISCARD_PHASE:
-        canPlayCard = false;
-        canEndTurn = isMyTurn;
-        break;
-    default:
+    if (isAlive) {
+        switch (phase) {
+        case sanguosha::DRAW_PHASE:
+            canPlayCard = false;
+            canEndTurn = isMyTurn;
+            break;
+        case sanguosha::PLAY_PHASE:
+            canPlayCard = isMyTurn && m_selectedCard != 0;
+            canEndTurn = isMyTurn;
+            break;
+        case sanguosha::DISCARD_PHASE:
+            canPlayCard = false;
+            canEndTurn = isMyTurn;
+            break;
+        default:
+            canPlayCard = false;
+            canEndTurn = false;
+        }
+    } else {
+        // 玩家已死亡，禁用所有操作
         canPlayCard = false;
         canEndTurn = false;
+        ui->statusbar->showMessage(tr("您已死亡，无法操作"));
     }
     
     m_playCardButton->setEnabled(canPlayCard);
     m_endTurnButton->setEnabled(canEndTurn);
     
     // 更新状态栏信息
-    if (isMyTurn) {
+    if (isMyTurn && isAlive) {
         ui->statusbar->showMessage(tr("轮到您的回合，请操作"));
+    } else if (!isAlive) {
+        ui->statusbar->showMessage(tr("您已死亡，无法操作"));
     } else {
         ui->statusbar->showMessage(tr("等待其他玩家操作"));
     }
@@ -887,8 +909,7 @@ void MainWindow::handleGameStartInUIThread(const sanguosha::GameStart &start)
 }
 
 //玩家信息列表
-void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state)
-{
+void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state) {
     m_playerInfoTable->setRowCount(state.players_size());
     for (int i = 0; i < state.players_size(); ++i) {
         const sanguosha::PlayerState &player = state.players(i);
@@ -900,15 +921,24 @@ void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state)
         m_playerInfoTable->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(player.username())));
         
         // 设置玩家血量
-        m_playerInfoTable->setItem(i, 2, new QTableWidgetItem(
-            QString("%1/%2").arg(player.hp()).arg(player.max_hp())));
+        QString hpText = QString("%1/%2").arg(player.hp()).arg(player.max_hp());
+        m_playerInfoTable->setItem(i, 2, new QTableWidgetItem(hpText));
         
-        // 高亮当前玩家
-        for (int col = 0; col < 3; ++col) {
-            if (player.player_id() == state.current_player()) {
-                m_playerInfoTable->item(i, col)->setBackground(Qt::yellow);
-            } else {
-                m_playerInfoTable->item(i, col)->setBackground(Qt::white);
+        // 如果玩家已死亡，使用特殊样式
+        if (player.hp() <= 0) {
+            for (int col = 0; col < 3; ++col) {
+                m_playerInfoTable->item(i, col)->setBackground(Qt::gray);
+                m_playerInfoTable->item(i, col)->setForeground(Qt::white);
+            }
+        } else {
+            // 高亮当前玩家
+            for (int col = 0; col < 3; ++col) {
+                if (player.player_id() == state.current_player()) {
+                    m_playerInfoTable->item(i, col)->setBackground(Qt::yellow);
+                } else {
+                    m_playerInfoTable->item(i, col)->setBackground(Qt::white);
+                }
+                m_playerInfoTable->item(i, col)->setForeground(Qt::black);
             }
         }
     }

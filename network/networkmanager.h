@@ -36,6 +36,7 @@ signals:
     void gameOverReceived(const sanguosha::GameOver& gameOver);
 
     void roomListResponseReceived(const sanguosha::RoomListResponse &response);
+    void gameActionReceived(const sanguosha::GameAction& action);
 
 private slots:
     void onConnected();

@@ -365,6 +365,7 @@ CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: ../network/networkmanager.h
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: ../proto/sanguosha.pb.h
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDataStream
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
+CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDebug
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QThread
 CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer

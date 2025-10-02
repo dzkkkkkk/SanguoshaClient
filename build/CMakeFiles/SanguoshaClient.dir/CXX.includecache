@@ -6,52 +6,6 @@
 
 #IncludeRegexTransform: 
 
-../mainwindow.h
-QMainWindow
--
-QDataStream
--
-QDateTime
--
-QMessageBox
--
-QTableWidget
--
-QTextEdit
--
-QLabel
--
-QScrollArea
--
-QComboBox
--
-QDialog
--
-QDialogButtonBox
--
-QVBoxLayout
--
-QHBoxLayout
--
-QPushButton
--
-QLineEdit
--
-proto/sanguosha.pb.h
-../proto/sanguosha.pb.h
-network/networkmanager.h
-../network/networkmanager.h
-
-../network/networkmanager.h
-QObject
--
-QTcpSocket
--
-QTimer
--
-sanguosha.pb.h
-../network/sanguosha.pb.h
-
 ../proto/sanguosha.pb.h
 string
 -
@@ -81,40 +35,6 @@ google/protobuf/generated_enum_reflection.h
 -
 google/protobuf/unknown_field_set.h
 -
-
-/home/dzkkkkk/SanguoshaClient/build/SanguoshaClient_autogen/5SSUPNRDSB/moc_networkmanager.cpp
-network/networkmanager.h
-/home/dzkkkkk/SanguoshaClient/build/SanguoshaClient_autogen/5SSUPNRDSB/network/networkmanager.h
-QtCore/qbytearray.h
--
-QtCore/qmetatype.h
--
-
-/home/dzkkkkk/SanguoshaClient/build/SanguoshaClient_autogen/EWIEGA46WW/moc_mainwindow.cpp
-mainwindow.h
-/home/dzkkkkk/SanguoshaClient/build/SanguoshaClient_autogen/EWIEGA46WW/mainwindow.h
-QtCore/qbytearray.h
--
-QtCore/qmetatype.h
--
-
-/home/dzkkkkk/SanguoshaClient/build/SanguoshaClient_autogen/mocs_compilation.cpp
-EWIEGA46WW/moc_mainwindow.cpp
-/home/dzkkkkk/SanguoshaClient/build/SanguoshaClient_autogen/EWIEGA46WW/moc_mainwindow.cpp
-5SSUPNRDSB/moc_networkmanager.cpp
-/home/dzkkkkk/SanguoshaClient/build/SanguoshaClient_autogen/5SSUPNRDSB/moc_networkmanager.cpp
-
-/home/dzkkkkk/SanguoshaClient/main.cpp
-QApplication
--
-QTextCodec
--
-QFont
--
-QFontDatabase
--
-mainwindow.h
-/home/dzkkkkk/SanguoshaClient/mainwindow.h
 
 /home/dzkkkkk/SanguoshaClient/mainwindow.cpp
 mainwindow.h
@@ -152,6 +72,12 @@ QLineEdit
 proto/sanguosha.pb.h
 /home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h
 QThread
+-
+QDebug
+-
+QTimer
+-
+QDateTime
 -
 
 /home/dzkkkkk/SanguoshaClient/mainwindow.h
@@ -254,13 +180,13 @@ qdatastream.h
 qdatetime.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
 
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QDebug
+qdebug.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
+
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
 qobject.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h
-
-/usr/include/x86_64-linux-gnu/qt5/QtCore/QTextCodec
-qtextcodec.h
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qtextcodec.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QThread
 qthread.h
@@ -908,12 +834,6 @@ AvailabilityMacros.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
 
-/usr/include/x86_64-linux-gnu/qt5/QtCore/qtextcodec.h
-QtCore/qstring.h
--
-QtCore/qlist.h
--
-
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h
 QtCore/qiodevice.h
 -
@@ -1054,14 +974,6 @@ QtCore/qpoint.h
 QtCore/qglobal.h
 -
 
-/usr/include/x86_64-linux-gnu/qt5/QtGui/QFont
-qfont.h
-/usr/include/x86_64-linux-gnu/qt5/QtGui/qfont.h
-
-/usr/include/x86_64-linux-gnu/qt5/QtGui/QFontDatabase
-qfontdatabase.h
-/usr/include/x86_64-linux-gnu/qt5/QtGui/qfontdatabase.h
-
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qbrush.h
 QtGui/qtguiglobal.h
 -
@@ -1144,16 +1056,6 @@ QtGui/qwindowdefs.h
 QtCore/qstring.h
 -
 QtCore/qsharedpointer.h
--
-
-/usr/include/x86_64-linux-gnu/qt5/QtGui/qfontdatabase.h
-QtGui/qtguiglobal.h
--
-QtGui/qwindowdefs.h
--
-QtCore/qstring.h
--
-QtGui/qfont.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qfontinfo.h

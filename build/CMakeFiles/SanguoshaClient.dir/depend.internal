@@ -366,6 +366,7 @@ CMakeFiles/SanguoshaClient.dir/mainwindow.cpp.o
  /home/dzkkkkk/SanguoshaClient/proto/sanguosha.pb.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QDataStream
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QDateTime
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QDebug
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QThread
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer

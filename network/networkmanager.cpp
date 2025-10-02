@@ -99,34 +99,35 @@ void NetworkManager::parseMessage(const std::vector<char>& buffer) {
         
         // 处理消息顺序 - 确保游戏开始消息先处理
         switch (message.type()) {
-        case sanguosha::GAME_START:
-            emit gameStartReceived(message.game_start());
-            break;
-        case sanguosha::GAME_STATE:
-            // 短暂延迟处理游戏状态，确保游戏界面已初始化
-            QTimer::singleShot(100, this, [this, message]() {
-                emit gameStateReceived(message.game_state());
-            });
-            break;
-        case sanguosha::LOGIN_RESPONSE:
-            emit loginResponseReceived(message.login_response());
-            break;
-        case sanguosha::ROOM_RESPONSE:
-            emit roomResponseReceived(message.room_response());
-            break;
-        case sanguosha::GAME_OVER:
-            emit gameOverReceived(message.game_over());
-            break;
-        case sanguosha::ROOM_LIST_RESPONSE:
-            emit roomListResponseReceived(message.room_list_response());
-            break;
-        case sanguosha::HEARTBEAT:
-            // 心跳包，无需处理
-            break;
-        default:
-            qWarning() << "Unknown message type received:" << message.type();
-            break;
-        }
+    case sanguosha::GAME_START:
+        emit gameStartReceived(message.game_start());
+        break;
+    case sanguosha::GAME_STATE:
+        emit gameStateReceived(message.game_state());
+        break;
+    case sanguosha::LOGIN_RESPONSE:
+        emit loginResponseReceived(message.login_response());
+        break;
+    case sanguosha::ROOM_RESPONSE:
+        emit roomResponseReceived(message.room_response());
+        break;
+    case sanguosha::GAME_OVER:
+        emit gameOverReceived(message.game_over());
+        break;
+    case sanguosha::ROOM_LIST_RESPONSE:
+        emit roomListResponseReceived(message.room_list_response());
+        break;
+    case sanguosha::HEARTBEAT:
+        // 心跳包，无需处理
+        break;
+    case sanguosha::GAME_ACTION:
+        // 添加对GAME_ACTION的处理
+        emit gameActionReceived(message.game_action());
+        break;
+    default:
+        qWarning() << "Unknown message type received:" << message.type();
+        break;
+}
     }, Qt::QueuedConnection);
 }
 

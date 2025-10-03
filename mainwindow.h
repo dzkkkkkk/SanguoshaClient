@@ -59,6 +59,7 @@ private slots:
     void handleGameStartInUIThread(const sanguosha::GameStart &start);
     void handleGameStateInUIThread(const sanguosha::GameState& state);
     void handleGameActionResponse(const sanguosha::GameState& state);
+    void handleGameOverInUIThread(const sanguosha::GameOver &gameOver);
     
 private:
     Ui::MainWindow *ui;

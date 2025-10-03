@@ -88,6 +88,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 添加房间列表响应信号连接
     connect(m_networkManager, &NetworkManager::roomListResponseReceived, this, &MainWindow::handleRoomListResponse);
+    connect(m_networkManager, &NetworkManager::gameOverReceived, this, &MainWindow::handleGameOver);
 
     // 连接到服务器，端口号已改为9527
     m_networkManager->connectToServer("127.0.0.1", 9527);
@@ -761,30 +762,15 @@ void MainWindow::onMessageReceived(const sanguosha::GameMessage &message)
 }
 
 void MainWindow::handleGameOver(const sanguosha::GameOver& gameOver) {
-    if (gameOver.winner_id() == m_selfUserId) {
-        addToGameLog("恭喜！你获得了胜利！");
-        QMessageBox::information(this, "游戏结束", "你赢了！");
-    } else {
-        addToGameLog("游戏结束，你输了。");
-        QMessageBox::information(this, "游戏结束", "你输了！");
+    // 确保在UI线程执行
+    if (QThread::currentThread() != this->thread()) {
+        QMetaObject::invokeMethod(this, "handleGameOverInUIThread", 
+                                  Qt::QueuedConnection,
+                                  Q_ARG(sanguosha::GameOver, gameOver));
+        return;
     }
     
-    // 重置游戏状态
-    resetGameState();
-    
-    // 返回大厅
-    if (m_lobbyScreen) {
-        showScreen(m_lobbyScreen);
-    } else {
-        setupLobbyScreen();
-        showScreen(m_lobbyScreen);
-    }
-    
-    // 请求更新房间列表
-    QTableWidget* roomTable = m_lobbyScreen->findChild<QTableWidget*>();
-    if (roomTable) {
-        requestRoomList(roomTable);
-    }
+    handleGameOverInUIThread(gameOver);
 }
 
 //调试功能
@@ -955,31 +941,31 @@ void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state) {
         // 设置玩家名称
         m_playerInfoTable->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(player.username())));
         
-        // 设置玩家血量
+        // 设置玩家血量 - 确保正确显示
         QString hpText = QString("%1/%2").arg(player.hp()).arg(player.max_hp());
-        m_playerInfoTable->setItem(i, 2, new QTableWidgetItem(hpText));
+        QTableWidgetItem* hpItem = new QTableWidgetItem(hpText);
+        
+        // 如果血量为0，特殊标记
+        if (player.hp() <= 0) {
+            hpItem->setBackground(Qt::red);
+            hpItem->setForeground(Qt::white);
+        }
+        
+        m_playerInfoTable->setItem(i, 2, hpItem);
         
         // 更新当前玩家的存活状态
         if (player.player_id() == m_selfUserId) {
             isAlive = (player.hp() > 0);
         }
         
-        // 如果玩家已死亡，使用特殊样式
-        if (player.hp() <= 0) {
-            for (int col = 0; col < 3; ++col) {
-                m_playerInfoTable->item(i, col)->setBackground(Qt::gray);
-                m_playerInfoTable->item(i, col)->setForeground(Qt::white);
+        // 高亮当前玩家
+        for (int col = 0; col < 3; ++col) {
+            if (player.player_id() == state.current_player()) {
+                m_playerInfoTable->item(i, col)->setBackground(Qt::yellow);
+            } else {
+                m_playerInfoTable->item(i, col)->setBackground(Qt::white);
             }
-        } else {
-            // 高亮当前玩家
-            for (int col = 0; col < 3; ++col) {
-                if (player.player_id() == state.current_player()) {
-                    m_playerInfoTable->item(i, col)->setBackground(Qt::yellow);
-                } else {
-                    m_playerInfoTable->item(i, col)->setBackground(Qt::white);
-                }
-                m_playerInfoTable->item(i, col)->setForeground(Qt::black);
-            }
+            m_playerInfoTable->item(i, col)->setForeground(Qt::black);
         }
     }
 }
@@ -994,4 +980,31 @@ void MainWindow::handleGameActionResponse(const sanguosha::GameState& state) {
     // 确定是否是我的回合
     bool isMyTurn = (state.current_player() == m_selfUserId);
     updateButtonStates(state.phase(), isMyTurn);
+}
+
+void MainWindow::handleGameOverInUIThread(const sanguosha::GameOver& gameOver) {
+    if (gameOver.winner_id() == m_selfUserId) {
+        addToGameLog("恭喜！你获得了胜利！");
+        QMessageBox::information(this, "游戏结束", "你赢了！");
+    } else {
+        addToGameLog("游戏结束，你输了。");
+        QMessageBox::information(this, "游戏结束", "你输了！");
+    }
+    
+    // 重置游戏状态
+    resetGameState();
+    
+    // 返回大厅
+    if (m_lobbyScreen) {
+        showScreen(m_lobbyScreen);
+    } else {
+        setupLobbyScreen();
+        showScreen(m_lobbyScreen);
+    }
+    
+    // 请求更新房间列表
+    QTableWidget* roomTable = m_lobbyScreen->findChild<QTableWidget*>();
+    if (roomTable) {
+        requestRoomList(roomTable);
+    }
 }

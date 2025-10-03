@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_cancelButton(nullptr)
     , m_selectedCard(0)
     , m_selfUserId(0)
+    , isAlive(true)
 {
     ui->setupUi(this);
     
@@ -614,7 +615,7 @@ void MainWindow::updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn) {
     bool canEndTurn = false;
     
     // 根据游戏阶段和是否是自己回合决定按钮状态
-    if (isAlive) {
+    if (isAlive) { // 使用成员变量
         switch (phase) {
         case sanguosha::DRAW_PHASE:
             canPlayCard = false;
@@ -643,9 +644,9 @@ void MainWindow::updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn) {
     m_endTurnButton->setEnabled(canEndTurn);
     
     // 更新状态栏信息
-    if (isMyTurn && isAlive) {
+    if (isMyTurn && isAlive) { // 使用成员变量
         ui->statusbar->showMessage(tr("轮到您的回合，请操作"));
-    } else if (!isAlive) {
+    } else if (!isAlive) { // 使用成员变量
         ui->statusbar->showMessage(tr("您已死亡，无法操作"));
     } else {
         ui->statusbar->showMessage(tr("等待其他玩家操作"));
@@ -957,6 +958,11 @@ void MainWindow::updatePlayerInfoTable(const sanguosha::GameState &state) {
         // 设置玩家血量
         QString hpText = QString("%1/%2").arg(player.hp()).arg(player.max_hp());
         m_playerInfoTable->setItem(i, 2, new QTableWidgetItem(hpText));
+        
+        // 更新当前玩家的存活状态
+        if (player.player_id() == m_selfUserId) {
+            isAlive = (player.hp() > 0);
+        }
         
         // 如果玩家已死亡，使用特殊样式
         if (player.hp() <= 0) {

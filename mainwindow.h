@@ -103,7 +103,7 @@ private:
     void addToGameLog(const QString &message);
     void resetGameState();
     void checkGameEndCondition(const sanguosha::GameState &state);
-
+    bool isAlive;
     
 };
 

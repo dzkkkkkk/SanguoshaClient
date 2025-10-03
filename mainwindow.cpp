@@ -592,18 +592,22 @@ void MainWindow::onCancelButtonClicked()
 
 //禁将
 void MainWindow::updateButtonStates(sanguosha::GamePhase phase, bool isMyTurn) {
-    // 检查自己是否已死亡
-    bool isAlive = true;
+    // 检查游戏是否已经结束
+    bool gameEnded = false;
     for (int i = 0; i < m_playerInfoTable->rowCount(); ++i) {
-        int playerId = m_playerInfoTable->item(i, 0)->text().toInt();
-        if (playerId == m_selfUserId) {
-            QString hpText = m_playerInfoTable->item(i, 2)->text();
-            int hp = hpText.split('/')[0].toInt();
-            if (hp <= 0) {
-                isAlive = false;
-                break;
-            }
+        QString hpText = m_playerInfoTable->item(i, 2)->text();
+        int hp = hpText.split('/')[0].toInt();
+        if (hp <= 0) {
+            gameEnded = true;
+            break;
         }
+    }
+    
+    if (gameEnded) {
+        m_playCardButton->setEnabled(false);
+        m_endTurnButton->setEnabled(false);
+        m_cancelButton->setEnabled(false);
+        return;
     }
     
     bool canPlayCard = false;
@@ -764,8 +768,22 @@ void MainWindow::handleGameOver(const sanguosha::GameOver& gameOver) {
         QMessageBox::information(this, "游戏结束", "你输了！");
     }
     
+    // 重置游戏状态
+    resetGameState();
+    
     // 返回大厅
-    showScreen(m_lobbyScreen);
+    if (m_lobbyScreen) {
+        showScreen(m_lobbyScreen);
+    } else {
+        setupLobbyScreen();
+        showScreen(m_lobbyScreen);
+    }
+    
+    // 请求更新房间列表
+    QTableWidget* roomTable = m_lobbyScreen->findChild<QTableWidget*>();
+    if (roomTable) {
+        requestRoomList(roomTable);
+    }
 }
 
 //调试功能
@@ -792,11 +810,27 @@ void MainWindow::addToGameLog(const QString &message) {
     m_gameLog->moveCursor(QTextCursor::End);
 }
 
-void MainWindow::resetGameState()
-{
+void MainWindow::resetGameState() {
     m_selectedCard = 0;
     m_playCardButton->setEnabled(false);
     m_endTurnButton->setEnabled(false);
+    m_cancelButton->setEnabled(false);
+    
+    // 清空手牌
+    QLayoutItem* item;
+    while ((item = m_handCardsLayout->takeAt(0)) != nullptr) {
+        delete item->widget();
+        delete item;
+    }
+    
+    // 清空玩家信息
+    m_playerInfoTable->setRowCount(0);
+    
+    // 清空游戏日志
+    m_gameLog->clear();
+    
+    // 重置回合信息
+    m_turnInfoLabel->setText("");
 }
 
 void MainWindow::checkGameEndCondition(const sanguosha::GameState &state)

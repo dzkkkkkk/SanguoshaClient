@@ -12,3 +12,5 @@
 ​​网络通信​​: Qt Network (基于QTcpSocket)
 ​​序列化​​: Google Protobuf
 ​​构建工具​​: CMake / qmake
+
+服务器地址：https://github.com/dzkkkkkk/sanguosha

@@ -1,48 +1,94 @@
-# 构建目录
-build/
-*/build/
-*/*/build/
+# ========== CMake 构建文件 ==========
+# 所有构建目录
+[bB]uild*/
+[bB]in*/
+[oO]ut/
+[xX]64/
+[xX]86/
 
-# CMake 生成的文件
+# CMake 特定文件
 CMakeCache.txt
 CMakeFiles/
+CMakeScripts/
 cmake_install.cmake
-Makefile
+install_manifest.txt
+compile_commands.json
 CTestTestfile.cmake
-*.cmake
 CMakeLists.txt.user
+.cmake/
 
-# Qt 相关文件
-*.autosave
-*.pro.user
+# 生成文件
+Makefile
+*.ninja
+.ninja_deps
+.ninja_log
+*.cmake
+*.cmake.*
+
+# 编译日志
+CMakeError.log
+CMakeOutput.log
+CMakeRuleHashes.txt
+cmake.check_cache
+
+# ========== 编译器输出 ==========
+# 可执行文件
+SanguoshaClient
+SanguoshaClient.exe
+SanguoshaClient.app
+
+# 库文件
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.pdb
+*.idb
+*.ilk
+*.exp
+
+# 对象文件
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.class
+
+# ========== Qt 相关 ==========
 moc_*.cpp
 qrc_*.cpp
 ui_*.h
 *.moc
+*.qrc
+.rcc/
+.qrc
+*.qm
+*.qmlc
+*.jom
 
-# 编译产物
-*.o
-*.obj
-*.a
-*.lib
-*.so
-*.dll
-*.exe
-SanguoshaClient
-
-# 生成的文件
-*.pb.cc
-*.pb.h
-
-# IDE 文件
+# ========== IDE 和工具 ==========
+.vs/
 .vscode/
 .idea/
 *.sln
 *.vcxproj*
+*.vcxproj.filters
+*.vcxproj.user
 *.suo
 *.user
-
-# 临时文件
-*~
-*.swp
+*.userosscache
 *.swo
+*.swp
+*~
+
+# ========== 系统文件 ==========
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

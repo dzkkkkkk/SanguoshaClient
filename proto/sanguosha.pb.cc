@@ -27,6 +27,8 @@ extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::i
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_LoginRequest;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_LoginResponse;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_PlayerState;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_RegisterRequest;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_RegisterResponse;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_RoomInfo;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_RoomRequest;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_sanguosha_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_GameState;
@@ -44,6 +46,16 @@ class LoginResponseDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<LoginResponse>
       _instance;
 } _LoginResponse_default_instance_;
+class RegisterRequestDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<RegisterRequest>
+      _instance;
+} _RegisterRequest_default_instance_;
+class RegisterResponseDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<RegisterResponse>
+      _instance;
+} _RegisterResponse_default_instance_;
 class HeartbeatDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<Heartbeat>
@@ -95,6 +107,8 @@ class GameMessageDefaultTypeInternal {
       _instance;
   const ::sanguosha::LoginRequest* login_request_;
   const ::sanguosha::LoginResponse* login_response_;
+  const ::sanguosha::RegisterRequest* register_request_;
+  const ::sanguosha::RegisterResponse* register_response_;
   const ::sanguosha::Heartbeat* heartbeat_;
   const ::sanguosha::RoomRequest* room_request_;
   const ::sanguosha::RoomResponse* room_response_;
@@ -138,6 +152,34 @@ static void InitDefaultsLoginResponse() {
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_LoginResponse =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsLoginResponse}, {}};
+
+static void InitDefaultsRegisterRequest() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::sanguosha::_RegisterRequest_default_instance_;
+    new (ptr) ::sanguosha::RegisterRequest();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::sanguosha::RegisterRequest::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_RegisterRequest =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsRegisterRequest}, {}};
+
+static void InitDefaultsRegisterResponse() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::sanguosha::_RegisterResponse_default_instance_;
+    new (ptr) ::sanguosha::RegisterResponse();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::sanguosha::RegisterResponse::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_RegisterResponse =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsRegisterResponse}, {}};
 
 static void InitDefaultsHeartbeat() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -279,10 +321,12 @@ static void InitDefaultsGameMessage() {
   ::sanguosha::GameMessage::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<10> scc_info_GameMessage =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 10, InitDefaultsGameMessage}, {
+::google::protobuf::internal::SCCInfo<12> scc_info_GameMessage =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 12, InitDefaultsGameMessage}, {
       &protobuf_sanguosha_2eproto::scc_info_LoginRequest.base,
       &protobuf_sanguosha_2eproto::scc_info_LoginResponse.base,
+      &protobuf_sanguosha_2eproto::scc_info_RegisterRequest.base,
+      &protobuf_sanguosha_2eproto::scc_info_RegisterResponse.base,
       &protobuf_sanguosha_2eproto::scc_info_Heartbeat.base,
       &protobuf_sanguosha_2eproto::scc_info_RoomRequest.base,
       &protobuf_sanguosha_2eproto::scc_info_RoomResponse.base,
@@ -309,6 +353,8 @@ static void InitDefaultsGameOver() {
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_LoginRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_LoginResponse.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_RegisterRequest.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_RegisterResponse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Heartbeat.base);
   ::google::protobuf::internal::InitSCC(&scc_info_RoomInfo.base);
   ::google::protobuf::internal::InitSCC(&scc_info_RoomRequest.base);
@@ -322,7 +368,7 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_GameOver.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[13];
+::google::protobuf::Metadata file_level_metadata[15];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[6];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -341,6 +387,22 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::LoginResponse, success_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::LoginResponse, error_message_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::LoginResponse, user_id_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::RegisterRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::RegisterRequest, username_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::RegisterRequest, password_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::RegisterRequest, email_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::RegisterResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::RegisterResponse, success_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::RegisterResponse, error_message_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::RegisterResponse, user_id_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::Heartbeat, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -420,6 +482,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::sanguosha::GameMessage, type_),
   offsetof(::sanguosha::GameMessageDefaultTypeInternal, login_request_),
   offsetof(::sanguosha::GameMessageDefaultTypeInternal, login_response_),
+  offsetof(::sanguosha::GameMessageDefaultTypeInternal, register_request_),
+  offsetof(::sanguosha::GameMessageDefaultTypeInternal, register_response_),
   offsetof(::sanguosha::GameMessageDefaultTypeInternal, heartbeat_),
   offsetof(::sanguosha::GameMessageDefaultTypeInternal, room_request_),
   offsetof(::sanguosha::GameMessageDefaultTypeInternal, room_response_),
@@ -439,22 +503,26 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::sanguosha::LoginRequest)},
   { 7, -1, sizeof(::sanguosha::LoginResponse)},
-  { 15, -1, sizeof(::sanguosha::Heartbeat)},
-  { 21, -1, sizeof(::sanguosha::RoomInfo)},
-  { 31, -1, sizeof(::sanguosha::RoomRequest)},
-  { 38, -1, sizeof(::sanguosha::RoomResponse)},
-  { 46, -1, sizeof(::sanguosha::RoomListResponse)},
-  { 52, -1, sizeof(::sanguosha::GameAction)},
-  { 60, -1, sizeof(::sanguosha::PlayerState)},
-  { 70, -1, sizeof(::sanguosha::GameState)},
-  { 79, -1, sizeof(::sanguosha::GameStart)},
-  { 86, -1, sizeof(::sanguosha::GameMessage)},
-  { 103, -1, sizeof(::sanguosha::GameOver)},
+  { 15, -1, sizeof(::sanguosha::RegisterRequest)},
+  { 23, -1, sizeof(::sanguosha::RegisterResponse)},
+  { 31, -1, sizeof(::sanguosha::Heartbeat)},
+  { 37, -1, sizeof(::sanguosha::RoomInfo)},
+  { 47, -1, sizeof(::sanguosha::RoomRequest)},
+  { 54, -1, sizeof(::sanguosha::RoomResponse)},
+  { 62, -1, sizeof(::sanguosha::RoomListResponse)},
+  { 68, -1, sizeof(::sanguosha::GameAction)},
+  { 76, -1, sizeof(::sanguosha::PlayerState)},
+  { 86, -1, sizeof(::sanguosha::GameState)},
+  { 95, -1, sizeof(::sanguosha::GameStart)},
+  { 102, -1, sizeof(::sanguosha::GameMessage)},
+  { 121, -1, sizeof(::sanguosha::GameOver)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::sanguosha::_LoginRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::sanguosha::_LoginResponse_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::sanguosha::_RegisterRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::sanguosha::_RegisterResponse_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::sanguosha::_Heartbeat_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::sanguosha::_RoomInfo_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::sanguosha::_RoomRequest_default_instance_),
@@ -483,7 +551,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 13);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 15);
 }
 
 void AddDescriptorsImpl() {
@@ -492,59 +560,66 @@ void AddDescriptorsImpl() {
       "\n\017sanguosha.proto\022\tsanguosha\"2\n\014LoginReq"
       "uest\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t"
       "\"H\n\rLoginResponse\022\017\n\007success\030\001 \001(\010\022\025\n\rer"
-      "ror_message\030\002 \001(\t\022\017\n\007user_id\030\003 \001(\r\"\036\n\tHe"
-      "artbeat\022\021\n\ttimestamp\030\001 \001(\004\"\201\001\n\010RoomInfo\022"
-      "\017\n\007room_id\030\001 \001(\r\022\017\n\007players\030\002 \003(\r\022\027\n\017cur"
-      "rent_players\030\003 \001(\r\022\023\n\013max_players\030\004 \001(\r\022"
-      "%\n\006status\030\005 \001(\0162\025.sanguosha.RoomStatus\"E"
-      "\n\013RoomRequest\022%\n\006action\030\001 \001(\0162\025.sanguosh"
-      "a.RoomAction\022\017\n\007room_id\030\002 \001(\r\"^\n\014RoomRes"
-      "ponse\022\017\n\007success\030\001 \001(\010\022\025\n\rerror_message\030"
-      "\002 \001(\t\022&\n\troom_info\030\003 \001(\0132\023.sanguosha.Roo"
-      "mInfo\"6\n\020RoomListResponse\022\"\n\005rooms\030\001 \003(\013"
-      "2\023.sanguosha.RoomInfo\"Y\n\nGameAction\022#\n\004t"
-      "ype\030\001 \001(\0162\025.sanguosha.ActionType\022\017\n\007card"
-      "_id\030\002 \001(\r\022\025\n\rtarget_player\030\003 \001(\r\"b\n\013Play"
-      "erState\022\021\n\tplayer_id\030\001 \001(\r\022\020\n\010username\030\002"
-      " \001(\t\022\n\n\002hp\030\003 \001(\r\022\016\n\006max_hp\030\004 \001(\r\022\022\n\nhand"
-      "_cards\030\005 \003(\r\"\203\001\n\tGameState\022\026\n\016current_pl"
-      "ayer\030\001 \001(\r\022\'\n\007players\030\002 \003(\0132\026.sanguosha."
-      "PlayerState\022#\n\005phase\030\003 \001(\0162\024.sanguosha.G"
-      "amePhase\022\020\n\010game_log\030\004 \001(\t\"0\n\tGameStart\022"
-      "\017\n\007room_id\030\001 \001(\r\022\022\n\nplayer_ids\030\002 \003(\r\"\234\004\n"
-      "\013GameMessage\022$\n\004type\030\001 \001(\0162\026.sanguosha.M"
-      "essageType\0220\n\rlogin_request\030\002 \001(\0132\027.sang"
-      "uosha.LoginRequestH\000\0222\n\016login_response\030\003"
-      " \001(\0132\030.sanguosha.LoginResponseH\000\022)\n\thear"
-      "tbeat\030\004 \001(\0132\024.sanguosha.HeartbeatH\000\022.\n\014r"
-      "oom_request\030\005 \001(\0132\026.sanguosha.RoomReques"
-      "tH\000\0220\n\rroom_response\030\006 \001(\0132\027.sanguosha.R"
-      "oomResponseH\000\022,\n\013game_action\030\007 \001(\0132\025.san"
-      "guosha.GameActionH\000\022*\n\ngame_state\030\010 \001(\0132"
-      "\024.sanguosha.GameStateH\000\022*\n\ngame_start\030\t "
-      "\001(\0132\024.sanguosha.GameStartH\000\022(\n\tgame_over"
-      "\030\n \001(\0132\023.sanguosha.GameOverH\000\0229\n\022room_li"
-      "st_response\030\016 \001(\0132\033.sanguosha.RoomListRe"
-      "sponseH\000B\t\n\007content\"\035\n\010GameOver\022\021\n\twinne"
-      "r_id\030\001 \001(\r*\374\001\n\013MessageType\022\013\n\007UNKNOWN\020\000\022"
-      "\021\n\rLOGIN_REQUEST\020\001\022\022\n\016LOGIN_RESPONSE\020\002\022\r"
-      "\n\tHEARTBEAT\020\003\022\020\n\014ROOM_REQUEST\020\004\022\021\n\rROOM_"
-      "RESPONSE\020\005\022\017\n\013GAME_ACTION\020\006\022\016\n\nGAME_STAT"
-      "E\020\007\022\016\n\nGAME_START\020\010\022\r\n\tGAME_OVER\020\t\022\026\n\022GA"
-      "ME_STATE_REQUEST\020\n\022\025\n\021ROOM_LIST_REQUEST\020"
-      "\013\022\026\n\022ROOM_LIST_RESPONSE\020\014*L\n\nRoomAction\022"
-      "\017\n\013CREATE_ROOM\020\000\022\r\n\tJOIN_ROOM\020\001\022\016\n\nLEAVE"
-      "_ROOM\020\002\022\016\n\nSTART_GAME\020\003*&\n\nRoomStatus\022\013\n"
-      "\007WAITING\020\000\022\013\n\007PLAYING\020\001*M\n\010CardType\022\020\n\014C"
-      "ARD_UNKNOWN\020\000\022\017\n\013CARD_ATTACK\020\001\022\017\n\013CARD_D"
-      "EFEND\020\002\022\r\n\tCARD_HEAL\020\003*Q\n\tGamePhase\022\021\n\rP"
-      "HASE_UNKNOWN\020\000\022\016\n\nDRAW_PHASE\020\001\022\016\n\nPLAY_P"
-      "HASE\020\002\022\021\n\rDISCARD_PHASE\020\003*7\n\nActionType\022"
-      "\024\n\020ACTION_PLAY_CARD\020\000\022\023\n\017ACTION_END_TURN"
-      "\020\001b\006proto3"
+      "ror_message\030\002 \001(\t\022\017\n\007user_id\030\003 \001(\r\"D\n\017Re"
+      "gisterRequest\022\020\n\010username\030\001 \001(\t\022\020\n\010passw"
+      "ord\030\002 \001(\t\022\r\n\005email\030\003 \001(\t\"K\n\020RegisterResp"
+      "onse\022\017\n\007success\030\001 \001(\010\022\025\n\rerror_message\030\002"
+      " \001(\t\022\017\n\007user_id\030\003 \001(\r\"\036\n\tHeartbeat\022\021\n\tti"
+      "mestamp\030\001 \001(\004\"\201\001\n\010RoomInfo\022\017\n\007room_id\030\001 "
+      "\001(\r\022\017\n\007players\030\002 \003(\r\022\027\n\017current_players\030"
+      "\003 \001(\r\022\023\n\013max_players\030\004 \001(\r\022%\n\006status\030\005 \001"
+      "(\0162\025.sanguosha.RoomStatus\"E\n\013RoomRequest"
+      "\022%\n\006action\030\001 \001(\0162\025.sanguosha.RoomAction\022"
+      "\017\n\007room_id\030\002 \001(\r\"^\n\014RoomResponse\022\017\n\007succ"
+      "ess\030\001 \001(\010\022\025\n\rerror_message\030\002 \001(\t\022&\n\troom"
+      "_info\030\003 \001(\0132\023.sanguosha.RoomInfo\"6\n\020Room"
+      "ListResponse\022\"\n\005rooms\030\001 \003(\0132\023.sanguosha."
+      "RoomInfo\"Y\n\nGameAction\022#\n\004type\030\001 \001(\0162\025.s"
+      "anguosha.ActionType\022\017\n\007card_id\030\002 \001(\r\022\025\n\r"
+      "target_player\030\003 \001(\r\"b\n\013PlayerState\022\021\n\tpl"
+      "ayer_id\030\001 \001(\r\022\020\n\010username\030\002 \001(\t\022\n\n\002hp\030\003 "
+      "\001(\r\022\016\n\006max_hp\030\004 \001(\r\022\022\n\nhand_cards\030\005 \003(\r\""
+      "\203\001\n\tGameState\022\026\n\016current_player\030\001 \001(\r\022\'\n"
+      "\007players\030\002 \003(\0132\026.sanguosha.PlayerState\022#"
+      "\n\005phase\030\003 \001(\0162\024.sanguosha.GamePhase\022\020\n\010g"
+      "ame_log\030\004 \001(\t\"0\n\tGameStart\022\017\n\007room_id\030\001 "
+      "\001(\r\022\022\n\nplayer_ids\030\002 \003(\r\"\216\005\n\013GameMessage\022"
+      "$\n\004type\030\001 \001(\0162\026.sanguosha.MessageType\0220\n"
+      "\rlogin_request\030\002 \001(\0132\027.sanguosha.LoginRe"
+      "questH\000\0222\n\016login_response\030\003 \001(\0132\030.sanguo"
+      "sha.LoginResponseH\000\0226\n\020register_request\030"
+      "\004 \001(\0132\032.sanguosha.RegisterRequestH\000\0228\n\021r"
+      "egister_response\030\005 \001(\0132\033.sanguosha.Regis"
+      "terResponseH\000\022)\n\theartbeat\030\006 \001(\0132\024.sangu"
+      "osha.HeartbeatH\000\022.\n\014room_request\030\007 \001(\0132\026"
+      ".sanguosha.RoomRequestH\000\0220\n\rroom_respons"
+      "e\030\010 \001(\0132\027.sanguosha.RoomResponseH\000\022,\n\013ga"
+      "me_action\030\t \001(\0132\025.sanguosha.GameActionH\000"
+      "\022*\n\ngame_state\030\n \001(\0132\024.sanguosha.GameSta"
+      "teH\000\022*\n\ngame_start\030\013 \001(\0132\024.sanguosha.Gam"
+      "eStartH\000\022(\n\tgame_over\030\014 \001(\0132\023.sanguosha."
+      "GameOverH\000\0229\n\022room_list_response\030\r \001(\0132\033"
+      ".sanguosha.RoomListResponseH\000B\t\n\007content"
+      "\"\035\n\010GameOver\022\021\n\twinner_id\030\001 \001(\r*\251\002\n\013Mess"
+      "ageType\022\013\n\007UNKNOWN\020\000\022\021\n\rLOGIN_REQUEST\020\001\022"
+      "\022\n\016LOGIN_RESPONSE\020\002\022\024\n\020REGISTER_REQUEST\020"
+      "\003\022\025\n\021REGISTER_RESPONSE\020\004\022\r\n\tHEARTBEAT\020\005\022"
+      "\020\n\014ROOM_REQUEST\020\006\022\021\n\rROOM_RESPONSE\020\007\022\017\n\013"
+      "GAME_ACTION\020\010\022\016\n\nGAME_STATE\020\t\022\016\n\nGAME_ST"
+      "ART\020\n\022\r\n\tGAME_OVER\020\013\022\026\n\022GAME_STATE_REQUE"
+      "ST\020\014\022\025\n\021ROOM_LIST_REQUEST\020\r\022\026\n\022ROOM_LIST"
+      "_RESPONSE\020\016*L\n\nRoomAction\022\017\n\013CREATE_ROOM"
+      "\020\000\022\r\n\tJOIN_ROOM\020\001\022\016\n\nLEAVE_ROOM\020\002\022\016\n\nSTA"
+      "RT_GAME\020\003*&\n\nRoomStatus\022\013\n\007WAITING\020\000\022\013\n\007"
+      "PLAYING\020\001*M\n\010CardType\022\020\n\014CARD_UNKNOWN\020\000\022"
+      "\017\n\013CARD_ATTACK\020\001\022\017\n\013CARD_DEFEND\020\002\022\r\n\tCAR"
+      "D_HEAL\020\003*Q\n\tGamePhase\022\021\n\rPHASE_UNKNOWN\020\000"
+      "\022\016\n\nDRAW_PHASE\020\001\022\016\n\nPLAY_PHASE\020\002\022\021\n\rDISC"
+      "ARD_PHASE\020\003*7\n\nActionType\022\024\n\020ACTION_PLAY"
+      "_CARD\020\000\022\023\n\017ACTION_END_TURN\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2090);
+      descriptor, 2396);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "sanguosha.proto", &protobuf_RegisterTypes);
 }
@@ -580,6 +655,8 @@ bool MessageType_IsValid(int value) {
     case 10:
     case 11:
     case 12:
+    case 13:
+    case 14:
       return true;
     default:
       return false;
@@ -1279,6 +1356,685 @@ void LoginResponse::InternalSwap(LoginResponse* other) {
 }
 
 ::google::protobuf::Metadata LoginResponse::GetMetadata() const {
+  protobuf_sanguosha_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_sanguosha_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void RegisterRequest::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int RegisterRequest::kUsernameFieldNumber;
+const int RegisterRequest::kPasswordFieldNumber;
+const int RegisterRequest::kEmailFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+RegisterRequest::RegisterRequest()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_sanguosha_2eproto::scc_info_RegisterRequest.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:sanguosha.RegisterRequest)
+}
+RegisterRequest::RegisterRequest(const RegisterRequest& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  username_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.username().size() > 0) {
+    username_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.username_);
+  }
+  password_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.password().size() > 0) {
+    password_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.password_);
+  }
+  email_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.email().size() > 0) {
+    email_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.email_);
+  }
+  // @@protoc_insertion_point(copy_constructor:sanguosha.RegisterRequest)
+}
+
+void RegisterRequest::SharedCtor() {
+  username_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  password_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  email_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+RegisterRequest::~RegisterRequest() {
+  // @@protoc_insertion_point(destructor:sanguosha.RegisterRequest)
+  SharedDtor();
+}
+
+void RegisterRequest::SharedDtor() {
+  username_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  password_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  email_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void RegisterRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* RegisterRequest::descriptor() {
+  ::protobuf_sanguosha_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_sanguosha_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const RegisterRequest& RegisterRequest::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_sanguosha_2eproto::scc_info_RegisterRequest.base);
+  return *internal_default_instance();
+}
+
+
+void RegisterRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:sanguosha.RegisterRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  username_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  password_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  email_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
+}
+
+bool RegisterRequest::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:sanguosha.RegisterRequest)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // string username = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_username()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->username().data(), static_cast<int>(this->username().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "sanguosha.RegisterRequest.username"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string password = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_password()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->password().data(), static_cast<int>(this->password().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "sanguosha.RegisterRequest.password"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string email = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_email()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->email().data(), static_cast<int>(this->email().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "sanguosha.RegisterRequest.email"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:sanguosha.RegisterRequest)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:sanguosha.RegisterRequest)
+  return false;
+#undef DO_
+}
+
+void RegisterRequest::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:sanguosha.RegisterRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string username = 1;
+  if (this->username().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->username().data(), static_cast<int>(this->username().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.RegisterRequest.username");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->username(), output);
+  }
+
+  // string password = 2;
+  if (this->password().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->password().data(), static_cast<int>(this->password().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.RegisterRequest.password");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->password(), output);
+  }
+
+  // string email = 3;
+  if (this->email().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->email().data(), static_cast<int>(this->email().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.RegisterRequest.email");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->email(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:sanguosha.RegisterRequest)
+}
+
+::google::protobuf::uint8* RegisterRequest::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:sanguosha.RegisterRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string username = 1;
+  if (this->username().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->username().data(), static_cast<int>(this->username().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.RegisterRequest.username");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->username(), target);
+  }
+
+  // string password = 2;
+  if (this->password().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->password().data(), static_cast<int>(this->password().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.RegisterRequest.password");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->password(), target);
+  }
+
+  // string email = 3;
+  if (this->email().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->email().data(), static_cast<int>(this->email().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.RegisterRequest.email");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->email(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:sanguosha.RegisterRequest)
+  return target;
+}
+
+size_t RegisterRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:sanguosha.RegisterRequest)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string username = 1;
+  if (this->username().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->username());
+  }
+
+  // string password = 2;
+  if (this->password().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->password());
+  }
+
+  // string email = 3;
+  if (this->email().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->email());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void RegisterRequest::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:sanguosha.RegisterRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const RegisterRequest* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const RegisterRequest>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:sanguosha.RegisterRequest)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:sanguosha.RegisterRequest)
+    MergeFrom(*source);
+  }
+}
+
+void RegisterRequest::MergeFrom(const RegisterRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:sanguosha.RegisterRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.username().size() > 0) {
+
+    username_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.username_);
+  }
+  if (from.password().size() > 0) {
+
+    password_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.password_);
+  }
+  if (from.email().size() > 0) {
+
+    email_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.email_);
+  }
+}
+
+void RegisterRequest::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:sanguosha.RegisterRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void RegisterRequest::CopyFrom(const RegisterRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:sanguosha.RegisterRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool RegisterRequest::IsInitialized() const {
+  return true;
+}
+
+void RegisterRequest::Swap(RegisterRequest* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void RegisterRequest::InternalSwap(RegisterRequest* other) {
+  using std::swap;
+  username_.Swap(&other->username_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  password_.Swap(&other->password_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  email_.Swap(&other->email_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata RegisterRequest::GetMetadata() const {
+  protobuf_sanguosha_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_sanguosha_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void RegisterResponse::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int RegisterResponse::kSuccessFieldNumber;
+const int RegisterResponse::kErrorMessageFieldNumber;
+const int RegisterResponse::kUserIdFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+RegisterResponse::RegisterResponse()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_sanguosha_2eproto::scc_info_RegisterResponse.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:sanguosha.RegisterResponse)
+}
+RegisterResponse::RegisterResponse(const RegisterResponse& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  error_message_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.error_message().size() > 0) {
+    error_message_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_message_);
+  }
+  ::memcpy(&success_, &from.success_,
+    static_cast<size_t>(reinterpret_cast<char*>(&user_id_) -
+    reinterpret_cast<char*>(&success_)) + sizeof(user_id_));
+  // @@protoc_insertion_point(copy_constructor:sanguosha.RegisterResponse)
+}
+
+void RegisterResponse::SharedCtor() {
+  error_message_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&success_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&user_id_) -
+      reinterpret_cast<char*>(&success_)) + sizeof(user_id_));
+}
+
+RegisterResponse::~RegisterResponse() {
+  // @@protoc_insertion_point(destructor:sanguosha.RegisterResponse)
+  SharedDtor();
+}
+
+void RegisterResponse::SharedDtor() {
+  error_message_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void RegisterResponse::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* RegisterResponse::descriptor() {
+  ::protobuf_sanguosha_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_sanguosha_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const RegisterResponse& RegisterResponse::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_sanguosha_2eproto::scc_info_RegisterResponse.base);
+  return *internal_default_instance();
+}
+
+
+void RegisterResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:sanguosha.RegisterResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  error_message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&success_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&user_id_) -
+      reinterpret_cast<char*>(&success_)) + sizeof(user_id_));
+  _internal_metadata_.Clear();
+}
+
+bool RegisterResponse::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:sanguosha.RegisterResponse)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // bool success = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &success_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string error_message = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_error_message()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->error_message().data(), static_cast<int>(this->error_message().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "sanguosha.RegisterResponse.error_message"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 user_id = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &user_id_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:sanguosha.RegisterResponse)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:sanguosha.RegisterResponse)
+  return false;
+#undef DO_
+}
+
+void RegisterResponse::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:sanguosha.RegisterResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->success() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->success(), output);
+  }
+
+  // string error_message = 2;
+  if (this->error_message().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->error_message().data(), static_cast<int>(this->error_message().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.RegisterResponse.error_message");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->error_message(), output);
+  }
+
+  // uint32 user_id = 3;
+  if (this->user_id() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->user_id(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:sanguosha.RegisterResponse)
+}
+
+::google::protobuf::uint8* RegisterResponse::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:sanguosha.RegisterResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->success() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->success(), target);
+  }
+
+  // string error_message = 2;
+  if (this->error_message().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->error_message().data(), static_cast<int>(this->error_message().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sanguosha.RegisterResponse.error_message");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->error_message(), target);
+  }
+
+  // uint32 user_id = 3;
+  if (this->user_id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->user_id(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:sanguosha.RegisterResponse)
+  return target;
+}
+
+size_t RegisterResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:sanguosha.RegisterResponse)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string error_message = 2;
+  if (this->error_message().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->error_message());
+  }
+
+  // bool success = 1;
+  if (this->success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // uint32 user_id = 3;
+  if (this->user_id() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->user_id());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void RegisterResponse::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:sanguosha.RegisterResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  const RegisterResponse* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const RegisterResponse>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:sanguosha.RegisterResponse)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:sanguosha.RegisterResponse)
+    MergeFrom(*source);
+  }
+}
+
+void RegisterResponse::MergeFrom(const RegisterResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:sanguosha.RegisterResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.error_message().size() > 0) {
+
+    error_message_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_message_);
+  }
+  if (from.success() != 0) {
+    set_success(from.success());
+  }
+  if (from.user_id() != 0) {
+    set_user_id(from.user_id());
+  }
+}
+
+void RegisterResponse::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:sanguosha.RegisterResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void RegisterResponse::CopyFrom(const RegisterResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:sanguosha.RegisterResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool RegisterResponse::IsInitialized() const {
+  return true;
+}
+
+void RegisterResponse::Swap(RegisterResponse* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void RegisterResponse::InternalSwap(RegisterResponse* other) {
+  using std::swap;
+  error_message_.Swap(&other->error_message_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(success_, other->success_);
+  swap(user_id_, other->user_id_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata RegisterResponse::GetMetadata() const {
   protobuf_sanguosha_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_sanguosha_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -4126,6 +4882,10 @@ void GameMessage::InitAsDefaultInstance() {
       ::sanguosha::LoginRequest::internal_default_instance());
   ::sanguosha::_GameMessage_default_instance_.login_response_ = const_cast< ::sanguosha::LoginResponse*>(
       ::sanguosha::LoginResponse::internal_default_instance());
+  ::sanguosha::_GameMessage_default_instance_.register_request_ = const_cast< ::sanguosha::RegisterRequest*>(
+      ::sanguosha::RegisterRequest::internal_default_instance());
+  ::sanguosha::_GameMessage_default_instance_.register_response_ = const_cast< ::sanguosha::RegisterResponse*>(
+      ::sanguosha::RegisterResponse::internal_default_instance());
   ::sanguosha::_GameMessage_default_instance_.heartbeat_ = const_cast< ::sanguosha::Heartbeat*>(
       ::sanguosha::Heartbeat::internal_default_instance());
   ::sanguosha::_GameMessage_default_instance_.room_request_ = const_cast< ::sanguosha::RoomRequest*>(
@@ -4170,6 +4930,34 @@ void GameMessage::set_allocated_login_response(::sanguosha::LoginResponse* login
     content_.login_response_ = login_response;
   }
   // @@protoc_insertion_point(field_set_allocated:sanguosha.GameMessage.login_response)
+}
+void GameMessage::set_allocated_register_request(::sanguosha::RegisterRequest* register_request) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_content();
+  if (register_request) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      register_request = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, register_request, submessage_arena);
+    }
+    set_has_register_request();
+    content_.register_request_ = register_request;
+  }
+  // @@protoc_insertion_point(field_set_allocated:sanguosha.GameMessage.register_request)
+}
+void GameMessage::set_allocated_register_response(::sanguosha::RegisterResponse* register_response) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_content();
+  if (register_response) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      register_response = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, register_response, submessage_arena);
+    }
+    set_has_register_response();
+    content_.register_response_ = register_response;
+  }
+  // @@protoc_insertion_point(field_set_allocated:sanguosha.GameMessage.register_response)
 }
 void GameMessage::set_allocated_heartbeat(::sanguosha::Heartbeat* heartbeat) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -4287,6 +5075,8 @@ void GameMessage::set_allocated_room_list_response(::sanguosha::RoomListResponse
 const int GameMessage::kTypeFieldNumber;
 const int GameMessage::kLoginRequestFieldNumber;
 const int GameMessage::kLoginResponseFieldNumber;
+const int GameMessage::kRegisterRequestFieldNumber;
+const int GameMessage::kRegisterResponseFieldNumber;
 const int GameMessage::kHeartbeatFieldNumber;
 const int GameMessage::kRoomRequestFieldNumber;
 const int GameMessage::kRoomResponseFieldNumber;
@@ -4317,6 +5107,14 @@ GameMessage::GameMessage(const GameMessage& from)
     }
     case kLoginResponse: {
       mutable_login_response()->::sanguosha::LoginResponse::MergeFrom(from.login_response());
+      break;
+    }
+    case kRegisterRequest: {
+      mutable_register_request()->::sanguosha::RegisterRequest::MergeFrom(from.register_request());
+      break;
+    }
+    case kRegisterResponse: {
+      mutable_register_response()->::sanguosha::RegisterResponse::MergeFrom(from.register_response());
       break;
     }
     case kHeartbeat: {
@@ -4397,6 +5195,14 @@ void GameMessage::clear_content() {
     }
     case kLoginResponse: {
       delete content_.login_response_;
+      break;
+    }
+    case kRegisterRequest: {
+      delete content_.register_request_;
+      break;
+    }
+    case kRegisterResponse: {
+      delete content_.register_response_;
       break;
     }
     case kHeartbeat: {
@@ -4499,10 +5305,34 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // .sanguosha.Heartbeat heartbeat = 4;
+      // .sanguosha.RegisterRequest register_request = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_register_request()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .sanguosha.RegisterResponse register_response = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_register_response()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .sanguosha.Heartbeat heartbeat = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_heartbeat()));
         } else {
@@ -4511,10 +5341,10 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // .sanguosha.RoomRequest room_request = 5;
-      case 5: {
+      // .sanguosha.RoomRequest room_request = 7;
+      case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_room_request()));
         } else {
@@ -4523,10 +5353,10 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // .sanguosha.RoomResponse room_response = 6;
-      case 6: {
+      // .sanguosha.RoomResponse room_response = 8;
+      case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_room_response()));
         } else {
@@ -4535,10 +5365,10 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // .sanguosha.GameAction game_action = 7;
-      case 7: {
+      // .sanguosha.GameAction game_action = 9;
+      case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_game_action()));
         } else {
@@ -4547,10 +5377,10 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // .sanguosha.GameState game_state = 8;
-      case 8: {
+      // .sanguosha.GameState game_state = 10;
+      case 10: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(82u /* 82 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_game_state()));
         } else {
@@ -4559,10 +5389,10 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // .sanguosha.GameStart game_start = 9;
-      case 9: {
+      // .sanguosha.GameStart game_start = 11;
+      case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_game_start()));
         } else {
@@ -4571,10 +5401,10 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // .sanguosha.GameOver game_over = 10;
-      case 10: {
+      // .sanguosha.GameOver game_over = 12;
+      case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(82u /* 82 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(98u /* 98 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_game_over()));
         } else {
@@ -4583,10 +5413,10 @@ bool GameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // .sanguosha.RoomListResponse room_list_response = 14;
-      case 14: {
+      // .sanguosha.RoomListResponse room_list_response = 13;
+      case 13: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(114u /* 114 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(106u /* 106 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_room_list_response()));
         } else {
@@ -4639,52 +5469,64 @@ void GameMessage::SerializeWithCachedSizes(
       3, this->_internal_login_response(), output);
   }
 
-  // .sanguosha.Heartbeat heartbeat = 4;
+  // .sanguosha.RegisterRequest register_request = 4;
+  if (has_register_request()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      4, this->_internal_register_request(), output);
+  }
+
+  // .sanguosha.RegisterResponse register_response = 5;
+  if (has_register_response()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      5, this->_internal_register_response(), output);
+  }
+
+  // .sanguosha.Heartbeat heartbeat = 6;
   if (has_heartbeat()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->_internal_heartbeat(), output);
+      6, this->_internal_heartbeat(), output);
   }
 
-  // .sanguosha.RoomRequest room_request = 5;
+  // .sanguosha.RoomRequest room_request = 7;
   if (has_room_request()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->_internal_room_request(), output);
+      7, this->_internal_room_request(), output);
   }
 
-  // .sanguosha.RoomResponse room_response = 6;
+  // .sanguosha.RoomResponse room_response = 8;
   if (has_room_response()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, this->_internal_room_response(), output);
+      8, this->_internal_room_response(), output);
   }
 
-  // .sanguosha.GameAction game_action = 7;
+  // .sanguosha.GameAction game_action = 9;
   if (has_game_action()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, this->_internal_game_action(), output);
+      9, this->_internal_game_action(), output);
   }
 
-  // .sanguosha.GameState game_state = 8;
+  // .sanguosha.GameState game_state = 10;
   if (has_game_state()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      8, this->_internal_game_state(), output);
+      10, this->_internal_game_state(), output);
   }
 
-  // .sanguosha.GameStart game_start = 9;
+  // .sanguosha.GameStart game_start = 11;
   if (has_game_start()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      9, this->_internal_game_start(), output);
+      11, this->_internal_game_start(), output);
   }
 
-  // .sanguosha.GameOver game_over = 10;
+  // .sanguosha.GameOver game_over = 12;
   if (has_game_over()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      10, this->_internal_game_over(), output);
+      12, this->_internal_game_over(), output);
   }
 
-  // .sanguosha.RoomListResponse room_list_response = 14;
+  // .sanguosha.RoomListResponse room_list_response = 13;
   if (has_room_list_response()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      14, this->_internal_room_list_response(), output);
+      13, this->_internal_room_list_response(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4721,60 +5563,74 @@ void GameMessage::SerializeWithCachedSizes(
         3, this->_internal_login_response(), deterministic, target);
   }
 
-  // .sanguosha.Heartbeat heartbeat = 4;
+  // .sanguosha.RegisterRequest register_request = 4;
+  if (has_register_request()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        4, this->_internal_register_request(), deterministic, target);
+  }
+
+  // .sanguosha.RegisterResponse register_response = 5;
+  if (has_register_response()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        5, this->_internal_register_response(), deterministic, target);
+  }
+
+  // .sanguosha.Heartbeat heartbeat = 6;
   if (has_heartbeat()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        4, this->_internal_heartbeat(), deterministic, target);
+        6, this->_internal_heartbeat(), deterministic, target);
   }
 
-  // .sanguosha.RoomRequest room_request = 5;
+  // .sanguosha.RoomRequest room_request = 7;
   if (has_room_request()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        5, this->_internal_room_request(), deterministic, target);
+        7, this->_internal_room_request(), deterministic, target);
   }
 
-  // .sanguosha.RoomResponse room_response = 6;
+  // .sanguosha.RoomResponse room_response = 8;
   if (has_room_response()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        6, this->_internal_room_response(), deterministic, target);
+        8, this->_internal_room_response(), deterministic, target);
   }
 
-  // .sanguosha.GameAction game_action = 7;
+  // .sanguosha.GameAction game_action = 9;
   if (has_game_action()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        7, this->_internal_game_action(), deterministic, target);
+        9, this->_internal_game_action(), deterministic, target);
   }
 
-  // .sanguosha.GameState game_state = 8;
+  // .sanguosha.GameState game_state = 10;
   if (has_game_state()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        8, this->_internal_game_state(), deterministic, target);
+        10, this->_internal_game_state(), deterministic, target);
   }
 
-  // .sanguosha.GameStart game_start = 9;
+  // .sanguosha.GameStart game_start = 11;
   if (has_game_start()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        9, this->_internal_game_start(), deterministic, target);
+        11, this->_internal_game_start(), deterministic, target);
   }
 
-  // .sanguosha.GameOver game_over = 10;
+  // .sanguosha.GameOver game_over = 12;
   if (has_game_over()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        10, this->_internal_game_over(), deterministic, target);
+        12, this->_internal_game_over(), deterministic, target);
   }
 
-  // .sanguosha.RoomListResponse room_list_response = 14;
+  // .sanguosha.RoomListResponse room_list_response = 13;
   if (has_room_list_response()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        14, this->_internal_room_list_response(), deterministic, target);
+        13, this->_internal_room_list_response(), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4815,56 +5671,70 @@ size_t GameMessage::ByteSizeLong() const {
           *content_.login_response_);
       break;
     }
-    // .sanguosha.Heartbeat heartbeat = 4;
+    // .sanguosha.RegisterRequest register_request = 4;
+    case kRegisterRequest: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *content_.register_request_);
+      break;
+    }
+    // .sanguosha.RegisterResponse register_response = 5;
+    case kRegisterResponse: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *content_.register_response_);
+      break;
+    }
+    // .sanguosha.Heartbeat heartbeat = 6;
     case kHeartbeat: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *content_.heartbeat_);
       break;
     }
-    // .sanguosha.RoomRequest room_request = 5;
+    // .sanguosha.RoomRequest room_request = 7;
     case kRoomRequest: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *content_.room_request_);
       break;
     }
-    // .sanguosha.RoomResponse room_response = 6;
+    // .sanguosha.RoomResponse room_response = 8;
     case kRoomResponse: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *content_.room_response_);
       break;
     }
-    // .sanguosha.GameAction game_action = 7;
+    // .sanguosha.GameAction game_action = 9;
     case kGameAction: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *content_.game_action_);
       break;
     }
-    // .sanguosha.GameState game_state = 8;
+    // .sanguosha.GameState game_state = 10;
     case kGameState: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *content_.game_state_);
       break;
     }
-    // .sanguosha.GameStart game_start = 9;
+    // .sanguosha.GameStart game_start = 11;
     case kGameStart: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *content_.game_start_);
       break;
     }
-    // .sanguosha.GameOver game_over = 10;
+    // .sanguosha.GameOver game_over = 12;
     case kGameOver: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *content_.game_over_);
       break;
     }
-    // .sanguosha.RoomListResponse room_list_response = 14;
+    // .sanguosha.RoomListResponse room_list_response = 13;
     case kRoomListResponse: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -4912,6 +5782,14 @@ void GameMessage::MergeFrom(const GameMessage& from) {
     }
     case kLoginResponse: {
       mutable_login_response()->::sanguosha::LoginResponse::MergeFrom(from.login_response());
+      break;
+    }
+    case kRegisterRequest: {
+      mutable_register_request()->::sanguosha::RegisterRequest::MergeFrom(from.register_request());
+      break;
+    }
+    case kRegisterResponse: {
+      mutable_register_response()->::sanguosha::RegisterResponse::MergeFrom(from.register_response());
       break;
     }
     case kHeartbeat: {
@@ -5220,6 +6098,12 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::sanguosha::LoginRequest* Arena::
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::sanguosha::LoginResponse* Arena::CreateMaybeMessage< ::sanguosha::LoginResponse >(Arena* arena) {
   return Arena::CreateInternal< ::sanguosha::LoginResponse >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::sanguosha::RegisterRequest* Arena::CreateMaybeMessage< ::sanguosha::RegisterRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::sanguosha::RegisterRequest >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::sanguosha::RegisterResponse* Arena::CreateMaybeMessage< ::sanguosha::RegisterResponse >(Arena* arena) {
+  return Arena::CreateInternal< ::sanguosha::RegisterResponse >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::sanguosha::Heartbeat* Arena::CreateMaybeMessage< ::sanguosha::Heartbeat >(Arena* arena) {
   return Arena::CreateInternal< ::sanguosha::Heartbeat >(arena);

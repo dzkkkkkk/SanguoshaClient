@@ -108,6 +108,9 @@ void NetworkManager::parseMessage(const std::vector<char>& buffer) {
     case sanguosha::LOGIN_RESPONSE:
         emit loginResponseReceived(message.login_response());
         break;
+    case sanguosha::REGISTER_RESPONSE:
+        emit registerResponseReceived(message.register_response());
+        break;
     case sanguosha::ROOM_RESPONSE:
         emit roomResponseReceived(message.room_response());
         break;
@@ -171,10 +174,22 @@ void NetworkManager::sendHeartbeat() {
     sendMessage(message);
 }
 
-void NetworkManager::login(const QString& username) {
+void NetworkManager::login(const QString& username, const QString& password) {
     sanguosha::GameMessage message;
     message.set_type(sanguosha::LOGIN_REQUEST);
-    message.mutable_login_request()->set_username(username.toStdString());
+    auto* loginRequest = message.mutable_login_request();
+    loginRequest->set_username(username.toStdString());
+    loginRequest->set_password(password.toStdString());
+    sendMessage(message);
+}
+
+void NetworkManager::registerUser(const QString& username, const QString& password, const QString& email) {
+    sanguosha::GameMessage message;
+    message.set_type(sanguosha::REGISTER_REQUEST);
+    auto* registerRequest = message.mutable_register_request();
+    registerRequest->set_username(username.toStdString());
+    registerRequest->set_password(password.toStdString());
+    registerRequest->set_email(email.toStdString());
     sendMessage(message);
 }
 

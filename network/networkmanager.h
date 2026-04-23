@@ -19,7 +19,8 @@ public:
     bool isConnected() const;
 
     // 登录相关
-    void login(const QString& username);
+    void login(const QString& username, const QString& password);
+    void registerUser(const QString& username, const QString& password, const QString& email);
     void sendGameAction(uint32_t cardId, uint32_t targetPlayer);
 
 signals:
@@ -30,6 +31,7 @@ signals:
 
     // 服务器消息信号
     void loginResponseReceived(const sanguosha::LoginResponse& response);
+    void registerResponseReceived(const sanguosha::RegisterResponse& response);
     void roomResponseReceived(const sanguosha::RoomResponse& response);
     void gameStateReceived(const sanguosha::GameState& state);
     void gameStartReceived(const sanguosha::GameStart& start);

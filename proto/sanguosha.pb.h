@@ -39,7 +39,7 @@ namespace protobuf_sanguosha_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[13];
+  static const ::google::protobuf::internal::ParseTable schema[15];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -74,6 +74,12 @@ extern LoginResponseDefaultTypeInternal _LoginResponse_default_instance_;
 class PlayerState;
 class PlayerStateDefaultTypeInternal;
 extern PlayerStateDefaultTypeInternal _PlayerState_default_instance_;
+class RegisterRequest;
+class RegisterRequestDefaultTypeInternal;
+extern RegisterRequestDefaultTypeInternal _RegisterRequest_default_instance_;
+class RegisterResponse;
+class RegisterResponseDefaultTypeInternal;
+extern RegisterResponseDefaultTypeInternal _RegisterResponse_default_instance_;
 class RoomInfo;
 class RoomInfoDefaultTypeInternal;
 extern RoomInfoDefaultTypeInternal _RoomInfo_default_instance_;
@@ -98,6 +104,8 @@ template<> ::sanguosha::Heartbeat* Arena::CreateMaybeMessage<::sanguosha::Heartb
 template<> ::sanguosha::LoginRequest* Arena::CreateMaybeMessage<::sanguosha::LoginRequest>(Arena*);
 template<> ::sanguosha::LoginResponse* Arena::CreateMaybeMessage<::sanguosha::LoginResponse>(Arena*);
 template<> ::sanguosha::PlayerState* Arena::CreateMaybeMessage<::sanguosha::PlayerState>(Arena*);
+template<> ::sanguosha::RegisterRequest* Arena::CreateMaybeMessage<::sanguosha::RegisterRequest>(Arena*);
+template<> ::sanguosha::RegisterResponse* Arena::CreateMaybeMessage<::sanguosha::RegisterResponse>(Arena*);
 template<> ::sanguosha::RoomInfo* Arena::CreateMaybeMessage<::sanguosha::RoomInfo>(Arena*);
 template<> ::sanguosha::RoomListResponse* Arena::CreateMaybeMessage<::sanguosha::RoomListResponse>(Arena*);
 template<> ::sanguosha::RoomRequest* Arena::CreateMaybeMessage<::sanguosha::RoomRequest>(Arena*);
@@ -110,16 +118,18 @@ enum MessageType {
   UNKNOWN = 0,
   LOGIN_REQUEST = 1,
   LOGIN_RESPONSE = 2,
-  HEARTBEAT = 3,
-  ROOM_REQUEST = 4,
-  ROOM_RESPONSE = 5,
-  GAME_ACTION = 6,
-  GAME_STATE = 7,
-  GAME_START = 8,
-  GAME_OVER = 9,
-  GAME_STATE_REQUEST = 10,
-  ROOM_LIST_REQUEST = 11,
-  ROOM_LIST_RESPONSE = 12,
+  REGISTER_REQUEST = 3,
+  REGISTER_RESPONSE = 4,
+  HEARTBEAT = 5,
+  ROOM_REQUEST = 6,
+  ROOM_RESPONSE = 7,
+  GAME_ACTION = 8,
+  GAME_STATE = 9,
+  GAME_START = 10,
+  GAME_OVER = 11,
+  GAME_STATE_REQUEST = 12,
+  ROOM_LIST_REQUEST = 13,
+  ROOM_LIST_RESPONSE = 14,
   MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
@@ -502,6 +512,272 @@ class LoginResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
 };
 // -------------------------------------------------------------------
 
+class RegisterRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:sanguosha.RegisterRequest) */ {
+ public:
+  RegisterRequest();
+  virtual ~RegisterRequest();
+
+  RegisterRequest(const RegisterRequest& from);
+
+  inline RegisterRequest& operator=(const RegisterRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  RegisterRequest(RegisterRequest&& from) noexcept
+    : RegisterRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline RegisterRequest& operator=(RegisterRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RegisterRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const RegisterRequest* internal_default_instance() {
+    return reinterpret_cast<const RegisterRequest*>(
+               &_RegisterRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  void Swap(RegisterRequest* other);
+  friend void swap(RegisterRequest& a, RegisterRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RegisterRequest* New() const final {
+    return CreateMaybeMessage<RegisterRequest>(NULL);
+  }
+
+  RegisterRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<RegisterRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const RegisterRequest& from);
+  void MergeFrom(const RegisterRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RegisterRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string username = 1;
+  void clear_username();
+  static const int kUsernameFieldNumber = 1;
+  const ::std::string& username() const;
+  void set_username(const ::std::string& value);
+  #if LANG_CXX11
+  void set_username(::std::string&& value);
+  #endif
+  void set_username(const char* value);
+  void set_username(const char* value, size_t size);
+  ::std::string* mutable_username();
+  ::std::string* release_username();
+  void set_allocated_username(::std::string* username);
+
+  // string password = 2;
+  void clear_password();
+  static const int kPasswordFieldNumber = 2;
+  const ::std::string& password() const;
+  void set_password(const ::std::string& value);
+  #if LANG_CXX11
+  void set_password(::std::string&& value);
+  #endif
+  void set_password(const char* value);
+  void set_password(const char* value, size_t size);
+  ::std::string* mutable_password();
+  ::std::string* release_password();
+  void set_allocated_password(::std::string* password);
+
+  // string email = 3;
+  void clear_email();
+  static const int kEmailFieldNumber = 3;
+  const ::std::string& email() const;
+  void set_email(const ::std::string& value);
+  #if LANG_CXX11
+  void set_email(::std::string&& value);
+  #endif
+  void set_email(const char* value);
+  void set_email(const char* value, size_t size);
+  ::std::string* mutable_email();
+  ::std::string* release_email();
+  void set_allocated_email(::std::string* email);
+
+  // @@protoc_insertion_point(class_scope:sanguosha.RegisterRequest)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr username_;
+  ::google::protobuf::internal::ArenaStringPtr password_;
+  ::google::protobuf::internal::ArenaStringPtr email_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_sanguosha_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class RegisterResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:sanguosha.RegisterResponse) */ {
+ public:
+  RegisterResponse();
+  virtual ~RegisterResponse();
+
+  RegisterResponse(const RegisterResponse& from);
+
+  inline RegisterResponse& operator=(const RegisterResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  RegisterResponse(RegisterResponse&& from) noexcept
+    : RegisterResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline RegisterResponse& operator=(RegisterResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RegisterResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const RegisterResponse* internal_default_instance() {
+    return reinterpret_cast<const RegisterResponse*>(
+               &_RegisterResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(RegisterResponse* other);
+  friend void swap(RegisterResponse& a, RegisterResponse& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RegisterResponse* New() const final {
+    return CreateMaybeMessage<RegisterResponse>(NULL);
+  }
+
+  RegisterResponse* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<RegisterResponse>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const RegisterResponse& from);
+  void MergeFrom(const RegisterResponse& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RegisterResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string error_message = 2;
+  void clear_error_message();
+  static const int kErrorMessageFieldNumber = 2;
+  const ::std::string& error_message() const;
+  void set_error_message(const ::std::string& value);
+  #if LANG_CXX11
+  void set_error_message(::std::string&& value);
+  #endif
+  void set_error_message(const char* value);
+  void set_error_message(const char* value, size_t size);
+  ::std::string* mutable_error_message();
+  ::std::string* release_error_message();
+  void set_allocated_error_message(::std::string* error_message);
+
+  // bool success = 1;
+  void clear_success();
+  static const int kSuccessFieldNumber = 1;
+  bool success() const;
+  void set_success(bool value);
+
+  // uint32 user_id = 3;
+  void clear_user_id();
+  static const int kUserIdFieldNumber = 3;
+  ::google::protobuf::uint32 user_id() const;
+  void set_user_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:sanguosha.RegisterResponse)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr error_message_;
+  bool success_;
+  ::google::protobuf::uint32 user_id_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_sanguosha_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class Heartbeat : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:sanguosha.Heartbeat) */ {
  public:
   Heartbeat();
@@ -537,7 +813,7 @@ class Heartbeat : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_Heartbeat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    4;
 
   void Swap(Heartbeat* other);
   friend void swap(Heartbeat& a, Heartbeat& b) {
@@ -640,7 +916,7 @@ class RoomInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_RoomInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    5;
 
   void Swap(RoomInfo* other);
   friend void swap(RoomInfo& a, RoomInfo& b) {
@@ -778,7 +1054,7 @@ class RoomRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_RoomRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    6;
 
   void Swap(RoomRequest* other);
   friend void swap(RoomRequest& a, RoomRequest& b) {
@@ -888,7 +1164,7 @@ class RoomResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_RoomResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    7;
 
   void Swap(RoomResponse* other);
   friend void swap(RoomResponse& a, RoomResponse& b) {
@@ -1019,7 +1295,7 @@ class RoomListResponse : public ::google::protobuf::Message /* @@protoc_insertio
                &_RoomListResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   void Swap(RoomListResponse* other);
   friend void swap(RoomListResponse& a, RoomListResponse& b) {
@@ -1128,7 +1404,7 @@ class GameAction : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_GameAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    9;
 
   void Swap(GameAction* other);
   friend void swap(GameAction& a, GameAction& b) {
@@ -1245,7 +1521,7 @@ class PlayerState : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_PlayerState_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    10;
 
   void Swap(PlayerState* other);
   friend void swap(PlayerState& a, PlayerState& b) {
@@ -1391,7 +1667,7 @@ class GameState : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameState_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    11;
 
   void Swap(GameState* other);
   friend void swap(GameState& a, GameState& b) {
@@ -1529,7 +1805,7 @@ class GameStart : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GameStart_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    12;
 
   void Swap(GameStart* other);
   friend void swap(GameStart& a, GameStart& b) {
@@ -1643,14 +1919,16 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   enum ContentCase {
     kLoginRequest = 2,
     kLoginResponse = 3,
-    kHeartbeat = 4,
-    kRoomRequest = 5,
-    kRoomResponse = 6,
-    kGameAction = 7,
-    kGameState = 8,
-    kGameStart = 9,
-    kGameOver = 10,
-    kRoomListResponse = 14,
+    kRegisterRequest = 4,
+    kRegisterResponse = 5,
+    kHeartbeat = 6,
+    kRoomRequest = 7,
+    kRoomResponse = 8,
+    kGameAction = 9,
+    kGameState = 10,
+    kGameStart = 11,
+    kGameOver = 12,
+    kRoomListResponse = 13,
     CONTENT_NOT_SET = 0,
   };
 
@@ -1660,7 +1938,7 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_GameMessage_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    13;
 
   void Swap(GameMessage* other);
   friend void swap(GameMessage& a, GameMessage& b) {
@@ -1742,10 +2020,34 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::LoginResponse* mutable_login_response();
   void set_allocated_login_response(::sanguosha::LoginResponse* login_response);
 
-  // .sanguosha.Heartbeat heartbeat = 4;
+  // .sanguosha.RegisterRequest register_request = 4;
+  bool has_register_request() const;
+  void clear_register_request();
+  static const int kRegisterRequestFieldNumber = 4;
+  private:
+  const ::sanguosha::RegisterRequest& _internal_register_request() const;
+  public:
+  const ::sanguosha::RegisterRequest& register_request() const;
+  ::sanguosha::RegisterRequest* release_register_request();
+  ::sanguosha::RegisterRequest* mutable_register_request();
+  void set_allocated_register_request(::sanguosha::RegisterRequest* register_request);
+
+  // .sanguosha.RegisterResponse register_response = 5;
+  bool has_register_response() const;
+  void clear_register_response();
+  static const int kRegisterResponseFieldNumber = 5;
+  private:
+  const ::sanguosha::RegisterResponse& _internal_register_response() const;
+  public:
+  const ::sanguosha::RegisterResponse& register_response() const;
+  ::sanguosha::RegisterResponse* release_register_response();
+  ::sanguosha::RegisterResponse* mutable_register_response();
+  void set_allocated_register_response(::sanguosha::RegisterResponse* register_response);
+
+  // .sanguosha.Heartbeat heartbeat = 6;
   bool has_heartbeat() const;
   void clear_heartbeat();
-  static const int kHeartbeatFieldNumber = 4;
+  static const int kHeartbeatFieldNumber = 6;
   private:
   const ::sanguosha::Heartbeat& _internal_heartbeat() const;
   public:
@@ -1754,10 +2056,10 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::Heartbeat* mutable_heartbeat();
   void set_allocated_heartbeat(::sanguosha::Heartbeat* heartbeat);
 
-  // .sanguosha.RoomRequest room_request = 5;
+  // .sanguosha.RoomRequest room_request = 7;
   bool has_room_request() const;
   void clear_room_request();
-  static const int kRoomRequestFieldNumber = 5;
+  static const int kRoomRequestFieldNumber = 7;
   private:
   const ::sanguosha::RoomRequest& _internal_room_request() const;
   public:
@@ -1766,10 +2068,10 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::RoomRequest* mutable_room_request();
   void set_allocated_room_request(::sanguosha::RoomRequest* room_request);
 
-  // .sanguosha.RoomResponse room_response = 6;
+  // .sanguosha.RoomResponse room_response = 8;
   bool has_room_response() const;
   void clear_room_response();
-  static const int kRoomResponseFieldNumber = 6;
+  static const int kRoomResponseFieldNumber = 8;
   private:
   const ::sanguosha::RoomResponse& _internal_room_response() const;
   public:
@@ -1778,10 +2080,10 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::RoomResponse* mutable_room_response();
   void set_allocated_room_response(::sanguosha::RoomResponse* room_response);
 
-  // .sanguosha.GameAction game_action = 7;
+  // .sanguosha.GameAction game_action = 9;
   bool has_game_action() const;
   void clear_game_action();
-  static const int kGameActionFieldNumber = 7;
+  static const int kGameActionFieldNumber = 9;
   private:
   const ::sanguosha::GameAction& _internal_game_action() const;
   public:
@@ -1790,10 +2092,10 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::GameAction* mutable_game_action();
   void set_allocated_game_action(::sanguosha::GameAction* game_action);
 
-  // .sanguosha.GameState game_state = 8;
+  // .sanguosha.GameState game_state = 10;
   bool has_game_state() const;
   void clear_game_state();
-  static const int kGameStateFieldNumber = 8;
+  static const int kGameStateFieldNumber = 10;
   private:
   const ::sanguosha::GameState& _internal_game_state() const;
   public:
@@ -1802,10 +2104,10 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::GameState* mutable_game_state();
   void set_allocated_game_state(::sanguosha::GameState* game_state);
 
-  // .sanguosha.GameStart game_start = 9;
+  // .sanguosha.GameStart game_start = 11;
   bool has_game_start() const;
   void clear_game_start();
-  static const int kGameStartFieldNumber = 9;
+  static const int kGameStartFieldNumber = 11;
   private:
   const ::sanguosha::GameStart& _internal_game_start() const;
   public:
@@ -1814,10 +2116,10 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::GameStart* mutable_game_start();
   void set_allocated_game_start(::sanguosha::GameStart* game_start);
 
-  // .sanguosha.GameOver game_over = 10;
+  // .sanguosha.GameOver game_over = 12;
   bool has_game_over() const;
   void clear_game_over();
-  static const int kGameOverFieldNumber = 10;
+  static const int kGameOverFieldNumber = 12;
   private:
   const ::sanguosha::GameOver& _internal_game_over() const;
   public:
@@ -1826,10 +2128,10 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::sanguosha::GameOver* mutable_game_over();
   void set_allocated_game_over(::sanguosha::GameOver* game_over);
 
-  // .sanguosha.RoomListResponse room_list_response = 14;
+  // .sanguosha.RoomListResponse room_list_response = 13;
   bool has_room_list_response() const;
   void clear_room_list_response();
-  static const int kRoomListResponseFieldNumber = 14;
+  static const int kRoomListResponseFieldNumber = 13;
   private:
   const ::sanguosha::RoomListResponse& _internal_room_list_response() const;
   public:
@@ -1844,6 +2146,8 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
  private:
   void set_has_login_request();
   void set_has_login_response();
+  void set_has_register_request();
+  void set_has_register_response();
   void set_has_heartbeat();
   void set_has_room_request();
   void set_has_room_response();
@@ -1862,6 +2166,8 @@ class GameMessage : public ::google::protobuf::Message /* @@protoc_insertion_poi
     ContentUnion() {}
     ::sanguosha::LoginRequest* login_request_;
     ::sanguosha::LoginResponse* login_response_;
+    ::sanguosha::RegisterRequest* register_request_;
+    ::sanguosha::RegisterResponse* register_response_;
     ::sanguosha::Heartbeat* heartbeat_;
     ::sanguosha::RoomRequest* room_request_;
     ::sanguosha::RoomResponse* room_response_;
@@ -1913,7 +2219,7 @@ class GameOver : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_GameOver_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    14;
 
   void Swap(GameOver* other);
   friend void swap(GameOver& a, GameOver& b) {
@@ -2179,6 +2485,254 @@ inline void LoginResponse::set_user_id(::google::protobuf::uint32 value) {
   
   user_id_ = value;
   // @@protoc_insertion_point(field_set:sanguosha.LoginResponse.user_id)
+}
+
+// -------------------------------------------------------------------
+
+// RegisterRequest
+
+// string username = 1;
+inline void RegisterRequest::clear_username() {
+  username_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& RegisterRequest::username() const {
+  // @@protoc_insertion_point(field_get:sanguosha.RegisterRequest.username)
+  return username_.GetNoArena();
+}
+inline void RegisterRequest::set_username(const ::std::string& value) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:sanguosha.RegisterRequest.username)
+}
+#if LANG_CXX11
+inline void RegisterRequest::set_username(::std::string&& value) {
+  
+  username_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:sanguosha.RegisterRequest.username)
+}
+#endif
+inline void RegisterRequest::set_username(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:sanguosha.RegisterRequest.username)
+}
+inline void RegisterRequest::set_username(const char* value, size_t size) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:sanguosha.RegisterRequest.username)
+}
+inline ::std::string* RegisterRequest::mutable_username() {
+  
+  // @@protoc_insertion_point(field_mutable:sanguosha.RegisterRequest.username)
+  return username_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* RegisterRequest::release_username() {
+  // @@protoc_insertion_point(field_release:sanguosha.RegisterRequest.username)
+  
+  return username_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void RegisterRequest::set_allocated_username(::std::string* username) {
+  if (username != NULL) {
+    
+  } else {
+    
+  }
+  username_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), username);
+  // @@protoc_insertion_point(field_set_allocated:sanguosha.RegisterRequest.username)
+}
+
+// string password = 2;
+inline void RegisterRequest::clear_password() {
+  password_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& RegisterRequest::password() const {
+  // @@protoc_insertion_point(field_get:sanguosha.RegisterRequest.password)
+  return password_.GetNoArena();
+}
+inline void RegisterRequest::set_password(const ::std::string& value) {
+  
+  password_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:sanguosha.RegisterRequest.password)
+}
+#if LANG_CXX11
+inline void RegisterRequest::set_password(::std::string&& value) {
+  
+  password_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:sanguosha.RegisterRequest.password)
+}
+#endif
+inline void RegisterRequest::set_password(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  password_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:sanguosha.RegisterRequest.password)
+}
+inline void RegisterRequest::set_password(const char* value, size_t size) {
+  
+  password_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:sanguosha.RegisterRequest.password)
+}
+inline ::std::string* RegisterRequest::mutable_password() {
+  
+  // @@protoc_insertion_point(field_mutable:sanguosha.RegisterRequest.password)
+  return password_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* RegisterRequest::release_password() {
+  // @@protoc_insertion_point(field_release:sanguosha.RegisterRequest.password)
+  
+  return password_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void RegisterRequest::set_allocated_password(::std::string* password) {
+  if (password != NULL) {
+    
+  } else {
+    
+  }
+  password_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), password);
+  // @@protoc_insertion_point(field_set_allocated:sanguosha.RegisterRequest.password)
+}
+
+// string email = 3;
+inline void RegisterRequest::clear_email() {
+  email_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& RegisterRequest::email() const {
+  // @@protoc_insertion_point(field_get:sanguosha.RegisterRequest.email)
+  return email_.GetNoArena();
+}
+inline void RegisterRequest::set_email(const ::std::string& value) {
+  
+  email_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:sanguosha.RegisterRequest.email)
+}
+#if LANG_CXX11
+inline void RegisterRequest::set_email(::std::string&& value) {
+  
+  email_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:sanguosha.RegisterRequest.email)
+}
+#endif
+inline void RegisterRequest::set_email(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  email_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:sanguosha.RegisterRequest.email)
+}
+inline void RegisterRequest::set_email(const char* value, size_t size) {
+  
+  email_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:sanguosha.RegisterRequest.email)
+}
+inline ::std::string* RegisterRequest::mutable_email() {
+  
+  // @@protoc_insertion_point(field_mutable:sanguosha.RegisterRequest.email)
+  return email_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* RegisterRequest::release_email() {
+  // @@protoc_insertion_point(field_release:sanguosha.RegisterRequest.email)
+  
+  return email_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void RegisterRequest::set_allocated_email(::std::string* email) {
+  if (email != NULL) {
+    
+  } else {
+    
+  }
+  email_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), email);
+  // @@protoc_insertion_point(field_set_allocated:sanguosha.RegisterRequest.email)
+}
+
+// -------------------------------------------------------------------
+
+// RegisterResponse
+
+// bool success = 1;
+inline void RegisterResponse::clear_success() {
+  success_ = false;
+}
+inline bool RegisterResponse::success() const {
+  // @@protoc_insertion_point(field_get:sanguosha.RegisterResponse.success)
+  return success_;
+}
+inline void RegisterResponse::set_success(bool value) {
+  
+  success_ = value;
+  // @@protoc_insertion_point(field_set:sanguosha.RegisterResponse.success)
+}
+
+// string error_message = 2;
+inline void RegisterResponse::clear_error_message() {
+  error_message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& RegisterResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:sanguosha.RegisterResponse.error_message)
+  return error_message_.GetNoArena();
+}
+inline void RegisterResponse::set_error_message(const ::std::string& value) {
+  
+  error_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:sanguosha.RegisterResponse.error_message)
+}
+#if LANG_CXX11
+inline void RegisterResponse::set_error_message(::std::string&& value) {
+  
+  error_message_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:sanguosha.RegisterResponse.error_message)
+}
+#endif
+inline void RegisterResponse::set_error_message(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  error_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:sanguosha.RegisterResponse.error_message)
+}
+inline void RegisterResponse::set_error_message(const char* value, size_t size) {
+  
+  error_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:sanguosha.RegisterResponse.error_message)
+}
+inline ::std::string* RegisterResponse::mutable_error_message() {
+  
+  // @@protoc_insertion_point(field_mutable:sanguosha.RegisterResponse.error_message)
+  return error_message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* RegisterResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:sanguosha.RegisterResponse.error_message)
+  
+  return error_message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void RegisterResponse::set_allocated_error_message(::std::string* error_message) {
+  if (error_message != NULL) {
+    
+  } else {
+    
+  }
+  error_message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error_message);
+  // @@protoc_insertion_point(field_set_allocated:sanguosha.RegisterResponse.error_message)
+}
+
+// uint32 user_id = 3;
+inline void RegisterResponse::clear_user_id() {
+  user_id_ = 0u;
+}
+inline ::google::protobuf::uint32 RegisterResponse::user_id() const {
+  // @@protoc_insertion_point(field_get:sanguosha.RegisterResponse.user_id)
+  return user_id_;
+}
+inline void RegisterResponse::set_user_id(::google::protobuf::uint32 value) {
+  
+  user_id_ = value;
+  // @@protoc_insertion_point(field_set:sanguosha.RegisterResponse.user_id)
 }
 
 // -------------------------------------------------------------------
@@ -2924,7 +3478,95 @@ inline ::sanguosha::LoginResponse* GameMessage::mutable_login_response() {
   return content_.login_response_;
 }
 
-// .sanguosha.Heartbeat heartbeat = 4;
+// .sanguosha.RegisterRequest register_request = 4;
+inline bool GameMessage::has_register_request() const {
+  return content_case() == kRegisterRequest;
+}
+inline void GameMessage::set_has_register_request() {
+  _oneof_case_[0] = kRegisterRequest;
+}
+inline void GameMessage::clear_register_request() {
+  if (has_register_request()) {
+    delete content_.register_request_;
+    clear_has_content();
+  }
+}
+inline const ::sanguosha::RegisterRequest& GameMessage::_internal_register_request() const {
+  return *content_.register_request_;
+}
+inline ::sanguosha::RegisterRequest* GameMessage::release_register_request() {
+  // @@protoc_insertion_point(field_release:sanguosha.GameMessage.register_request)
+  if (has_register_request()) {
+    clear_has_content();
+      ::sanguosha::RegisterRequest* temp = content_.register_request_;
+    content_.register_request_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::sanguosha::RegisterRequest& GameMessage::register_request() const {
+  // @@protoc_insertion_point(field_get:sanguosha.GameMessage.register_request)
+  return has_register_request()
+      ? *content_.register_request_
+      : *reinterpret_cast< ::sanguosha::RegisterRequest*>(&::sanguosha::_RegisterRequest_default_instance_);
+}
+inline ::sanguosha::RegisterRequest* GameMessage::mutable_register_request() {
+  if (!has_register_request()) {
+    clear_content();
+    set_has_register_request();
+    content_.register_request_ = CreateMaybeMessage< ::sanguosha::RegisterRequest >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:sanguosha.GameMessage.register_request)
+  return content_.register_request_;
+}
+
+// .sanguosha.RegisterResponse register_response = 5;
+inline bool GameMessage::has_register_response() const {
+  return content_case() == kRegisterResponse;
+}
+inline void GameMessage::set_has_register_response() {
+  _oneof_case_[0] = kRegisterResponse;
+}
+inline void GameMessage::clear_register_response() {
+  if (has_register_response()) {
+    delete content_.register_response_;
+    clear_has_content();
+  }
+}
+inline const ::sanguosha::RegisterResponse& GameMessage::_internal_register_response() const {
+  return *content_.register_response_;
+}
+inline ::sanguosha::RegisterResponse* GameMessage::release_register_response() {
+  // @@protoc_insertion_point(field_release:sanguosha.GameMessage.register_response)
+  if (has_register_response()) {
+    clear_has_content();
+      ::sanguosha::RegisterResponse* temp = content_.register_response_;
+    content_.register_response_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::sanguosha::RegisterResponse& GameMessage::register_response() const {
+  // @@protoc_insertion_point(field_get:sanguosha.GameMessage.register_response)
+  return has_register_response()
+      ? *content_.register_response_
+      : *reinterpret_cast< ::sanguosha::RegisterResponse*>(&::sanguosha::_RegisterResponse_default_instance_);
+}
+inline ::sanguosha::RegisterResponse* GameMessage::mutable_register_response() {
+  if (!has_register_response()) {
+    clear_content();
+    set_has_register_response();
+    content_.register_response_ = CreateMaybeMessage< ::sanguosha::RegisterResponse >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:sanguosha.GameMessage.register_response)
+  return content_.register_response_;
+}
+
+// .sanguosha.Heartbeat heartbeat = 6;
 inline bool GameMessage::has_heartbeat() const {
   return content_case() == kHeartbeat;
 }
@@ -2968,7 +3610,7 @@ inline ::sanguosha::Heartbeat* GameMessage::mutable_heartbeat() {
   return content_.heartbeat_;
 }
 
-// .sanguosha.RoomRequest room_request = 5;
+// .sanguosha.RoomRequest room_request = 7;
 inline bool GameMessage::has_room_request() const {
   return content_case() == kRoomRequest;
 }
@@ -3012,7 +3654,7 @@ inline ::sanguosha::RoomRequest* GameMessage::mutable_room_request() {
   return content_.room_request_;
 }
 
-// .sanguosha.RoomResponse room_response = 6;
+// .sanguosha.RoomResponse room_response = 8;
 inline bool GameMessage::has_room_response() const {
   return content_case() == kRoomResponse;
 }
@@ -3056,7 +3698,7 @@ inline ::sanguosha::RoomResponse* GameMessage::mutable_room_response() {
   return content_.room_response_;
 }
 
-// .sanguosha.GameAction game_action = 7;
+// .sanguosha.GameAction game_action = 9;
 inline bool GameMessage::has_game_action() const {
   return content_case() == kGameAction;
 }
@@ -3100,7 +3742,7 @@ inline ::sanguosha::GameAction* GameMessage::mutable_game_action() {
   return content_.game_action_;
 }
 
-// .sanguosha.GameState game_state = 8;
+// .sanguosha.GameState game_state = 10;
 inline bool GameMessage::has_game_state() const {
   return content_case() == kGameState;
 }
@@ -3144,7 +3786,7 @@ inline ::sanguosha::GameState* GameMessage::mutable_game_state() {
   return content_.game_state_;
 }
 
-// .sanguosha.GameStart game_start = 9;
+// .sanguosha.GameStart game_start = 11;
 inline bool GameMessage::has_game_start() const {
   return content_case() == kGameStart;
 }
@@ -3188,7 +3830,7 @@ inline ::sanguosha::GameStart* GameMessage::mutable_game_start() {
   return content_.game_start_;
 }
 
-// .sanguosha.GameOver game_over = 10;
+// .sanguosha.GameOver game_over = 12;
 inline bool GameMessage::has_game_over() const {
   return content_case() == kGameOver;
 }
@@ -3232,7 +3874,7 @@ inline ::sanguosha::GameOver* GameMessage::mutable_game_over() {
   return content_.game_over_;
 }
 
-// .sanguosha.RoomListResponse room_list_response = 14;
+// .sanguosha.RoomListResponse room_list_response = 13;
 inline bool GameMessage::has_room_list_response() const {
   return content_case() == kRoomListResponse;
 }
@@ -3306,6 +3948,10 @@ inline void GameOver::set_winner_id(::google::protobuf::uint32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -37,12 +37,14 @@ private slots:
     void onErrorOccurred(const QString &errorString);
     
     void onLoginButtonClicked(const QString &username, const QString &password);
+    void onRegisterButtonClicked(const QString &username, const QString &password, const QString &email);
     void onCreateRoomClicked();
     void onJoinRoomClicked(uint32_t roomId);
     void onPlayCardClicked(uint32_t cardId, uint32_t targetPlayer);
     void onEndTurnClicked();
 
     void handleLoginResponse(const sanguosha::LoginResponse &response);
+    void handleRegisterResponse(const sanguosha::RegisterResponse &response);
     void handleRoomResponse(const sanguosha::RoomResponse &response);
     void handleGameState(const sanguosha::GameState &state);
     void handleGameStart(const sanguosha::GameStart &start);

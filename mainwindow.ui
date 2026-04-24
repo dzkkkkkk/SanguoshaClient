@@ -33,11 +33,29 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="loginButton">
-      <property name="text">
-       <string>登录</string>
+     <widget class="QLineEdit" name="emailEdit">
+      <property name="placeholderText">
+       <string>邮箱</string>
       </property>
      </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="buttonLayout">
+      <item>
+       <widget class="QPushButton" name="loginButton">
+        <property name="text">
+         <string>登录</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="registerButton">
+        <property name="text">
+         <string>注册</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

@@ -77,11 +77,21 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
 
+    connect(ui->registerButton, &QPushButton::clicked, this, [this]() {
+        QString username = ui->usernameEdit->text();
+        QString password = ui->passwordEdit->text();
+        QString email = ui->emailEdit->text();
+        if (!username.isEmpty() && !password.isEmpty() && !email.isEmpty()) {
+            onRegisterButtonClicked(username, password, email);
+        }
+    });
+
     // 修改连接信号槽的代码
     connect(m_networkManager, &NetworkManager::connected, this, [this]() { onConnectionStatusChanged(true); });
     connect(m_networkManager, &NetworkManager::disconnected, this, [this]() { onConnectionStatusChanged(false); });
 
     connect(m_networkManager, &NetworkManager::loginResponseReceived, this, &MainWindow::handleLoginResponse);
+    connect(m_networkManager, &NetworkManager::registerResponseReceived, this, &MainWindow::handleRegisterResponse);
     connect(m_networkManager, &NetworkManager::roomResponseReceived, this, &MainWindow::handleRoomResponse);
     connect(m_networkManager, &NetworkManager::gameStateReceived, this, &MainWindow::handleGameState);
     connect(m_networkManager, &NetworkManager::gameStartReceived, this, &MainWindow::handleGameStart);
@@ -118,6 +128,21 @@ void MainWindow::onLoginButtonClicked(const QString &username, const QString &pa
     loginRequest->set_password(password.toStdString());
 
     message.set_allocated_login_request(loginRequest);
+    m_networkManager->sendMessage(message);
+}
+
+// 注册处理
+void MainWindow::onRegisterButtonClicked(const QString &username, const QString &password, const QString &email)
+{
+    sanguosha::GameMessage message;
+    message.set_type(sanguosha::REGISTER_REQUEST);
+
+    sanguosha::RegisterRequest* registerRequest = new sanguosha::RegisterRequest();
+    registerRequest->set_username(username.toStdString());
+    registerRequest->set_password(password.toStdString());
+    registerRequest->set_email(email.toStdString());
+
+    message.set_allocated_register_request(registerRequest);
     m_networkManager->sendMessage(message);
 }
 
@@ -217,6 +242,19 @@ void MainWindow::handleLoginResponse(const sanguosha::LoginResponse &response)
         }
     } else {
         QMessageBox::warning(this, tr("登录失败"), 
+                            QString::fromStdString(response.error_message()));
+    }
+}
+
+// 处理注册响应
+void MainWindow::handleRegisterResponse(const sanguosha::RegisterResponse &response)
+{
+    if (response.success()) {
+        QMessageBox::information(this, tr("注册成功"),
+                                tr("用户注册成功！现在可以使用您的用户名和密码登录。"));
+        ui->statusbar->showMessage(tr("注册成功"));
+    } else {
+        QMessageBox::warning(this, tr("注册失败"),
                             QString::fromStdString(response.error_message()));
     }
 }
